@@ -70,7 +70,7 @@ class DayPhaseResult(PhaseResult):
     """
     Result specific to day phase (discussion + voting)
     """
-    lynched_player: str  # ALWAYS someone (no ties allowed)
+    lynched_player: str = ""  # ALWAYS someone (no ties allowed) - must be set by game engine
     discussion_round_1: List[Dict[str, str]] = field(default_factory=list)
     discussion_round_2: List[Dict[str, str]] = field(default_factory=list)
     votes: Dict[str, str] = field(default_factory=dict)
