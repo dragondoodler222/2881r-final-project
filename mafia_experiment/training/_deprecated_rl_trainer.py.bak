@@ -1,0 +1,281 @@
+"""
+RL Trainer: REINFORCE algorithm with baseline for Mafia agents
+"""
+
+import torch
+import torch.nn.functional as F
+from torch.optim import AdamW
+from typing import Dict, Any, List, Optional
+from pathlib import Path
+import json
+
+from .model_manager import ModelManager
+from .reward_function import RewardFunction
+from .trajectory_buffer import TrajectoryBuffer, Trajectory
+
+
+class RunningMeanBaseline:
+    """Running mean baseline for variance reduction"""
+
+    def __init__(self, momentum: float = 0.9):
+        self.momentum = momentum
+        self.mean = 0.0
+        self.initialized = False
+
+    def update(self, value: float) -> None:
+        """Update the running mean"""
+        if not self.initialized:
+            self.mean = value
+            self.initialized = True
+        else:
+            self.mean = self.momentum * self.mean + (1 - self.momentum) * value
+
+    def get(self) -> float:
+        """Get the current baseline value"""
+        return self.mean
+
+
+class RLTrainer:
+    """
+    REINFORCE trainer for self-play learning
+    """
+
+    def __init__(
+        self,
+        model_manager: ModelManager,
+        reward_function: RewardFunction,
+        learning_rate: float = 1e-5,
+        gamma: float = 0.99,
+        baseline_momentum: float = 0.9,
+        max_grad_norm: float = 1.0,
+        checkpoint_dir: str = "checkpoints"
+    ):
+        self.model_manager = model_manager
+        self.reward_function = reward_function
+        self.gamma = gamma
+        self.max_grad_norm = max_grad_norm
+        self.checkpoint_dir = Path(checkpoint_dir)
+        self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
+
+        # Training buffer and baseline
+        self.trajectory_buffer = TrajectoryBuffer()
+        self.baseline = RunningMeanBaseline(momentum=baseline_momentum)
+
+        # Load model
+        self.model, self.tokenizer = model_manager.load_model_with_lora()
+
+        # Optimizer
+        self.optimizer = AdamW(
+            self.model.parameters(),
+            lr=learning_rate,
+            weight_decay=0.01
+        )
+
+        # Training metrics
+        self.training_history = []
+        self.current_iteration = 0
+
+    def add_game_trajectories(
+        self,
+        trajectories: List[Trajectory],
+        game_result: Dict[str, Any]
+    ) -> None:
+        """
+        Add trajectories from a completed game
+
+        Args:
+            trajectories: List of trajectory steps from the game
+            game_result: Game outcome information
+        """
+        # Assign rewards to trajectories
+        trajectories_with_rewards = self.reward_function.assign_rewards_to_trajectories(
+            [t.__dict__ if hasattr(t, '__dict__') else t for t in trajectories],
+            game_result["game_state"],
+            game_result["winner"],
+            game_result["total_rounds"]
+        )
+
+        # Add to buffer
+        for traj_dict in trajectories_with_rewards:
+            if isinstance(traj_dict, dict):
+                traj = Trajectory(**traj_dict)
+            else:
+                traj = traj_dict
+            self.trajectory_buffer.add_trajectory(traj)
+
+    def compute_policy_loss(
+        self,
+        log_probs: torch.Tensor,
+        returns: torch.Tensor
+    ) -> torch.Tensor:
+        """
+        Compute REINFORCE policy loss
+
+        Args:
+            log_probs: Log probabilities of actions taken
+            returns: Computed returns (advantages if baseline subtracted)
+
+        Returns:
+            Policy loss
+        """
+        # REINFORCE loss: -E[log π(a|s) * (R - b)]
+        # Negative because we want to maximize, but optimizer minimizes
+        policy_loss = -(log_probs * returns).mean()
+
+        return policy_loss
+
+    def train_iteration(
+        self,
+        batch_size: Optional[int] = None
+    ) -> Dict[str, float]:
+        """
+        Run one training iteration on collected trajectories
+
+        Args:
+            batch_size: Number of trajectories to use (None = all)
+
+        Returns:
+            Dictionary of training metrics
+        """
+        if len(self.trajectory_buffer) == 0:
+            return {"error": "No trajectories in buffer"}
+
+        # Sample batch
+        batch_trajectories = self.trajectory_buffer.sample_batch(batch_size)
+
+        if not batch_trajectories:
+            return {"error": "Empty batch"}
+
+        # Compute returns with baseline
+        returns = self.trajectory_buffer.compute_returns(
+            gamma=self.gamma,
+            normalize=True
+        )
+
+        # Get log probabilities
+        log_probs = self.trajectory_buffer.get_log_probs()
+
+        # Compute advantages (returns - baseline)
+        baseline_value = self.baseline.get()
+        advantages = returns - baseline_value
+
+        # Compute loss
+        loss = self.compute_policy_loss(log_probs, advantages)
+
+        # Backward pass
+        self.optimizer.zero_grad()
+        loss.backward()
+
+        # Gradient clipping
+        torch.nn.utils.clip_grad_norm_(
+            self.model.parameters(),
+            self.max_grad_norm
+        )
+
+        # Update weights
+        self.optimizer.step()
+
+        # Update baseline
+        self.baseline.update(returns.mean().item())
+
+        # Compute metrics
+        metrics = {
+            "iteration": self.current_iteration,
+            "loss": loss.item(),
+            "mean_return": returns.mean().item(),
+            "std_return": returns.std().item(),
+            "baseline_value": baseline_value,
+            "num_trajectories": len(batch_trajectories),
+            "mean_reward": sum(t.reward for t in batch_trajectories) / len(batch_trajectories)
+        }
+
+        self.training_history.append(metrics)
+        self.current_iteration += 1
+
+        return metrics
+
+    def save_checkpoint(
+        self,
+        epoch: int,
+        metrics: Optional[Dict[str, Any]] = None
+    ) -> str:
+        """
+        Save training checkpoint
+
+        Args:
+            epoch: Current training epoch
+            metrics: Optional metrics to save
+
+        Returns:
+            Path to saved checkpoint
+        """
+        checkpoint_path = self.checkpoint_dir / f"checkpoint-{epoch}"
+
+        # Save model
+        self.model_manager.save_checkpoint(
+            save_path=str(self.checkpoint_dir),
+            epoch=epoch,
+            metrics=metrics
+        )
+
+        # Save trainer state
+        trainer_state = {
+            "iteration": self.current_iteration,
+            "baseline_mean": self.baseline.get(),
+            "training_history": self.training_history
+        }
+
+        state_path = checkpoint_path / "trainer_state.json"
+        with open(state_path, "w") as f:
+            json.dump(trainer_state, f, indent=2)
+
+        print(f"Checkpoint saved: {checkpoint_path}")
+        return str(checkpoint_path)
+
+    def load_checkpoint(self, checkpoint_path: str) -> None:
+        """Load training checkpoint"""
+        checkpoint_path = Path(checkpoint_path)
+
+        # Load model
+        self.model, self.tokenizer = self.model_manager.load_checkpoint(
+            str(checkpoint_path)
+        )
+
+        # Reinitialize optimizer
+        self.optimizer = AdamW(
+            self.model.parameters(),
+            lr=self.optimizer.param_groups[0]["lr"]
+        )
+
+        # Load trainer state if available
+        state_path = checkpoint_path / "trainer_state.json"
+        if state_path.exists():
+            with open(state_path, "r") as f:
+                trainer_state = json.load(f)
+
+            self.current_iteration = trainer_state.get("iteration", 0)
+            self.baseline.mean = trainer_state.get("baseline_mean", 0.0)
+            self.baseline.initialized = True
+            self.training_history = trainer_state.get("training_history", [])
+
+            print(f"Loaded trainer state from iteration {self.current_iteration}")
+
+    def clear_buffer(self) -> None:
+        """Clear the trajectory buffer"""
+        self.trajectory_buffer.clear()
+
+    def get_training_stats(self) -> Dict[str, Any]:
+        """Get training statistics"""
+        if not self.training_history:
+            return {}
+
+        recent_history = self.training_history[-10:]  # Last 10 iterations
+
+        return {
+            "total_iterations": len(self.training_history),
+            "current_iteration": self.current_iteration,
+            "recent_mean_loss": sum(h["loss"] for h in recent_history) / len(recent_history),
+            "recent_mean_return": sum(h["mean_return"] for h in recent_history) / len(recent_history),
+            "baseline_value": self.baseline.get(),
+            "buffer_size": len(self.trajectory_buffer)
+        }

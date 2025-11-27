@@ -1,3 +1,11 @@
+# Experiment-specific
+checkpoints/
+*.pth
+*.bin
+*.safetensors
+logs/
+wandb/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
