@@ -131,7 +131,8 @@ def main():
         # Training step (PPO does multiple epochs internally)
         logger.info("\n  Running PPO training step...")
         if len(ppo_trainer.trajectory_buffer) > 0:
-            metrics = ppo_trainer.train_iteration()
+            # Use batch_size=8 to avoid OOM while maintaining training quality
+            metrics = ppo_trainer.train_iteration(batch_size=8)
             logger.info(f"    Policy Loss: {metrics.get('policy_loss', 0):.4f}")
             logger.info(f"    Value Loss: {metrics.get('value_loss', 0):.4f}")
             logger.info(f"    Mean Reward: {metrics.get('mean_reward', 0):.4f}")
