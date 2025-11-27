@@ -33,12 +33,12 @@ def main():
 
     # Configuration
     config = {
-        "model_name": "meta-llama/Llama-2-7b-chat-hf",
+        "model_name": "meta-llama/Llama-3.1-8B",
         "num_players": 5,
         "role_distribution": {
-            RoleType.MAFIA: 2,
+            RoleType.MAFIA: 1,
             RoleType.DOCTOR: 1,
-            RoleType.VILLAGER: 2
+            RoleType.VILLAGER: 3
         },
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 10,
