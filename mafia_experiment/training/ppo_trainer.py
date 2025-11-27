@@ -53,8 +53,17 @@ class PPOTrainer:
         # Training buffer
         self.trajectory_buffer = TrajectoryBuffer()
 
-        # Load model
-        self.model, self.tokenizer = model_manager.load_model_with_lora()
+        # Use already-loaded model from model_manager (CRITICAL: don't load twice!)
+        if model_manager.model is None or model_manager.tokenizer is None:
+            raise ValueError("ModelManager must have model loaded before creating PPOTrainer. Call model_manager.load_model_with_lora() first.")
+
+        self.model = model_manager.model
+        self.tokenizer = model_manager.tokenizer
+
+        # Enable gradient checkpointing to save memory
+        if hasattr(self.model, 'gradient_checkpointing_enable'):
+            self.model.gradient_checkpointing_enable()
+            print("Gradient checkpointing enabled")
 
         # Add value head to model (for critic)
         self._add_value_head()
@@ -550,6 +559,10 @@ class PPOTrainer:
                 self.optimizer.step()
 
                 all_metrics.append(loss_components)
+
+                # Clear GPU cache to free fragmented memory
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
 
         # Average metrics across PPO epochs
         avg_metrics = {
