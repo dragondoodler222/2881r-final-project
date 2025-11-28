@@ -51,17 +51,22 @@ def main():
 
     # Configuration
     config = {
-        "model_name": "meta-llama/Llama-3.2-3B",
-        "num_players": 5,
+        "model_name": "meta-llama/Llama-3.2-1B",
+        "num_players": 6,
         "role_distribution": {
             RoleType.MAFIA: 1,
             RoleType.DOCTOR: 1,
-            RoleType.VILLAGER: 3
+            RoleType.VILLAGER: 4
         },
         "cot_visibility": VisibilityMode.PUBLIC,
-        "num_training_iterations": 100,
-        "games_per_iteration": 32,
-        "learning_rate": 1e-5,
+        "num_training_iterations": 50,
+        "games_per_iteration": 64,
+        "learning_rate": 2e-6,  # Lowered for 1B model stability
+        "ppo_batch_size": 256,  # Logical batch size
+        "mini_batch_size": 32,   # Physical batch size (adjust based on VRAM)
+        "ppo_epochs": 2,        # Number of passes over the data per iteration
+        "target_kl": 0.02,      # Target KL divergence for early stopping
+        "clip_epsilon": 0.1,    # Stricter clipping for stability
         "use_4bit": True,
         "num_workers": 8,
         "seed": 42,
@@ -74,6 +79,7 @@ def main():
     logger.info(f"  CoT Visibility: {config['cot_visibility'].value}")
     logger.info(f"  Training iterations: {config['num_training_iterations']}")
     logger.info(f"  Games per iteration: {config['games_per_iteration']}")
+    logger.info(f"  PPO Epochs: {config['ppo_epochs']}")
     logger.info(f"  Workers: {config['num_workers']}")
 
     # Initialize components
@@ -95,8 +101,9 @@ def main():
         model_manager=model_manager,
         reward_function=reward_function,
         learning_rate=config["learning_rate"],
-        clip_epsilon=0.2,
-        ppo_epochs=4
+        clip_epsilon=config.get("clip_epsilon", 0.2),
+        ppo_epochs=config["ppo_epochs"],
+        target_kl=config.get("target_kl", 0.02)
     )
 
     # --- Parallel Setup ---
@@ -216,7 +223,10 @@ def main():
             # 3. Training step
             logger.info("\n  Running PPO training step...")
             if len(ppo_trainer.trajectory_buffer) > 0:
-                metrics = ppo_trainer.train_iteration(batch_size=64)
+                metrics = ppo_trainer.train_iteration(
+                    batch_size=config.get("ppo_batch_size", 32),
+                    mini_batch_size=config.get("mini_batch_size", 4)
+                )
                 logger.info(f"    Policy Loss: {metrics.get('policy_loss', 0):.4f}")
                 logger.info(f"    Value Loss: {metrics.get('value_loss', 0):.4f}")
                 logger.info(f"    Mean Reward: {metrics.get('mean_reward', 0):.4f}")
@@ -224,7 +234,7 @@ def main():
                 logger.warning("    Skipped (no trajectories)")
 
             # Save checkpoint
-            if (iteration + 1) % 10 == 0:
+            if (iteration + 1) % 5 == 0:
                 logger.info(f"\n  Saving checkpoint...")
                 stats = ppo_trainer.get_training_stats()
                 ppo_trainer.save_checkpoint(

@@ -27,6 +27,7 @@ class Trajectory:
     input_ids: Optional[torch.Tensor] = None  # Tokenized input (needed for PPO recomputation)
     generated_ids: Optional[torch.Tensor] = None  # Generated token IDs (for PPO log prob recomputation)
     parsing_confidence: float = 1.0  # Confidence in parsing the action (1.0=explicit, 0.0=random)
+    temperature: float = 1.0  # Temperature used for sampling
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""

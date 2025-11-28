@@ -448,5 +448,9 @@ class LLMAgent(BaseAgent):
         return self.last_generated_ids
 
     def get_last_parsing_confidence(self) -> float:
-        """Get parsing confidence of last action (for RL training)"""
+        """Get parsing confidence of last action"""
         return self.last_parsing_confidence
+
+    def get_last_temperature(self) -> float:
+        """Get temperature used for last action"""
+        return self.temperature

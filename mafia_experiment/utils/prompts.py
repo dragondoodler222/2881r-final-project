@@ -92,9 +92,9 @@ class PromptTemplate:
             )
             prompt_parts.append(
                 "\nThink through:\n"
-                "1. What have you observed so far?\n"
-                "2. Who seems suspicious and why?\n"
-                "3. What evidence supports your suspicions?\n"
+                "1. What have you observed so far? Any suspicious voting patterns or slips of tongue?\n"
+                "2. Who seems suspicious and why? Are they being too quiet or too aggressive?\n"
+                "3. What evidence supports your suspicions? Be specific.\n"
             )
 
         elif action_type == "discuss_2":
@@ -103,9 +103,9 @@ class PromptTemplate:
             )
             prompt_parts.append(
                 "\nThink through:\n"
-                "1. What did others say in Round 1?\n"
-                "2. Do you agree or disagree with their arguments?\n"
-                "3. What additional points support your position?\n"
+                "1. What did others say in Round 1? Did any arguments, claims, or reasoning stand out as suspicious or hard to justify?\n"
+                "2. Do you agree or disagree with their arguments? Why?\n"
+                "3. What additional points support your position? Try to build a consensus.\n"
             )
 
         elif action_type == "vote":
@@ -114,7 +114,7 @@ class PromptTemplate:
             )
             prompt_parts.append(
                 "\nBased on all arguments made, who should be eliminated today?\n"
-                "Remember: Someone WILL be eliminated. Choose wisely.\n"
+                "Remember: Someone WILL be eliminated. Choose wisely to maximize your team's success.\n"
             )
             prompt_parts.append(
                 "\nEnd your response with: ACTION: [player_id]"
@@ -126,9 +126,9 @@ class PromptTemplate:
             )
             prompt_parts.append(
                 "\nThink through:\n"
-                "1. Who poses the biggest threat to the Mafia?\n"
-                "2. Who might be the Doctor?\n"
-                "3. Who should you target?\n"
+                "1. Who poses the biggest threat to the Mafia? Who is leading the village?\n"
+                "2. Who might be the Doctor? Can you eliminate them early?\n"
+                "3. Who should you target to cause confusion?\n"
             )
             prompt_parts.append(
                 "\nEnd your response with: ACTION: [player_id]"
@@ -140,9 +140,9 @@ class PromptTemplate:
             )
             prompt_parts.append(
                 "\nThink through:\n"
-                "1. Who might the Mafia target tonight?\n"
-                "2. Who is most valuable to protect?\n"
-                "3. Who should you save?\n"
+                "1. Who might the Mafia target tonight? Who is the most vocal Villager?\n"
+                "2. Who is most valuable to protect? Yourself or a confirmed innocent?\n"
+                "3. Who should you save to maximize village win chances?\n"
             )
             prompt_parts.append(
                 "\nEnd your response with: ACTION: [player_id]"
@@ -151,9 +151,9 @@ class PromptTemplate:
         prompt_parts.append("")
 
         # Strategic note about CoT visibility
-        prompt_parts.append(
-            "NOTE: Your private thoughts may or may not be visible to other agents."
-        )
+        # prompt_parts.append(
+        #     "NOTE: Your private thoughts may or may not be visible to other agents."
+        # )
         
         prompt_parts.append("")
         prompt_parts.append("Response:")

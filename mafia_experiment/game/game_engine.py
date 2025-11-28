@@ -321,6 +321,7 @@ class GameEngine:
         generated_ids = agent.get_last_generated_ids()
         cot = agent.get_last_cot()
         parsing_confidence = getattr(agent, 'get_last_parsing_confidence', lambda: 1.0)()
+        temperature = getattr(agent, 'get_last_temperature', lambda: 1.0)()
 
         if log_prob is None:
             return
@@ -340,7 +341,8 @@ class GameEngine:
             prompt=prompt,
             input_ids=input_ids,
             generated_ids=generated_ids,
-            parsing_confidence=parsing_confidence
+            parsing_confidence=parsing_confidence,
+            temperature=temperature
         )
         
         self.trajectories.append(traj)

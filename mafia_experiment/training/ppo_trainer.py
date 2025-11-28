@@ -38,6 +38,7 @@ class PPOTrainer:
         entropy_coef: float = 0.01,  # Entropy bonus coefficient
         max_grad_norm: float = 1.0,
         ppo_epochs: int = 4,  # Number of PPO update epochs per batch
+        target_kl: float = 0.02,  # Target KL divergence for early stopping
         checkpoint_dir: str = "checkpoints"
     ):
         self.model_manager = model_manager
@@ -49,6 +50,7 @@ class PPOTrainer:
         self.entropy_coef = entropy_coef
         self.max_grad_norm = max_grad_norm
         self.ppo_epochs = ppo_epochs
+        self.target_kl = target_kl
         self.checkpoint_dir = Path(checkpoint_dir)
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
@@ -198,10 +200,15 @@ class PPOTrainer:
         all_values = []
         all_entropies = []
 
+        # Ensure tokenizer uses left padding for correct position IDs with causal models
+        if self.tokenizer.padding_side != 'left':
+            self.tokenizer.padding_side = 'left'
+
         for trajectory in batch_trajectories:
             # Get stored prompt and generated tokens
             prompt = trajectory.prompt
             generated_ids = trajectory.generated_ids  # The tokens that were actually generated
+            temperature = getattr(trajectory, 'temperature', 1.0)
 
             if not prompt:
                 # Fallback: use stored log_prob if no prompt available
@@ -340,10 +347,14 @@ class PPOTrainer:
                         token_id = generated_ids_device[i].item()
 
                         # Handle EOS and Padding
-                        # If we hit EOS, we include it and then stop (assume rest is padding)
                         if token_id == eos_token_id:
                             # Calculate for EOS
                             token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
+                            
+                            # Apply temperature scaling
+                            if temperature > 0:
+                                token_logits = token_logits / temperature
+                                
                             token_log_probs = F.log_softmax(token_logits, dim=-1)
                             token_log_probs_list.append(token_log_probs[token_id])
 
@@ -363,6 +374,11 @@ class PPOTrainer:
                             continue
 
                         token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
+                        
+                        # Apply temperature scaling
+                        if temperature > 0:
+                            token_logits = token_logits / temperature
+                            
                         token_log_probs = F.log_softmax(token_logits, dim=-1)
 
                         # Get log prob of the token that was actually generated
@@ -394,6 +410,11 @@ class PPOTrainer:
 
                 # Compute entropy from last position - FIXED: Safe computation
                 last_logits = outputs.logits[:, -1, :].float()  # Cast to float32
+                
+                # Apply temperature scaling
+                if temperature > 0:
+                    last_logits = last_logits / temperature
+                    
                 last_probs = F.softmax(last_logits, dim=-1)
                 # FIXED: Clamp to avoid log(0) = -inf
                 last_probs_safe = torch.clamp(last_probs, min=1e-10)
@@ -475,6 +496,11 @@ class PPOTrainer:
         # Entropy bonus (encourage exploration)
         entropy_loss = -entropy.mean()
 
+        # Calculate approximate KL divergence for logging/early stopping
+        with torch.no_grad():
+            # http://joschu.net/blog/kl-approx.html
+            approx_kl = ((ratio - 1) - log_ratio).mean()
+
         # Total loss
         total_loss = (
             policy_loss +
@@ -486,20 +512,23 @@ class PPOTrainer:
             "policy_loss": policy_loss.item(),
             "value_loss": value_loss.item(),
             "entropy_loss": entropy_loss.item(),
-            "total_loss": total_loss.item()
+            "total_loss": total_loss.item(),
+            "approx_kl": approx_kl.item()
         }
 
         return total_loss, loss_components
 
     def train_iteration(
         self,
-        batch_size: Optional[int] = 8  # Default to small batch size to avoid OOM
+        batch_size: int = 32,  # Logical batch size
+        mini_batch_size: int = 4  # Physical batch size
     ) -> Dict[str, float]:
         """
         Run one PPO training iteration on collected trajectories
 
         Args:
-            batch_size: Mini-batch size for updates (None = all)
+            batch_size: Logical batch size for updates
+            mini_batch_size: Physical batch size to fit in memory
 
         Returns:
             Dictionary of training metrics
@@ -582,60 +611,78 @@ class PPOTrainer:
         dataset_size = len(all_trajectories)
         indices = np.arange(dataset_size)
         
-        # Determine mini-batch size
-        mini_batch_size = batch_size if batch_size is not None else dataset_size
+        # Track KL for early stopping
+        stop_early = False
 
         for epoch in range(self.ppo_epochs):
+            if stop_early:
+                break
+
             # Shuffle for each epoch
             np.random.shuffle(indices)
             
-            # Iterate over mini-batches
-            for start_idx in range(0, dataset_size, mini_batch_size):
-                end_idx = min(start_idx + mini_batch_size, dataset_size)
+            # Iterate over logical batches
+            for start_idx in range(0, dataset_size, batch_size):
+                end_idx = min(start_idx + batch_size, dataset_size)
                 batch_indices = indices[start_idx:end_idx]
+                current_batch_size = len(batch_indices)
                 
-                # Get mini-batch data
-                batch_trajectories = [all_trajectories[i] for i in batch_indices]
-                batch_old_log_probs = old_log_probs[batch_indices]
-                batch_advantages = advantages[batch_indices]
-                batch_returns = returns[batch_indices]
-                batch_confidences = confidences[batch_indices]
-                
-                # REAL IMPLEMENTATION: Forward pass through model with gradients
-                # Recompute log probs, values, and entropy with current model weights
-                new_log_probs, new_values, entropy = self._recompute_log_probs_and_values(
-                    batch_trajectories,
-                    requires_grad=True
-                )
-
-                # Compute PPO loss
-                
-                # Debug check for NaNs/Infs in inputs
-                for name, t in [
-                    ("new_log_probs", new_log_probs),
-                    ("old_log_probs", batch_old_log_probs),
-                    ("advantages", batch_advantages),
-                    ("values", new_values),
-                    ("returns", batch_returns),
-                    ("entropy", entropy),
-                    ("confidences", batch_confidences),
-                ]:
-                    if torch.isnan(t).any() or torch.isinf(t).any():
-                        print(f"[DEBUG] {name} has NaN/Inf")
-                
-                loss, loss_components = self.compute_ppo_loss(
-                    new_log_probs,
-                    batch_old_log_probs,
-                    batch_advantages,
-                    new_values,
-                    batch_returns,
-                    entropy,
-                    confidence=batch_confidences
-                )
-
-                # Backward pass
+                # Zero gradients at start of logical batch
                 self.optimizer.zero_grad()
-                loss.backward()
+                
+                # Accumulate gradients over mini-batches
+                batch_kls = []
+                
+                for mini_start in range(0, current_batch_size, mini_batch_size):
+                    mini_end = min(mini_start + mini_batch_size, current_batch_size)
+                    mini_indices = batch_indices[mini_start:mini_end]
+                    
+                    # Get mini-batch data
+                    mini_trajectories = [all_trajectories[i] for i in mini_indices]
+                    mini_old_log_probs = old_log_probs[mini_indices]
+                    mini_advantages = advantages[mini_indices]
+                    mini_returns = returns[mini_indices]
+                    mini_confidences = confidences[mini_indices]
+                    
+                    # REAL IMPLEMENTATION: Forward pass through model with gradients
+                    # Recompute log probs, values, and entropy with current model weights
+                    new_log_probs, new_values, entropy = self._recompute_log_probs_and_values(
+                        mini_trajectories,
+                        requires_grad=True
+                    )
+
+                    # Compute PPO loss
+                    loss, loss_components = self.compute_ppo_loss(
+                        new_log_probs,
+                        mini_old_log_probs,
+                        mini_advantages,
+                        new_values,
+                        mini_returns,
+                        entropy,
+                        confidence=mini_confidences
+                    )
+                    
+                    # Track KL
+                    batch_kls.append(loss_components["approx_kl"])
+                    
+                    # Scale loss for gradient accumulation
+                    loss_scale = len(mini_indices) / current_batch_size
+                    scaled_loss = loss * loss_scale
+                    
+                    # Backward pass (accumulates gradients)
+                    scaled_loss.backward()
+                    
+                    # Store metrics (unscaled)
+                    all_metrics.append(loss_components)
+
+                # Check for early stopping based on KL
+                mean_kl = np.mean(batch_kls)
+                if self.target_kl is not None and mean_kl > 1.5 * self.target_kl:
+                    print(f"Early stopping at epoch {epoch} due to KL divergence {mean_kl:.4f} > {1.5 * self.target_kl:.4f}")
+                    stop_early = True
+                    # Don't step optimizer if KL is too high
+                    self.optimizer.zero_grad()
+                    break
 
                 # Gradient clipping (clip both model and value head)
                 import itertools
@@ -650,8 +697,6 @@ class PPOTrainer:
 
                 # Update weights
                 self.optimizer.step()
-
-                all_metrics.append(loss_components)
 
                 # Clear GPU cache to free fragmented memory
                 if torch.cuda.is_available():
