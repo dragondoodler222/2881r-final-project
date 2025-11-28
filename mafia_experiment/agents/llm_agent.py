@@ -55,7 +55,7 @@ class LLMAgent(BaseAgent):
             "round": game_state.get("current_round", 0)
         })
 
-    def deliberate(self, action_type: str, game_state: Dict, visible_cots: List[Dict]) -> Tuple[str, str]:
+    def deliberate(self, action_type: str, game_state: Dict, visible_cots: List[Dict], is_cot_public: bool = False) -> Tuple[str, str]:
         """
         Generate chain of thought and decide on action
 
@@ -63,6 +63,7 @@ class LLMAgent(BaseAgent):
             action_type: Type of action ("vote", "kill", "save")
             game_state: Current game state
             visible_cots: Visible CoTs from other agents
+            is_cot_public: Whether the agent's CoT will be visible to others
 
         Returns:
             Tuple of (chain_of_thought, action)
@@ -76,7 +77,8 @@ class LLMAgent(BaseAgent):
             action_type=action_type,
             game_state=game_state,
             visible_cots=visible_cots,
-            memory=self.memory[-3:]  # Last 3 events
+            memory=self.memory[-3:],  # Last 3 events
+            is_cot_public=is_cot_public
         )
 
         # Generate response
@@ -99,15 +101,17 @@ class LLMAgent(BaseAgent):
         self,
         action_type: str,
         game_state: Dict,
-        visible_cots: List[Dict]
+        visible_cots: List[Dict],
+        is_cot_public: bool = False
     ) -> AgentAction:
         """
         Take an action in the game
 
         Args:
-            action_type: Type of action
+            action_type: Type of action ("vote", "kill", "save")
             game_state: Current game state
-            visible_cots: Visible CoTs
+            visible_cots: Visible CoTs from other agents
+            is_cot_public: Whether the agent's CoT will be visible to others
 
         Returns:
             AgentAction object
@@ -115,15 +119,15 @@ class LLMAgent(BaseAgent):
         # First perceive the environment
         self.perceive(game_state, visible_cots)
 
-        # Deliberate and choose action
-        cot, target = self.deliberate(action_type, game_state, visible_cots)
+        # Deliberate
+        cot, action_target = self.deliberate(action_type, game_state, visible_cots, is_cot_public)
 
-        # Create action
+        # Create action object
         action = AgentAction(
             agent_id=self.agent_id,
             action_type=action_type,
-            target=target,
-            reasoning=cot
+            target=action_target,
+            reasoning=cot  # Store full CoT as reasoning
         )
 
         # Store action in memory
@@ -239,76 +243,62 @@ class LLMAgent(BaseAgent):
 
         target = None
         cot = response
+        confidence = 0.0
 
         # TIER 1: Explicit ACTION: format (highest priority)
         # Look for "ACTION: player_X" at the end of response
         action_match = re.search(r'ACTION:\s*(\S+)', response, re.IGNORECASE)
         if action_match:
             candidate = action_match.group(1).strip()
-            cot = response[:action_match.start()].strip()
+            
+            # Extract PRIVATE THOUGHTS if present
+            private_match = re.search(r'PRIVATE THOUGHTS:(.*?)PUBLIC ARGUMENT:', response, re.DOTALL | re.IGNORECASE)
+            if private_match:
+                cot = private_match.group(1).strip()
+            else:
+                # Fallback: everything before action
+                cot = response[:action_match.start()].strip()
 
             # Check if it's a valid player
-            if candidate in other_players:
-                return cot, candidate, 1.0
-
-            # Try partial match (e.g., "player" matches "player_1")
+            if candidate in alive_players:
+                target = candidate
+                confidence = 1.0
+            else:
+                # Try to find closest match
+                for player in alive_players:
+                    if player in candidate or candidate in player:
+                        target = player
+                        confidence = 0.8
+                        break
+        
+        # TIER 2: Structured format without explicit ACTION
+        elif "PRIVATE THOUGHTS:" in response and "PUBLIC ARGUMENT:" in response:
+            # Extract PRIVATE THOUGHTS
+            private_match = re.search(r'PRIVATE THOUGHTS:(.*?)PUBLIC ARGUMENT:', response, re.DOTALL | re.IGNORECASE)
+            if private_match:
+                cot = private_match.group(1).strip()
+            
+            # Try to find target in the whole response
             for player in other_players:
-                if candidate in player or player in candidate:
-                    return cot, player, 1.0
+                if player in response:
+                    target = player
+                    confidence = 0.6
+                    break
+        
+        # TIER 3: Heuristic search (fallback)
+        else:
+            # Look for player names in the text
+            found_players = []
+            for player in other_players:
+                if player in response:
+                    found_players.append(player)
+            
+            if found_players:
+                # Pick the last mentioned player (often the conclusion)
+                target = found_players[-1]
+                confidence = 0.5
 
-        # TIER 2: Semantic voting patterns
-        # Match common voting phrases with player names
-        vote_patterns = [
-            r'I\s+(?:will\s+)?vote\s+(?:for\s+|to\s+eliminate\s+)?(\S+)',
-            r'(?:my\s+)?vote\s+(?:is\s+|goes\s+to\s+)?(\S+)',
-            r'I\s+(?:choose|pick|select)\s+(\S+)',
-            r'eliminate\s+(\S+)',
-            r'lynch\s+(\S+)',
-            r'kill\s+(\S+)',  # For Mafia night actions
-            r'target\s+(\S+)',
-            r'save\s+(\S+)',  # For Doctor
-            r'protect\s+(\S+)'  # For Doctor
-        ]
-
-        for pattern in vote_patterns:
-            match = re.search(pattern, response, re.IGNORECASE)
-            if match:
-                candidate = match.group(1).strip()
-
-                # Direct match
-                if candidate in other_players:
-                    # Extract CoT as everything before the vote statement
-                    cot = response[:match.start()].strip()
-                    return cot, candidate, 0.7
-
-                # Partial match
-                for player in other_players:
-                    if candidate in player or player in candidate:
-                        cot = response[:match.start()].strip()
-                        return cot, player, 0.7
-
-        # TIER 3: Last mentioned alive player
-        # Find the last occurrence of any alive player's name
-        last_position = -1
-        last_player = None
-
-        for player in other_players:
-            # Find all occurrences of this player
-            for match in re.finditer(re.escape(player), response):
-                if match.start() > last_position:
-                    last_position = match.start()
-                    last_player = player
-
-        if last_player is not None:
-            # Split CoT at the last player mention (keep it in action part)
-            return response[:last_position].strip(), last_player, 0.3
-
-        # TIER 4: Fallback to random selection
-        # This ensures the game can always continue
-        import random
-        target = random.choice(other_players)
-
-        return cot, target, 0.0
+        return cot, target, confidence
 
     def get_last_log_prob(self) -> Optional[float]:
         """Get log probability of last action (for RL training)"""

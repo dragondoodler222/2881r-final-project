@@ -33,7 +33,7 @@ def main():
 
     # Configuration
     config = {
-        "model_name": "meta-llama/Llama-3.1-8B",
+        "model_name": "meta-llama/Llama-3.2-3B",
         "num_players": 5,
         "role_distribution": {
             RoleType.MAFIA: 1,
@@ -106,19 +106,50 @@ def main():
                 )
                 agents.append(agent)
 
+            # Initialize CoT manager
+            cot_manager = CoTManager(visibility_mode=config["cot_visibility"])
+
             # Initialize game
             game_engine = GameEngine(
                 players=agents,
                 role_distribution=config["role_distribution"],
-                collect_trajectories=True  # Enable trajectory collection for RL
+                collect_trajectories=True,  # Enable trajectory collection for RL
+                cot_manager=cot_manager
             )
-
-            # Initialize CoT manager
-            cot_manager = CoTManager(visibility_mode=config["cot_visibility"])
 
             # Play game
             game_result = game_engine.run_game(max_rounds=10)
             logger.info(f"    Winner: {game_result['winner']}, Rounds: {game_result['total_rounds']}")
+
+            # Save game trace
+            import json
+            trace_dir = log_dir / "traces"
+            trace_dir.mkdir(exist_ok=True)
+            trace_file = trace_dir / f"game_{iteration}_{game_num}.json"
+            
+            # Prepare trace data
+            trace_data = {
+                "game_id": game_result["game_id"],
+                "winner": game_result["winner"],
+                "rounds": game_result["total_rounds"],
+                "roles": {aid: str(r) for aid, r in game_result["game_state"].roles.items()},
+                "cot_log": [c.to_dict() for c in cot_manager.cot_log],
+                "phase_history": []
+            }
+            
+            # Add phase history if available (need to serialize)
+            if hasattr(game_result["game_state"], "phase_history"):
+                for phase in game_result["game_state"].phase_history:
+                    if hasattr(phase, "__dict__"):
+                        # Simplified serialization for phase objects
+                        p_dict = {k: str(v) for k, v in phase.__dict__.items() if k != "actions"}
+                        # Handle actions separately if needed
+                        if hasattr(phase, "actions"):
+                            p_dict["actions"] = str(phase.actions)
+                        trace_data["phase_history"].append(p_dict)
+
+            with open(trace_file, "w") as f:
+                json.dump(trace_data, f, indent=2)
 
             # Add trajectories to trainer
             trajectories = game_result['trajectories']
@@ -131,8 +162,9 @@ def main():
         # Training step (PPO does multiple epochs internally)
         logger.info("\n  Running PPO training step...")
         if len(ppo_trainer.trajectory_buffer) > 0:
-            # Use batch_size=8 to avoid OOM while maintaining training quality
-            metrics = ppo_trainer.train_iteration(batch_size=8)
+            # Use a small batch size to avoid OOM (e.g., 4 or 8)
+            # The default behavior tries to process all trajectories in one batch
+            metrics = ppo_trainer.train_iteration(batch_size=4)
             logger.info(f"    Policy Loss: {metrics.get('policy_loss', 0):.4f}")
             logger.info(f"    Value Loss: {metrics.get('value_loss', 0):.4f}")
             logger.info(f"    Mean Reward: {metrics.get('mean_reward', 0):.4f}")

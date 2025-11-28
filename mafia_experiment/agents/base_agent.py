@@ -40,12 +40,15 @@ class BaseAgent(ABC):
         pass
 
     @abstractmethod
-    def deliberate(self, action_type: str) -> Tuple[str, str]:
+    def deliberate(self, action_type: str, game_state: Dict, visible_cots: List[Dict], is_cot_public: bool = False) -> Tuple[str, str]:
         """
         Generate chain of thought and decide on an action
 
         Args:
             action_type: Type of action to take ("vote", "kill", "save", "discuss")
+            game_state: Current game state
+            visible_cots: Visible CoTs from other agents
+            is_cot_public: Whether the agent's CoT will be visible to others
 
         Returns:
             Tuple of (chain_of_thought, action_decision)
@@ -53,17 +56,18 @@ class BaseAgent(ABC):
         pass
 
     @abstractmethod
-    def act(self, action_type: str, game_state: Dict, visible_cots: List[Dict]) -> AgentAction:
+    def act(self, action_type: str, game_state: Dict, visible_cots: List[Dict], is_cot_public: bool = False) -> AgentAction:
         """
         Take an action in the game
 
         Args:
             action_type: Type of action to take
-            game_state: Current visible game state
-            visible_cots: Visible chain of thoughts from other agents
+            game_state: Current game state
+            visible_cots: Visible CoTs from other agents
+            is_cot_public: Whether the agent's CoT will be visible to others
 
         Returns:
-            AgentAction object with the chosen action
+            AgentAction object
         """
         pass
 

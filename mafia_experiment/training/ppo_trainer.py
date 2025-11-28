@@ -53,7 +53,7 @@ class PPOTrainer:
         # Training buffer
         self.trajectory_buffer = TrajectoryBuffer()
 
-        # Use already-loaded model from model_manager (CRITICAL: don't load twice!)
+        # Use already-loaded model from model_manager
         if model_manager.model is None or model_manager.tokenizer is None:
             raise ValueError("ModelManager must have model loaded before creating PPOTrainer. Call model_manager.load_model_with_lora() first.")
 
@@ -229,8 +229,11 @@ class PPOTrainer:
                 generated_ids_device = generated_ids.to(device).unsqueeze(0)  # Add batch dim
                 full_sequence = torch.cat([input_ids, generated_ids_device], dim=1)
 
+
                 # Create attention mask
-                attention_mask = torch.ones_like(full_sequence)
+                # attention_mask = torch.ones_like(full_sequence)
+                # Correctly create attention mask (0 for padding, 1 for content)
+                attention_mask = (full_sequence != self.tokenizer.pad_token_id).long()
 
                 # Forward pass with full sequence
                 if requires_grad:
@@ -328,6 +331,7 @@ class PPOTrainer:
                     new_log_prob = log_prob_sum
                     sum_entropy = entropy_sum
                 else:
+                    print(f"DEBUG: num_generated=0 for traj with prompt len {prompt_len}")
                     new_log_prob = torch.tensor(trajectory.log_prob, dtype=torch.float32, device=device)
                     sum_entropy = torch.tensor(0.0, dtype=torch.float32, device=device)
                 
@@ -335,6 +339,7 @@ class PPOTrainer:
                 all_entropies.append(sum_entropy)
             else:
                 # Fallback: use stored log_prob if no generated_ids available
+                print("DEBUG: No generated_ids available")
                 all_log_probs.append(torch.tensor(trajectory.log_prob, dtype=torch.float32, device=device))
 
                 # Compute entropy from last position
@@ -348,6 +353,13 @@ class PPOTrainer:
         log_probs_tensor = torch.stack(all_log_probs)
         values_tensor = torch.stack(all_values)
         entropy_tensor = torch.stack(all_entropies)
+        
+        if requires_grad:
+            # DEBUG: Check if gradients are flowing
+            if log_probs_tensor.grad_fn is None:
+                print("WARNING: log_probs_tensor has no grad_fn! Gradients will be zero.")
+            # else:
+            #     print(f"DEBUG: log_probs_tensor has grad_fn: {log_probs_tensor.grad_fn}")
         
         if not requires_grad:
             log_probs_tensor = log_probs_tensor.detach()
@@ -423,7 +435,7 @@ class PPOTrainer:
 
     def train_iteration(
         self,
-        batch_size: Optional[int] = None
+        batch_size: Optional[int] = 8  # Default to small batch size to avoid OOM
     ) -> Dict[str, float]:
         """
         Run one PPO training iteration on collected trajectories

@@ -9,6 +9,7 @@ from .roles import Role, RoleType, create_role
 from .phases import Phase, PhaseType, NightPhaseResult, DayPhaseResult
 from ..agents.base_agent import BaseAgent, AgentAction
 from ..training.trajectory_buffer import Trajectory
+from ..cot.cot_manager import CoTManager, VisibilityMode
 
 
 class GameEngine:
@@ -20,7 +21,8 @@ class GameEngine:
         self,
         players: List[BaseAgent],
         role_distribution: Optional[Dict[RoleType, int]] = None,
-        collect_trajectories: bool = False
+        collect_trajectories: bool = False,
+        cot_manager: Optional[CoTManager] = None
     ):
         """
         Initialize game engine
@@ -29,6 +31,7 @@ class GameEngine:
             players: List of agent objects
             role_distribution: Number of each role (if None, uses default)
             collect_trajectories: Whether to collect trajectories for RL training
+            cot_manager: Chain of Thought manager for visibility control
         """
         self.game_id = str(uuid.uuid4())
         self.players = players
@@ -36,6 +39,7 @@ class GameEngine:
         self.current_phase: Optional[Phase] = None
         self.collect_trajectories = collect_trajectories
         self.trajectories: List = []  # Will store Trajectory objects if collect_trajectories=True
+        self.cot_manager = cot_manager
 
         # Default role distribution: 2 Mafia, 1 Doctor, rest Villagers
         if role_distribution is None:
@@ -82,6 +86,10 @@ class GameEngine:
             players=player_ids,
             roles=role_assignments
         )
+
+        # Update CoT manager with roles
+        if self.cot_manager:
+            self.cot_manager.set_role_assignments(role_assignments)
 
         return self.game_state
 
@@ -195,11 +203,28 @@ class GameEngine:
 
             # Get visible state and CoTs for this agent
             visible_state = self.game_state.get_visible_state(agent.agent_id)
-            visible_cots = []  # Will be populated by CoT manager in full implementation
+            
+            visible_cots = []
+            if self.cot_manager:
+                visible_cots = self.cot_manager.get_visible_cots(
+                    agent.agent_id, 
+                    self.game_state.current_round
+                )
 
             # Determine action type based on role
             if agent.role.role_type == RoleType.MAFIA:
                 action = agent.act("kill", visible_state, visible_cots)
+                
+                # Record CoT
+                if self.cot_manager:
+                    self.cot_manager.record_cot(
+                        agent_id=agent.agent_id,
+                        cot_text=getattr(agent, 'last_cot', ''),
+                        round_number=self.game_state.current_round,
+                        phase="night",
+                        action_type="kill"
+                    )
+                
                 self._collect_trajectory(agent, action, "night", visible_cots)
                 actions.append(action)
                 # Mafia vote on target (simplified: take first Mafia's choice)
@@ -208,6 +233,17 @@ class GameEngine:
 
             elif agent.role.role_type == RoleType.DOCTOR:
                 action = agent.act("save", visible_state, visible_cots)
+                
+                # Record CoT
+                if self.cot_manager:
+                    self.cot_manager.record_cot(
+                        agent_id=agent.agent_id,
+                        cot_text=getattr(agent, 'last_cot', ''),
+                        round_number=self.game_state.current_round,
+                        phase="night",
+                        action_type="save"
+                    )
+                
                 self._collect_trajectory(agent, action, "night", visible_cots)
                 actions.append(action)
                 if action.target:
@@ -251,44 +287,119 @@ class GameEngine:
         # Use GameState to determine alive agents
         alive_agents = [agent for agent in self.players if self.game_state.is_alive(agent.agent_id)]
 
+        # Determine if CoT is public
+        is_cot_public = False
+        if self.cot_manager and self.cot_manager.visibility_mode == VisibilityMode.PUBLIC:
+            is_cot_public = True
+
         # === DISCUSSION ROUND 1 ===
         round_1_arguments = []
+        round_1_cots_to_add = []
 
         for agent in alive_agents:
             visible_state = self.game_state.get_visible_state(agent.agent_id)
-            visible_cots = []  # Will be populated by CoT manager
+            
+            visible_cots = []
+            if self.cot_manager:
+                visible_cots = self.cot_manager.get_visible_cots(
+                    agent.agent_id, 
+                    self.game_state.current_round
+                )
 
             # Agent contributes first argument
-            action = agent.act("discuss_1", visible_state, visible_cots)
+            action = agent.act("discuss_1", visible_state, visible_cots, is_cot_public=is_cot_public)
+            
+            cot_text = getattr(agent, 'last_cot', '')
+            
+            # Extract public argument from action reasoning if possible, or use full text
+            import re
+            public_arg = ""
+            public_match = re.search(r'PUBLIC ARGUMENT:(.*?)ACTION:', cot_text + "ACTION:", re.DOTALL | re.IGNORECASE)
+            if public_match:
+                public_arg = public_match.group(1).strip()
+            
+            round_1_cots_to_add.append({
+                "agent_id": agent.agent_id,
+                "cot_text": cot_text,
+                "public_argument": public_arg,
+                "action_type": "discuss_1"
+            })
+            
             self._collect_trajectory(agent, action, "day_discuss_1", visible_cots)
             
             round_1_arguments.append({
                 "agent_id": agent.agent_id,
-                "argument": action.reasoning,
-                "cot": getattr(agent, 'last_cot', '')
+                "argument": public_arg if public_arg else action.reasoning,
+                "cot": cot_text
             })
 
+        # Record all CoTs from Round 1 (Simultaneous revelation)
+        if self.cot_manager:
+            for item in round_1_cots_to_add:
+                self.cot_manager.record_cot(
+                    agent_id=item["agent_id"],
+                    cot_text=item["cot_text"],
+                    round_number=self.game_state.current_round,
+                    phase="day",
+                    action_type=item["action_type"],
+                    public_argument=item.get("public_argument", "")
+                )
+
         # === READ PHASE ===
-        # All agents now have access to round 1 arguments
-        # (Will be passed as visible_cots in round 2)
+        # All agents now have access to round 1 arguments via CoTManager
 
         # === DISCUSSION ROUND 2 ===
         round_2_arguments = []
+        round_2_cots_to_add = []
 
         for agent in alive_agents:
             visible_state = self.game_state.get_visible_state(agent.agent_id)
-            # Include round 1 arguments as visible CoTs
-            visible_cots = round_1_arguments
+            
+            visible_cots = []
+            if self.cot_manager:
+                visible_cots = self.cot_manager.get_visible_cots(
+                    agent.agent_id, 
+                    self.game_state.current_round
+                )
 
             # Agent contributes second argument
-            action = agent.act("discuss_2", visible_state, visible_cots)
+            action = agent.act("discuss_2", visible_state, visible_cots, is_cot_public=is_cot_public)
+            
+            cot_text = getattr(agent, 'last_cot', '')
+            
+            # Extract public argument
+            import re
+            public_arg = ""
+            public_match = re.search(r'PUBLIC ARGUMENT:(.*?)ACTION:', cot_text + "ACTION:", re.DOTALL | re.IGNORECASE)
+            if public_match:
+                public_arg = public_match.group(1).strip()
+            
+            round_2_cots_to_add.append({
+                "agent_id": agent.agent_id,
+                "cot_text": cot_text,
+                "public_argument": public_arg,
+                "action_type": "discuss_2"
+            })
+            
             self._collect_trajectory(agent, action, "day_discuss_2", visible_cots)
             
             round_2_arguments.append({
                 "agent_id": agent.agent_id,
-                "argument": action.reasoning,
-                "cot": getattr(agent, 'last_cot', '')
+                "argument": public_arg if public_arg else action.reasoning,
+                "cot": cot_text
             })
+
+        # Record all CoTs from Round 2
+        if self.cot_manager:
+            for item in round_2_cots_to_add:
+                self.cot_manager.record_cot(
+                    agent_id=item["agent_id"],
+                    cot_text=item["cot_text"],
+                    round_number=self.game_state.current_round,
+                    phase="day",
+                    action_type=item["action_type"],
+                    public_argument=item.get("public_argument", "")
+                )
 
         # === VOTING ===
         votes = {}
@@ -296,10 +407,26 @@ class GameEngine:
 
         for agent in alive_agents:
             visible_state = self.game_state.get_visible_state(agent.agent_id)
-            # Include all arguments in voting context
-            visible_cots = all_arguments
+            
+            visible_cots = []
+            if self.cot_manager:
+                visible_cots = self.cot_manager.get_visible_cots(
+                    agent.agent_id, 
+                    self.game_state.current_round
+                )
 
-            action = agent.act("vote", visible_state, visible_cots)
+            action = agent.act("vote", visible_state, visible_cots, is_cot_public=is_cot_public)
+            
+            # Record CoT for vote
+            if self.cot_manager:
+                self.cot_manager.record_cot(
+                    agent_id=agent.agent_id,
+                    cot_text=getattr(agent, 'last_cot', ''),
+                    round_number=self.game_state.current_round,
+                    phase="day",
+                    action_type="vote"
+                )
+            
             self._collect_trajectory(agent, action, "day_vote", visible_cots)
 
             if action.target and action.target in self.game_state.alive_players:

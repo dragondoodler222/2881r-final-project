@@ -23,6 +23,7 @@ class CoTEntry:
     cot_text: str
     action_type: str
     timestamp: float = field(default_factory=lambda: __import__('time').time())
+    public_argument: str = ""  # New field for public argument
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""
@@ -31,6 +32,7 @@ class CoTEntry:
             "round_number": self.round_number,
             "phase": self.phase,
             "cot_text": self.cot_text,
+            "public_argument": self.public_argument,
             "action_type": self.action_type,
             "timestamp": self.timestamp
         }
@@ -64,7 +66,8 @@ class CoTManager:
         cot_text: str,
         round_number: int,
         phase: str,
-        action_type: str
+        action_type: str,
+        public_argument: str = ""
     ) -> CoTEntry:
         """
         Record a chain-of-thought entry
@@ -75,6 +78,7 @@ class CoTManager:
             round_number: Game round number
             phase: "night" or "day"
             action_type: Type of action
+            public_argument: The public argument (if any)
 
         Returns:
             Created CoTEntry
@@ -84,7 +88,8 @@ class CoTManager:
             round_number=round_number,
             phase=phase,
             cot_text=cot_text,
-            action_type=action_type
+            action_type=action_type,
+            public_argument=public_argument
         )
 
         self.cot_log.append(entry)
@@ -116,10 +121,32 @@ class CoTManager:
 
         if self.visibility_mode == VisibilityMode.PUBLIC:
             # All CoTs visible except agent's own
-            visible = [
-                c.to_dict() for c in cots
-                if c.agent_id != requesting_agent_id
-            ]
+            # In PUBLIC mode, we show BOTH private thoughts and public argument
+            visible = []
+            for c in cots:
+                if c.agent_id != requesting_agent_id:
+                    d = c.to_dict()
+                    # Combine private and public for display
+                    if d.get("public_argument"):
+                        d["display_text"] = f"PRIVATE: {d['cot_text']}\nPUBLIC: {d['public_argument']}"
+                    else:
+                        d["display_text"] = d["cot_text"]
+                    visible.append(d)
+            return visible
+
+        elif self.visibility_mode == VisibilityMode.PRIVATE:
+            # In PRIVATE mode, we show ONLY public argument
+            visible = []
+            for c in cots:
+                if c.agent_id != requesting_agent_id:
+                    d = c.to_dict()
+                    # Only show public argument if available
+                    if d.get("public_argument"):
+                        d["display_text"] = f"PUBLIC: {d['public_argument']}"
+                        # Hide private thought
+                        d["cot_text"] = "[HIDDEN]"
+                        visible.append(d)
+                    # If no public argument (e.g. night action), show nothing or generic
             return visible
 
         elif self.visibility_mode == VisibilityMode.ROLE_BASED:
@@ -127,16 +154,35 @@ class CoTManager:
             requesting_role = self.role_assignments.get(requesting_agent_id, "")
 
             if requesting_role == "mafia":
-                # Mafia can see other Mafia CoTs
-                visible = [
-                    c.to_dict() for c in cots
-                    if self.role_assignments.get(c.agent_id, "") == "mafia"
-                    and c.agent_id != requesting_agent_id
-                ]
+                # Mafia can see other Mafia CoTs (full visibility)
+                visible = []
+                for c in cots:
+                    if self.role_assignments.get(c.agent_id, "") == "mafia" and c.agent_id != requesting_agent_id:
+                        d = c.to_dict()
+                        if d.get("public_argument"):
+                            d["display_text"] = f"PRIVATE: {d['cot_text']}\nPUBLIC: {d['public_argument']}"
+                        else:
+                            d["display_text"] = d["cot_text"]
+                        visible.append(d)
+                    elif c.agent_id != requesting_agent_id:
+                        # See non-Mafia public arguments only
+                        d = c.to_dict()
+                        if d.get("public_argument"):
+                            d["display_text"] = f"PUBLIC: {d['public_argument']}"
+                            d["cot_text"] = "[HIDDEN]"
+                            visible.append(d)
                 return visible
             else:
-                # Other roles see no CoTs
-                return []
+                # Other roles see only public arguments
+                visible = []
+                for c in cots:
+                    if c.agent_id != requesting_agent_id:
+                        d = c.to_dict()
+                        if d.get("public_argument"):
+                            d["display_text"] = f"PUBLIC: {d['public_argument']}"
+                            d["cot_text"] = "[HIDDEN]"
+                            visible.append(d)
+                return visible
 
         return []
 
