@@ -4,6 +4,7 @@ Example training script for Mafia RL experiment with PPO
 
 import logging
 import sys
+import torch.multiprocessing as mp
 from pathlib import Path
 import torch
 from mafia_experiment.training import ModelManager, RewardFunction, PPOTrainer
@@ -12,6 +13,8 @@ from mafia_experiment.agents import LLMAgent
 from mafia_experiment.game.roles import RoleType
 from mafia_experiment.cot import CoTManager, VisibilityMode
 from mafia_experiment.training.trajectory_buffer import Trajectory
+from mafia_experiment.parallel.model_server import ModelServer
+from mafia_experiment.parallel.worker import worker_process
 
 # Setup logging
 log_dir = Path("logs")
@@ -27,8 +30,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def main():
+    # Set start method to spawn for CUDA compatibility
+    try:
+        mp.set_start_method('spawn', force=True)
+    except RuntimeError:
+        pass
+
     logger.info("="*60)
-    logger.info("Mafia PPO Training - Example Script")
+    logger.info("Mafia PPO Training - Parallelized")
     logger.info("="*60)
 
     # Configuration
@@ -42,9 +51,11 @@ def main():
         },
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 10,
-        "games_per_iteration": 5,
+        "games_per_iteration": 4,  # Increased for parallel training
         "learning_rate": 1e-5,
-        "use_4bit": True  # Use 4-bit quantization for smaller GPU memory
+        "use_4bit": True,
+        "num_workers": 4,  # Number of parallel game workers
+        "seed": 42
     }
 
     logger.info(f"\nConfiguration:")
@@ -53,6 +64,7 @@ def main():
     logger.info(f"  CoT Visibility: {config['cot_visibility'].value}")
     logger.info(f"  Training iterations: {config['num_training_iterations']}")
     logger.info(f"  Games per iteration: {config['games_per_iteration']}")
+    logger.info(f"  Workers: {config['num_workers']}")
 
     # Initialize components
     logger.info("\n[1/5] Initializing model manager...")
@@ -73,143 +85,181 @@ def main():
         model_manager=model_manager,
         reward_function=reward_function,
         learning_rate=config["learning_rate"],
-        clip_epsilon=0.2,  # PPO clipping parameter
-        ppo_epochs=4  # Number of PPO update epochs per batch
+        clip_epsilon=0.2,
+        ppo_epochs=4
     )
 
-    logger.info("[5/5] Setup complete!")
+    # --- Parallel Setup ---
+    logger.info("[5/5] Setting up parallel infrastructure...")
+    
+    request_queue = mp.Queue()
+    response_queues = {i: mp.Queue() for i in range(config["num_workers"])}
+    task_queue = mp.Queue()
+    result_queue = mp.Queue()
+    
+    # Start Model Server (in a separate thread or just run in main loop? 
+    # Since we need to run PPO training in main loop, we should run Model Server in a separate process or thread.
+    # But Model is on GPU. If we move it to another process, we need to move model.
+    # Easier: Run Model Server in THIS process during data collection phase.
+    # But we need to run workers.
+    
+    # Strategy:
+    # 1. Start workers. They wait for tasks.
+    # 2. In data collection loop:
+    #    a. Put PLAY_GAME tasks in task_queue.
+    #    b. Run Model Server loop until all games are done.
+    # 3. Stop Model Server loop (but keep model loaded).
+    # 4. Run PPO training.
+    # 5. Repeat.
+    
+    workers = []
+    for i in range(config["num_workers"]):
+        p = mp.Process(
+            target=worker_process,
+            args=(i, request_queue, response_queues[i], task_queue, result_queue, config)
+        )
+        p.start()
+        workers.append(p)
+        
+    model_server = ModelServer(
+        model=model,
+        tokenizer=tokenizer,
+        request_queue=request_queue,
+        response_queues=response_queues,
+        batch_size=16 # Adjust based on GPU memory
+    )
+
+    logger.info("Setup complete!")
 
     # Training loop
     logger.info(f"\n{'='*60}")
     logger.info("Starting Training")
     logger.info(f"{'='*60}\n")
 
-    for iteration in range(config["num_training_iterations"]):
-        logger.info(f"Iteration {iteration + 1}/{config['num_training_iterations']}")
-        logger.info("-" * 40)
+    try:
+        for iteration in range(config["num_training_iterations"]):
+            logger.info(f"Iteration {iteration + 1}/{config['num_training_iterations']}")
+            logger.info("-" * 40)
 
-        # Self-play: Play multiple games
-        for game_num in range(config["games_per_iteration"]):
-            logger.info(f"  Playing game {game_num + 1}/{config['games_per_iteration']}...")
-
-            # Create agents for this game
-            agents = []
-            for i in range(config["num_players"]):
-                agent_id = f"player_{i+1}"
-                # Role will be assigned by game engine
-                agent = LLMAgent(
-                    agent_id=agent_id,
-                    role=None,  # Assigned by game engine
-                    model=model,
-                    tokenizer=tokenizer,
-                    temperature=0.7
-                )
-                agents.append(agent)
-
-            # Initialize CoT manager
-            cot_manager = CoTManager(visibility_mode=config["cot_visibility"])
-
-            # Initialize game
-            game_engine = GameEngine(
-                players=agents,
-                role_distribution=config["role_distribution"],
-                collect_trajectories=True,  # Enable trajectory collection for RL
-                cot_manager=cot_manager
-            )
-
-            # Play game
-            game_result = game_engine.run_game(max_rounds=10)
-            logger.info(f"    Winner: {game_result['winner']}, Rounds: {game_result['total_rounds']}")
-
-            # Save game trace
-            import json
-            trace_dir = log_dir / "traces"
-            trace_dir.mkdir(exist_ok=True)
-            trace_file = trace_dir / f"game_{iteration}_{game_num}.json"
+            # 1. Dispatch tasks
+            games_to_play = config["games_per_iteration"]
+            for _ in range(games_to_play):
+                task_queue.put("PLAY_GAME")
+                
+            logger.info(f"  Dispatched {games_to_play} game tasks to {config['num_workers']} workers")
             
-            # Prepare trace data
-            trace_data = {
-                "game_id": game_result["game_id"],
-                "winner": game_result["winner"],
-                "rounds": game_result["total_rounds"],
-                "roles": {aid: str(r) for aid, r in game_result["game_state"].roles.items()},
-                "cot_log": [c.to_dict() for c in cot_manager.cot_log],
-                "phase_history": []
-            }
+            # 2. Run Model Server and Collect Results
+            completed_games = 0
+            trajectories_collected = 0
             
-            # Add phase history if available (need to serialize)
-            if hasattr(game_result["game_state"], "phase_history"):
-                for phase in game_result["game_state"].phase_history:
-                    if hasattr(phase, "__dict__"):
-                        # Simplified serialization for phase objects
-                        p_dict = {k: str(v) for k, v in phase.__dict__.items() if k != "actions"}
-                        # Handle actions separately if needed
-                        if hasattr(phase, "actions"):
-                            p_dict["actions"] = str(phase.actions)
-                        trace_data["phase_history"].append(p_dict)
+            # We run the server loop manually here, interleaving with checking result_queue
+            # This avoids blocking the main thread forever
+            
+            import queue
+            
+            while completed_games < games_to_play:
+                # A. Process a batch of inference requests
+                # We peek/poll request queue
+                # ModelServer.run is a blocking loop. We need a non-blocking step method.
+                # Let's modify ModelServer usage or just implement the loop here.
+                
+                # Collect batch
+                batch = []
+                start_wait = time.time()
+                while len(batch) < model_server.batch_size:
+                    try:
+                        # Check for results first to exit early? No, priority is serving model.
+                        req = request_queue.get(timeout=0.001) # Non-blocking check
+                        batch.append(req)
+                    except queue.Empty:
+                        # If we have a partial batch and waited long enough?
+                        if batch and (time.time() - start_wait > 0.01):
+                            break
+                        
+                        # Check for game results while waiting
+                        try:
+                            res = result_queue.get_nowait()
+                            if res["status"] == "success":
+                                completed_games += 1
+                                game_result = res["game_result"]
+                                
+                                # Log result
+                                logger.info(f"    Game finished ({completed_games}/{games_to_play}): Winner={game_result['winner']}")
+                                
+                                # Save trace
+                                import json
+                                trace_dir = log_dir / "traces"
+                                trace_dir.mkdir(exist_ok=True)
+                                trace_file = trace_dir / f"game_{iteration}_{completed_games}.json"
+                                
+                                # Serialize trace (simplified)
+                                trace_data = {
+                                    "game_id": game_result["game_id"],
+                                    "winner": game_result["winner"],
+                                    "rounds": game_result["total_rounds"],
+                                    "roles": {aid: str(r) for aid, r in game_result["game_state"].roles.items()},
+                                    # CoT log is in cot_manager, but that's in the worker process!
+                                    # We need to pass it back in game_result.
+                                    # For now, we skip detailed CoT log in trace unless we update worker to send it.
+                                }
+                                with open(trace_file, "w") as f:
+                                    json.dump(trace_data, f, indent=2)
 
-            with open(trace_file, "w") as f:
-                json.dump(trace_data, f, indent=2)
+                                # Add trajectories
+                                trajs = game_result['trajectories']
+                                if trajs:
+                                    ppo_trainer.add_game_trajectories(trajs, game_result)
+                                    trajectories_collected += len(trajs)
+                                    
+                            elif res["status"] == "error":
+                                logger.error(f"    Worker error: {res['error']}")
+                                # If error, we might never finish. Treat as completed (failed)?
+                                completed_games += 1 
+                                
+                        except queue.Empty:
+                            pass
+                            
+                        if len(batch) == 0 and completed_games >= games_to_play:
+                            break
+                
+                if batch:
+                    model_server._process_batch(batch)
+            
+            logger.info(f"  Collected {trajectories_collected} trajectories from {completed_games} games")
 
-            # Add trajectories to trainer
-            trajectories = game_result['trajectories']
-            if trajectories:
-                ppo_trainer.add_game_trajectories(trajectories, game_result)
-                logger.info(f"    Collected {len(trajectories)} trajectories")
+            # 3. Training step
+            logger.info("\n  Running PPO training step...")
+            if len(ppo_trainer.trajectory_buffer) > 0:
+                metrics = ppo_trainer.train_iteration(batch_size=16) # Larger batch size for training
+                logger.info(f"    Policy Loss: {metrics.get('policy_loss', 0):.4f}")
+                logger.info(f"    Value Loss: {metrics.get('value_loss', 0):.4f}")
+                logger.info(f"    Mean Reward: {metrics.get('mean_reward', 0):.4f}")
             else:
-                logger.warning("    No trajectories collected!")
+                logger.warning("    Skipped (no trajectories)")
 
-        # Training step (PPO does multiple epochs internally)
-        logger.info("\n  Running PPO training step...")
-        if len(ppo_trainer.trajectory_buffer) > 0:
-            # Use a small batch size to avoid OOM (e.g., 4 or 8)
-            # The default behavior tries to process all trajectories in one batch
-            metrics = ppo_trainer.train_iteration(batch_size=4)
-            logger.info(f"    Policy Loss: {metrics.get('policy_loss', 0):.4f}")
-            logger.info(f"    Value Loss: {metrics.get('value_loss', 0):.4f}")
-            logger.info(f"    Mean Reward: {metrics.get('mean_reward', 0):.4f}")
-        else:
-            logger.warning("    Skipped (no trajectories)")
+            # Save checkpoint
+            if (iteration + 1) % 5 == 0:
+                logger.info(f"\n  Saving checkpoint...")
+                stats = ppo_trainer.get_training_stats()
+                ppo_trainer.save_checkpoint(
+                    epoch=iteration + 1,
+                    metrics=stats
+                )
 
-        # Save checkpoint every 5 iterations
-        if (iteration + 1) % 5 == 0:
-            logger.info(f"\n  Saving checkpoint...")
-            stats = ppo_trainer.get_training_stats()
-            ppo_trainer.save_checkpoint(
-                epoch=iteration + 1,
-                metrics=stats
-            )
+            logger.info("")
 
-        logger.info("")
-
-    logger.info(f"{'='*60}")
+    except KeyboardInterrupt:
+        logger.info("Training interrupted.")
+    finally:
+        # Cleanup
+        logger.info("Stopping workers...")
+        for _ in workers:
+            task_queue.put("STOP")
+        for p in workers:
+            p.join()
+            
     logger.info("Training Complete!")
-    logger.info(f"{'='*60}")
-
-    # Final statistics
-    final_stats = ppo_trainer.get_training_stats()
-    logger.info("\nFinal Training Statistics:")
-    logger.info(f"  Total iterations: {final_stats.get('total_iterations', 0)}")
-    logger.info(f"  Recent mean policy loss: {final_stats.get('recent_mean_policy_loss', 0):.4f}")
-    logger.info(f"  Recent mean value loss: {final_stats.get('recent_mean_value_loss', 0):.4f}")
-    logger.info(f"  Recent mean reward: {final_stats.get('recent_mean_reward', 0):.4f}")
-
-    # Save final model
-    logger.info("\nSaving final model...")
-    ppo_trainer.save_checkpoint(
-        epoch=config["num_training_iterations"],
-        metrics=final_stats
-    )
-
-    logger.info("\nTraining complete! Checkpoints saved to ./checkpoints/")
-
 
 if __name__ == "__main__":
-    # Check for CUDA
-    if torch.cuda.is_available():
-        logger.info(f"Using GPU: {torch.cuda.get_device_name(0)}")
-        logger.info(f"GPU Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB\n")
-    else:
-        logger.warning("WARNING: No GPU detected. Training will be very slow.\n")
-
+    import time
     main()

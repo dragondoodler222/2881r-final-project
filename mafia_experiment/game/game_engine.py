@@ -3,11 +3,13 @@ Game Engine: Core Mafia game loop and rules enforcement
 """
 
 import uuid
+import torch
 from typing import List, Dict, Optional, Any
 from .game_state import GameState
 from .roles import Role, RoleType, create_role
 from .phases import Phase, PhaseType, NightPhaseResult, DayPhaseResult
 from ..agents.base_agent import BaseAgent, AgentAction
+from ..agents.llm_agent import LLMAgent
 from ..training.trajectory_buffer import Trajectory
 from ..cot.cot_manager import CoTManager, VisibilityMode
 
@@ -22,7 +24,9 @@ class GameEngine:
         players: List[BaseAgent],
         role_distribution: Optional[Dict[RoleType, int]] = None,
         collect_trajectories: bool = False,
-        cot_manager: Optional[CoTManager] = None
+        cot_manager: Optional[CoTManager] = None,
+        model: Optional[Any] = None,
+        tokenizer: Optional[Any] = None
     ):
         """
         Initialize game engine
@@ -32,6 +36,8 @@ class GameEngine:
             role_distribution: Number of each role (if None, uses default)
             collect_trajectories: Whether to collect trajectories for RL training
             cot_manager: Chain of Thought manager for visibility control
+            model: The LLM model (for batch generation)
+            tokenizer: The tokenizer (for batch generation)
         """
         self.game_id = str(uuid.uuid4())
         self.players = players
@@ -40,6 +46,8 @@ class GameEngine:
         self.collect_trajectories = collect_trajectories
         self.trajectories: List = []  # Will store Trajectory objects if collect_trajectories=True
         self.cot_manager = cot_manager
+        self.model = model
+        self.tokenizer = tokenizer
 
         # Default role distribution: 2 Mafia, 1 Doctor, rest Villagers
         if role_distribution is None:
@@ -51,6 +59,151 @@ class GameEngine:
             }
 
         self.role_distribution = role_distribution
+
+    def _batch_generate(self, prompts: List[str], max_tokens=256, temperature=0.7) -> List[Dict[str, Any]]:
+        """
+        Generate responses for a batch of prompts
+        """
+        # Check if model is a RemoteModelClient (duck typing)
+        if hasattr(self.model, 'generate_batch'):
+            return self.model.generate_batch(prompts, max_tokens, temperature)
+
+        if not self.model or not self.tokenizer:
+            raise ValueError("Model and tokenizer must be provided for batch generation")
+
+        # Ensure left padding for generation
+        original_padding_side = self.tokenizer.padding_side
+        self.tokenizer.padding_side = 'left'
+
+        # Tokenize
+        inputs = self.tokenizer(
+            prompts, 
+            return_tensors="pt", 
+            padding=True, 
+            truncation=True, 
+            max_length=1024
+        ).to(self.model.device)
+        
+        # Generate
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=max_tokens,
+                temperature=temperature,
+                do_sample=True,
+                output_scores=True,
+                return_dict_in_generate=True,
+                pad_token_id=self.tokenizer.pad_token_id
+            )
+            
+        # Restore padding side
+        self.tokenizer.padding_side = original_padding_side
+            
+        # Process outputs for each prompt
+        results = []
+        for i in range(len(prompts)):
+            # Extract sequence (remove prompt)
+            prompt_len = inputs.input_ids.shape[1]
+            gen_ids = outputs.sequences[i][prompt_len:]
+            text = self.tokenizer.decode(gen_ids, skip_special_tokens=True)
+            
+            # Construct scores for this sample
+            # outputs.scores is a tuple of len(generated_tokens). Each element is (batch_size, vocab_size).
+            # We need to slice it to get (1, vocab_size) for each step for this sample
+            sample_scores = tuple(score[i:i+1] for score in outputs.scores)
+            
+            # Compute log prob using LLMAgent's static method
+            log_prob = LLMAgent.compute_log_prob_from_scores(sample_scores, gen_ids)
+            
+            results.append({
+                "text": text,
+                "log_prob": log_prob,
+                "input_ids": inputs.input_ids[i].cpu(),
+                "generated_ids": gen_ids.cpu()
+            })
+        return results
+
+    def _run_batch_action(
+        self, 
+        agents_to_act: List[BaseAgent], 
+        action_type_map: Dict[str, str], 
+        phase_name: str,
+        is_cot_public: bool = False
+    ) -> Dict[str, AgentAction]:
+        """
+        Run a batch of actions for multiple agents
+        
+        Args:
+            agents_to_act: List of agents
+            action_type_map: Map of agent_id -> action_type
+            phase_name: Name of phase for trajectory logging
+            is_cot_public: Whether CoT is public
+            
+        Returns:
+            Map of agent_id -> AgentAction
+        """
+        if not agents_to_act:
+            return {}
+
+        # 1. Prepare prompts
+        prompts = []
+        valid_agents = []
+        
+        for agent in agents_to_act:
+            if not isinstance(agent, LLMAgent):
+                continue
+                
+            visible_state = self.game_state.get_visible_state(agent.agent_id)
+            visible_cots = []
+            if self.cot_manager:
+                visible_cots = self.cot_manager.get_visible_cots(
+                    agent.agent_id, 
+                    self.game_state.current_round
+                )
+            
+            action_type = action_type_map[agent.agent_id]
+            prompt = agent.prepare_act(action_type, visible_state, visible_cots, is_cot_public)
+            prompts.append(prompt)
+            valid_agents.append(agent)
+            
+        if not prompts:
+            return {}
+            
+        # 2. Batch Generate
+        results = self._batch_generate(prompts)
+        
+        # 3. Finalize actions
+        actions = {}
+        for i, agent in enumerate(valid_agents):
+            res = results[i]
+            action_type = action_type_map[agent.agent_id]
+            
+            action = agent.finalize_act(
+                action_type=action_type,
+                prompt=prompts[i],
+                generated_text=res["text"],
+                log_prob=res["log_prob"],
+                input_ids=res["input_ids"],
+                generated_ids=res["generated_ids"],
+                game_state=self.game_state.get_visible_state(agent.agent_id)
+            )
+            
+            actions[agent.agent_id] = action
+            
+            # Collect trajectory immediately? Or let caller handle it?
+            # Caller might need to do extra processing (like extracting public arg)
+            # But we can collect basic trajectory here
+            # Note: visible_cots needs to be re-fetched or passed through if we want to log it accurately
+            # For simplicity, we re-fetch (it's cheap)
+            visible_cots = []
+            if self.cot_manager:
+                visible_cots = self.cot_manager.get_visible_cots(
+                    agent.agent_id, 
+                    self.game_state.current_round
+                )
+            self._collect_trajectory(agent, action, phase_name, visible_cots)
+            
+        return actions
 
     def initialize_game(self) -> GameState:
         """
@@ -195,57 +348,44 @@ class GameEngine:
         mafia_target = None
         doctor_save = None
 
-        # Collect actions from agents with night actions
+        # Collect agents who can act
+        agents_to_act = []
+        action_type_map = {}
+        
         for agent in self.players:
-            # Use GameState to check if agent is alive, not the agent object itself
             if not self.game_state.is_alive(agent.agent_id) or not agent.has_night_action():
                 continue
-
-            # Get visible state and CoTs for this agent
-            visible_state = self.game_state.get_visible_state(agent.agent_id)
             
-            visible_cots = []
-            if self.cot_manager:
-                visible_cots = self.cot_manager.get_visible_cots(
-                    agent.agent_id, 
-                    self.game_state.current_round
-                )
-
-            # Determine action type based on role
             if agent.role.role_type == RoleType.MAFIA:
-                action = agent.act("kill", visible_state, visible_cots)
-                
-                # Record CoT
-                if self.cot_manager:
-                    self.cot_manager.record_cot(
-                        agent_id=agent.agent_id,
-                        cot_text=getattr(agent, 'last_cot', ''),
-                        round_number=self.game_state.current_round,
-                        phase="night",
-                        action_type="kill"
-                    )
-                
-                self._collect_trajectory(agent, action, "night", visible_cots)
-                actions.append(action)
-                # Mafia vote on target (simplified: take first Mafia's choice)
+                agents_to_act.append(agent)
+                action_type_map[agent.agent_id] = "kill"
+            elif agent.role.role_type == RoleType.DOCTOR:
+                agents_to_act.append(agent)
+                action_type_map[agent.agent_id] = "save"
+        
+        # Run batch action
+        batch_actions = self._run_batch_action(agents_to_act, action_type_map, "night")
+        
+        # Process actions
+        for agent_id, action in batch_actions.items():
+            agent = next(a for a in self.players if a.agent_id == agent_id)
+            
+            # Record CoT
+            if self.cot_manager:
+                self.cot_manager.record_cot(
+                    agent_id=agent.agent_id,
+                    cot_text=getattr(agent, 'last_cot', ''),
+                    round_number=self.game_state.current_round,
+                    phase="night",
+                    action_type=action.action_type
+                )
+            
+            actions.append(action)
+            
+            if action.action_type == "kill":
                 if mafia_target is None and action.target:
                     mafia_target = action.target
-
-            elif agent.role.role_type == RoleType.DOCTOR:
-                action = agent.act("save", visible_state, visible_cots)
-                
-                # Record CoT
-                if self.cot_manager:
-                    self.cot_manager.record_cot(
-                        agent_id=agent.agent_id,
-                        cot_text=getattr(agent, 'last_cot', ''),
-                        round_number=self.game_state.current_round,
-                        phase="night",
-                        action_type="save"
-                    )
-                
-                self._collect_trajectory(agent, action, "night", visible_cots)
-                actions.append(action)
+            elif action.action_type == "save":
                 if action.target:
                     doctor_save = action.target
 
@@ -258,7 +398,7 @@ class GameEngine:
 
         result = NightPhaseResult(
             phase=self.current_phase,
-            actions=[],  # Store action dicts
+            actions=[vars(a) for a in actions],  # Store action dicts
             mafia_target=mafia_target,
             doctor_save=doctor_save,
             killed_player=killed_player
@@ -295,23 +435,21 @@ class GameEngine:
         # === DISCUSSION ROUND 1 ===
         round_1_arguments = []
         round_1_cots_to_add = []
-
+        
+        # Batch Discussion 1
+        action_type_map = {agent.agent_id: "discuss_1" for agent in alive_agents}
+        batch_actions_1 = self._run_batch_action(alive_agents, action_type_map, "day_discuss_1", is_cot_public)
+        
+        # Process results
+        # We need to maintain order of alive_agents for consistency if needed, but dict iteration is fine
         for agent in alive_agents:
-            visible_state = self.game_state.get_visible_state(agent.agent_id)
-            
-            visible_cots = []
-            if self.cot_manager:
-                visible_cots = self.cot_manager.get_visible_cots(
-                    agent.agent_id, 
-                    self.game_state.current_round
-                )
-
-            # Agent contributes first argument
-            action = agent.act("discuss_1", visible_state, visible_cots, is_cot_public=is_cot_public)
-            
+            if agent.agent_id not in batch_actions_1:
+                continue
+                
+            action = batch_actions_1[agent.agent_id]
             cot_text = getattr(agent, 'last_cot', '')
             
-            # Extract public argument from action reasoning if possible, or use full text
+            # Extract public argument
             import re
             public_arg = ""
             public_match = re.search(r'PUBLIC ARGUMENT:(.*?)ACTION:', cot_text + "ACTION:", re.DOTALL | re.IGNORECASE)
@@ -324,8 +462,6 @@ class GameEngine:
                 "public_argument": public_arg,
                 "action_type": "discuss_1"
             })
-            
-            self._collect_trajectory(agent, action, "day_discuss_1", visible_cots)
             
             round_1_arguments.append({
                 "agent_id": agent.agent_id,
@@ -352,19 +488,15 @@ class GameEngine:
         round_2_arguments = []
         round_2_cots_to_add = []
 
-        for agent in alive_agents:
-            visible_state = self.game_state.get_visible_state(agent.agent_id)
-            
-            visible_cots = []
-            if self.cot_manager:
-                visible_cots = self.cot_manager.get_visible_cots(
-                    agent.agent_id, 
-                    self.game_state.current_round
-                )
+        # Batch Discussion 2
+        action_type_map = {agent.agent_id: "discuss_2" for agent in alive_agents}
+        batch_actions_2 = self._run_batch_action(alive_agents, action_type_map, "day_discuss_2", is_cot_public)
 
-            # Agent contributes second argument
-            action = agent.act("discuss_2", visible_state, visible_cots, is_cot_public=is_cot_public)
-            
+        for agent in alive_agents:
+            if agent.agent_id not in batch_actions_2:
+                continue
+                
+            action = batch_actions_2[agent.agent_id]
             cot_text = getattr(agent, 'last_cot', '')
             
             # Extract public argument
@@ -380,8 +512,6 @@ class GameEngine:
                 "public_argument": public_arg,
                 "action_type": "discuss_2"
             })
-            
-            self._collect_trajectory(agent, action, "day_discuss_2", visible_cots)
             
             round_2_arguments.append({
                 "agent_id": agent.agent_id,
@@ -405,17 +535,15 @@ class GameEngine:
         votes = {}
         all_arguments = round_1_arguments + round_2_arguments
 
-        for agent in alive_agents:
-            visible_state = self.game_state.get_visible_state(agent.agent_id)
-            
-            visible_cots = []
-            if self.cot_manager:
-                visible_cots = self.cot_manager.get_visible_cots(
-                    agent.agent_id, 
-                    self.game_state.current_round
-                )
+        # Batch Voting
+        action_type_map = {agent.agent_id: "vote" for agent in alive_agents}
+        batch_actions_vote = self._run_batch_action(alive_agents, action_type_map, "day_vote", is_cot_public)
 
-            action = agent.act("vote", visible_state, visible_cots, is_cot_public=is_cot_public)
+        for agent in alive_agents:
+            if agent.agent_id not in batch_actions_vote:
+                continue
+                
+            action = batch_actions_vote[agent.agent_id]
             
             # Record CoT for vote
             if self.cot_manager:
@@ -427,12 +555,11 @@ class GameEngine:
                     action_type="vote"
                 )
             
-            self._collect_trajectory(agent, action, "day_vote", visible_cots)
-
             if action.target and action.target in self.game_state.alive_players:
                 votes[agent.agent_id] = action.target
 
         # === VOTE RESOLUTION ===
+
         # Count votes
         vote_counts = {}
         for target in votes.values():
@@ -455,9 +582,18 @@ class GameEngine:
         # Execute elimination
         self.game_state.kill_player(lynched_player, "lynched")
 
+        # Collect all actions
+        day_actions = []
+        if 'batch_actions_1' in locals():
+            day_actions.extend([vars(a) for a in batch_actions_1.values()])
+        if 'batch_actions_2' in locals():
+            day_actions.extend([vars(a) for a in batch_actions_2.values()])
+        if 'batch_actions_vote' in locals():
+            day_actions.extend([vars(a) for a in batch_actions_vote.values()])
+
         result = DayPhaseResult(
             phase=self.current_phase,
-            actions=[],
+            actions=day_actions,
             discussion_round_1=round_1_arguments,
             discussion_round_2=round_2_arguments,
             votes=votes,

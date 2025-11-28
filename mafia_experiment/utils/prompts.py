@@ -154,6 +154,9 @@ class PromptTemplate:
         prompt_parts.append(
             "NOTE: Your private thoughts may or may not be visible to other agents."
         )
+        
+        prompt_parts.append("")
+        prompt_parts.append("Response:")
 
         return "\n".join(prompt_parts)
 
