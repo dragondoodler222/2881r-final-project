@@ -610,6 +610,10 @@ class GameEngine:
         draw: bool = False
     ) -> Dict[str, Any]:
         """Create final game result dictionary"""
+        cot_history = []
+        if self.cot_manager:
+            cot_history = [entry.to_dict() for entry in self.cot_manager.cot_log]
+
         return {
             "game_id": self.game_id,
             "winner": winner,
@@ -617,5 +621,6 @@ class GameEngine:
             "game_state": self.game_state,
             "draw": draw,
             "final_state": self.game_state.to_dict(),
-            "trajectories": self.trajectories
+            "trajectories": self.trajectories,
+            "cot_history": cot_history
         }
