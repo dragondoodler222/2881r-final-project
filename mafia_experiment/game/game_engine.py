@@ -170,7 +170,18 @@ class GameEngine:
             return {}
             
         # 2. Batch Generate
-        results = self._batch_generate(prompts)
+        # Optimize max_tokens based on action type
+        # If all actions are "vote" or "kill" or "save", we can use fewer tokens
+        # Discussion needs more tokens
+        
+        current_action_type = list(action_type_map.values())[0] if action_type_map else "unknown"
+        
+        if "discuss" in current_action_type:
+            max_tokens = 256
+        else:
+            max_tokens = 64 # Voting/Actions are short
+            
+        results = self._batch_generate(prompts, max_tokens=max_tokens)
         
         # 3. Finalize actions
         actions = {}

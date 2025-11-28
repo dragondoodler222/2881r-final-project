@@ -2,6 +2,10 @@
 Training and Evaluation script for Mafia RL experiment with PPO
 """
 
+import os
+# Set allocator to avoid fragmentation
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+
 import logging
 import sys
 import torch.multiprocessing as mp
@@ -56,10 +60,10 @@ def main():
         },
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 100,
-        "games_per_iteration": 20,
+        "games_per_iteration": 32,
         "learning_rate": 1e-5,
         "use_4bit": True,
-        "num_workers": 4,
+        "num_workers": 8,
         "seed": 42,
         "eval_games": 10
     }
@@ -117,7 +121,7 @@ def main():
         tokenizer=tokenizer,
         request_queue=request_queue,
         response_queues=response_queues,
-        batch_size=16
+        batch_size=32
     )
 
     logger.info("Setup complete!")
@@ -142,6 +146,8 @@ def main():
             # 2. Run Model Server and Collect Results
             completed_games = 0
             trajectories_collected = 0
+            mafia_wins = 0
+            batches_processed = 0
             
             while completed_games < games_to_play:
                 batch = []
@@ -159,6 +165,9 @@ def main():
                             if res["status"] == "success":
                                 completed_games += 1
                                 game_result = res["game_result"]
+                                
+                                if str(game_result['winner']).lower() == "mafia":
+                                    mafia_wins += 1
                                 
                                 # Log result
                                 logger.info(f"    Game finished ({completed_games}/{games_to_play}): Winner={game_result['winner']}")
@@ -196,13 +205,18 @@ def main():
                 
                 if batch:
                     model_server._process_batch(batch)
+                    batches_processed += 1
+                    if batches_processed % 10 == 0:
+                        logger.info(f"    [GPU Active] Processed {batches_processed} batches (Current batch size: {len(batch)})...")
             
+            win_rate = mafia_wins / completed_games if completed_games > 0 else 0.0
+            logger.info(f"  Iteration {iteration + 1} Mafia Win Rate: {win_rate:.2%}")
             logger.info(f"  Collected {trajectories_collected} trajectories from {completed_games} games")
 
             # 3. Training step
             logger.info("\n  Running PPO training step...")
             if len(ppo_trainer.trajectory_buffer) > 0:
-                metrics = ppo_trainer.train_iteration(batch_size=16)
+                metrics = ppo_trainer.train_iteration(batch_size=64)
                 logger.info(f"    Policy Loss: {metrics.get('policy_loss', 0):.4f}")
                 logger.info(f"    Value Loss: {metrics.get('value_loss', 0):.4f}")
                 logger.info(f"    Mean Reward: {metrics.get('mean_reward', 0):.4f}")
@@ -210,7 +224,7 @@ def main():
                 logger.warning("    Skipped (no trajectories)")
 
             # Save checkpoint
-            if (iteration + 1) % 5 == 0:
+            if (iteration + 1) % 10 == 0:
                 logger.info(f"\n  Saving checkpoint...")
                 stats = ppo_trainer.get_training_stats()
                 ppo_trainer.save_checkpoint(
