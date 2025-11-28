@@ -286,11 +286,21 @@ class PPOTrainer:
             # For value: use the last token of the PROMPT (state value V(s))
             # Shape: (1, hidden_size)
             # Note: prompt_len - 1 is the index of the last token of the prompt
-            last_prompt_hidden = last_hidden_state[:, prompt_len - 1, :].float() # Cast to float32 for stability
+            last_prompt_hidden = last_hidden_state[:, prompt_len - 1, :].float()  # Cast to float32 for stability
+
+            # FIXED: Normalize hidden states to prevent value head instability
+            # Quantized models can have large magnitude hidden states
+            last_prompt_hidden = F.layer_norm(
+                last_prompt_hidden,
+                (last_prompt_hidden.size(-1),)
+            )
 
             # Compute value using value head
             # Shape: (1, 1) -> scalar
             value = self.value_head(last_prompt_hidden).squeeze()
+
+            # FIXED: Clamp value to prevent extreme values
+            value = torch.clamp(value, min=-10.0, max=10.0)
 
             if requires_grad:
                 # Keep as tensor for gradient computation
@@ -313,14 +323,14 @@ class PPOTrainer:
                 # positions (len(input_ids)-1) to (len(full_sequence)-2)
                 num_generated = len(generated_ids_device)
 
-                log_prob_sum = torch.tensor(0.0, device=device, requires_grad=requires_grad)
-                entropy_sum = torch.tensor(0.0, device=device, requires_grad=requires_grad)
-                
+                # FIXED: Accumulate in lists, not tensors (proper PyTorch pattern)
+                token_log_probs_list = []
+                token_entropies_list = []
+
                 # Create a mask for non-padding tokens in generated_ids
-                # We assume pad_token_id is available in tokenizer
                 pad_token_id = self.tokenizer.pad_token_id if self.tokenizer.pad_token_id is not None else -100
                 eos_token_id = self.tokenizer.eos_token_id if self.tokenizer.eos_token_id is not None else -100
-                
+
                 for i in range(num_generated):
                     # Logit position that predicts the i-th generated token
                     logit_position = prompt_len - 1 + i
@@ -328,99 +338,84 @@ class PPOTrainer:
                     if logit_position < logits.shape[1]:
                         # Get token id
                         token_id = generated_ids_device[i].item()
-                        
+
                         # Handle EOS and Padding
                         # If we hit EOS, we include it and then stop (assume rest is padding)
                         if token_id == eos_token_id:
                             # Calculate for EOS
-                            token_logits = logits[0, logit_position, :].float() # Cast to float32 for stability
+                            token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
                             token_log_probs = F.log_softmax(token_logits, dim=-1)
-                            log_prob_sum = log_prob_sum + token_log_probs[token_id]
-                            
-                            # Entropy for EOS
+                            token_log_probs_list.append(token_log_probs[token_id])
+
+                            # Entropy for EOS - use safe computation
                             token_probs = F.softmax(token_logits, dim=-1)
-                            p_log_p = token_probs * token_log_probs
-                            p_log_p = torch.nan_to_num(p_log_p, nan=0.0)
-                            token_entropy = -p_log_p.sum(dim=-1)
-                            entropy_sum = entropy_sum + token_entropy
-                            
+                            # FIXED: Clamp probs to avoid 0 * -inf = NaN
+                            token_probs_safe = torch.clamp(token_probs, min=1e-10)
+                            token_log_probs_safe = torch.log(token_probs_safe)
+                            token_entropy = -(token_probs * token_log_probs_safe).sum(dim=-1)
+                            token_entropies_list.append(token_entropy)
+
                             # Stop processing this sequence
                             break
-                        
+
                         # Skip padding tokens (if distinct from EOS)
                         if token_id == pad_token_id:
                             continue
-                            
-                        token_logits = logits[0, logit_position, :].float() # Cast to float32 for stability
+
+                        token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
                         token_log_probs = F.log_softmax(token_logits, dim=-1)
 
                         # Get log prob of the token that was actually generated
-                        log_prob_sum = log_prob_sum + token_log_probs[token_id] # Keep as tensor
-                        
-                        # Compute entropy safely using Categorical
-                        # token_entropy = Categorical(logits=token_logits).entropy()
-                        # Or manual safe computation:
+                        token_log_probs_list.append(token_log_probs[token_id])
+
+                        # Compute entropy safely - FIXED: Avoid NaN from 0 * -inf
                         token_probs = F.softmax(token_logits, dim=-1)
-                        # Avoid 0 * -inf by clamping or masking
-                        p_log_p = token_probs * token_log_probs
-                        # Replace NaNs (from 0*-inf) with 0
-                        p_log_p = torch.nan_to_num(p_log_p, nan=0.0)
-                        token_entropy = -p_log_p.sum(dim=-1)
-                        
-                        entropy_sum = entropy_sum + token_entropy
+                        # Clamp to avoid log(0) = -inf
+                        token_probs_safe = torch.clamp(token_probs, min=1e-10)
+                        token_log_probs_safe = torch.log(token_probs_safe)
+                        token_entropy = -(token_probs * token_log_probs_safe).sum(dim=-1)
+                        token_entropies_list.append(token_entropy)
 
                 # Sum log prob across all tokens (standard for PPO)
-                if num_generated > 0:
-                    new_log_prob = log_prob_sum
-                    sum_entropy = entropy_sum
+                if len(token_log_probs_list) > 0:
+                    # FIXED: Proper tensor stacking and summing
+                    new_log_prob = torch.stack(token_log_probs_list).sum()
+                    sum_entropy = torch.stack(token_entropies_list).sum()
                 else:
-                    print(f"DEBUG: num_generated=0 for traj with prompt len {prompt_len}")
+                    # Empty sequence - use stored log_prob
                     new_log_prob = torch.tensor(trajectory.log_prob, dtype=torch.float32, device=device)
-                    sum_entropy = torch.tensor(0.0, dtype=torch.float32, device=device)
-                
-                # Ensure new_log_prob is a tensor
-                if not isinstance(new_log_prob, torch.Tensor):
-                    new_log_prob = torch.tensor(new_log_prob, dtype=torch.float32, device=device)
-                if not isinstance(sum_entropy, torch.Tensor):
-                    sum_entropy = torch.tensor(sum_entropy, dtype=torch.float32, device=device)
+                    sum_entropy = torch.tensor(0.1, dtype=torch.float32, device=device)  # Small positive entropy
 
                 all_log_probs.append(new_log_prob)
                 all_entropies.append(sum_entropy)
             else:
                 # Fallback: use stored log_prob if no generated_ids available
-                print("DEBUG: No generated_ids available")
                 all_log_probs.append(torch.tensor(trajectory.log_prob, dtype=torch.float32, device=device))
 
-                # Compute entropy from last position
-                last_logits = outputs.logits[:, -1, :].float() # Cast to float32
-                last_log_probs = F.log_softmax(last_logits, dim=-1)
+                # Compute entropy from last position - FIXED: Safe computation
+                last_logits = outputs.logits[:, -1, :].float()  # Cast to float32
                 last_probs = F.softmax(last_logits, dim=-1)
-                # Safe entropy
-                p_log_p = last_probs * last_log_probs
-                p_log_p = torch.nan_to_num(p_log_p, nan=0.0)
-                entropy = -p_log_p.sum(dim=-1)
+                # FIXED: Clamp to avoid log(0) = -inf
+                last_probs_safe = torch.clamp(last_probs, min=1e-10)
+                last_log_probs_safe = torch.log(last_probs_safe)
+                entropy = -(last_probs * last_log_probs_safe).sum(dim=-1)
                 all_entropies.append(entropy)
 
         # Stack tensors
         log_probs_tensor = torch.stack(all_log_probs)
         values_tensor = torch.stack(all_values)
         entropy_tensor = torch.stack(all_entropies)
-        
-        # Safety check for NaNs
-        if torch.isnan(log_probs_tensor).any() or torch.isnan(values_tensor).any():
-            print("WARNING: NaNs detected in _recompute_log_probs_and_values outputs!")
-            # Replace NaNs with zeros or small values to prevent crash, but this indicates a problem
-            log_probs_tensor = torch.nan_to_num(log_probs_tensor, nan=0.0, neginf=-100.0)
-            values_tensor = torch.nan_to_num(values_tensor, nan=0.0)
-            entropy_tensor = torch.nan_to_num(entropy_tensor, nan=0.0)
-        
-        if requires_grad:
-            # DEBUG: Check if gradients are flowing
-            if log_probs_tensor.grad_fn is None:
-                print("WARNING: log_probs_tensor has no grad_fn! Gradients will be zero.")
-            # else:
-            #     print(f"DEBUG: log_probs_tensor has grad_fn: {log_probs_tensor.grad_fn}")
-        
+
+        # FIXED: Added root cause fixes above, so NaNs should not occur
+        # Final safety check (should rarely trigger now)
+        if torch.isnan(log_probs_tensor).any() or torch.isnan(values_tensor).any() or torch.isnan(entropy_tensor).any():
+            raise RuntimeError(
+                "NaNs detected after fixes! "
+                f"log_probs NaN: {torch.isnan(log_probs_tensor).any()}, "
+                f"values NaN: {torch.isnan(values_tensor).any()}, "
+                f"entropy NaN: {torch.isnan(entropy_tensor).any()}"
+            )
+
         if not requires_grad:
             log_probs_tensor = log_probs_tensor.detach()
             values_tensor = values_tensor.detach()
