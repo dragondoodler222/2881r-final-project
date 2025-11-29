@@ -10,6 +10,14 @@ from typing import Dict, Any, List, Optional, Tuple
 from pathlib import Path
 import json
 import numpy as np
+import os
+
+from transformers.generation.logits_process import (
+    LogitsProcessorList,
+    TemperatureLogitsWarper,
+    TopKLogitsWarper,
+    TopPLogitsWarper
+)
 
 from .model_manager import ModelManager
 from .reward_function import RewardFunction
@@ -88,6 +96,18 @@ class PPOTrainer:
         # Training metrics
         self.training_history = []
         self.current_iteration = 0
+
+        # Debug options
+        self.debug_kl = bool(int(os.environ.get("PPO_DEBUG_KL", "0")))
+        self._debug_log_diffs: List[float] = []
+        gen_config = getattr(self.model, "generation_config", None)
+        if gen_config is not None:
+            self._base_generation_top_k = getattr(gen_config, "top_k", 0) or 0
+            self._base_generation_top_p = getattr(gen_config, "top_p", 1.0)
+        else:
+            self._base_generation_top_k = 0
+            self._base_generation_top_p = 1.0
+        self._warper_cache: Dict[Tuple[float, int, Optional[float]], Optional[LogitsProcessorList]] = {}
 
     def _add_value_head(self):
         """Add a value head to the model for the critic"""
@@ -177,6 +197,57 @@ class PPOTrainer:
 
         return advantages, returns
 
+    def _get_logits_warper_for_temperature(self, temperature: float) -> Optional[LogitsProcessorList]:
+        """Cache and return HuggingFace logits warpers for a specific temperature."""
+        temp = float(temperature) if temperature and temperature > 0 else 1.0
+        top_k = self._base_generation_top_k
+        top_p = self._base_generation_top_p
+        top_p_key = round(top_p, 3) if isinstance(top_p, float) else top_p
+        key = (round(temp, 3), int(top_k), top_p_key)
+
+        if key not in self._warper_cache:
+            processors = LogitsProcessorList()
+            if temp != 1.0:
+                processors.append(TemperatureLogitsWarper(temp))
+            if top_k and top_k > 0:
+                processors.append(TopKLogitsWarper(top_k))
+            if top_p is not None and isinstance(top_p, float) and 0.0 < top_p < 1.0:
+                processors.append(TopPLogitsWarper(top_p))
+
+            self._warper_cache[key] = processors
+
+        return self._warper_cache[key]
+
+    def _apply_sampling_warpers(
+        self,
+        logits: torch.Tensor,
+        temperature: float,
+        input_ids: torch.Tensor,
+        cached_warper: Optional[LogitsProcessorList] = None
+    ) -> torch.Tensor:
+        """Apply the exact sampling warpers used during generation."""
+        warper = cached_warper if cached_warper is not None else self._get_logits_warper_for_temperature(temperature)
+        adjusted = logits.float()
+
+        if warper is None or len(warper) == 0:
+            return adjusted
+
+        squeeze = False
+        if adjusted.dim() == 1:
+            adjusted = adjusted.unsqueeze(0)
+            squeeze = True
+
+        current_input_ids = input_ids
+        if current_input_ids.dim() == 1:
+            current_input_ids = current_input_ids.unsqueeze(0)
+
+        warped = warper(current_input_ids, adjusted)
+
+        if squeeze:
+            warped = warped.squeeze(0)
+
+        return warped
+
     def _recompute_log_probs_and_values(
         self,
         batch_trajectories: List[Trajectory],
@@ -209,11 +280,13 @@ class PPOTrainer:
             prompt = trajectory.prompt
             generated_ids = trajectory.generated_ids  # The tokens that were actually generated
             temperature = getattr(trajectory, 'temperature', 1.0)
+            warper = self._get_logits_warper_for_temperature(temperature)
 
             if not prompt:
                 # Fallback: use stored log_prob if no prompt available
                 # Convert to tensor on device to ensure consistency
-                all_log_probs.append(torch.tensor(trajectory.log_prob, dtype=torch.float32, device=device))
+                safe_log_prob = trajectory.log_prob if trajectory.log_prob != 0.0 else -100.0
+                all_log_probs.append(torch.tensor(safe_log_prob, dtype=torch.float32, device=device))
                 all_values.append(torch.tensor(0.0, dtype=torch.float32, device=device))
                 all_entropies.append(torch.tensor(0.1, dtype=torch.float32, device=device))
                 continue
@@ -234,20 +307,20 @@ class PPOTrainer:
                     )
                     input_ids = inputs.input_ids.to(device)
 
-                # Concatenate prompt tokens with generated tokens
-                generated_ids_device = generated_ids.to(device).unsqueeze(0)  # Add batch dim
-                
                 # Ensure input_ids is 2D (batch_size, seq_len)
                 if input_ids.dim() == 1:
                     input_ids = input_ids.unsqueeze(0)
+
+                # Concatenate prompt tokens with generated tokens
+                generated_ids_device = generated_ids.to(device).unsqueeze(0)  # Add batch dim
                 
                 full_sequence = torch.cat([input_ids, generated_ids_device], dim=1)
 
-
-                # Create attention mask
-                # attention_mask = torch.ones_like(full_sequence)
-                # Correctly create attention mask (0 for padding, 1 for content)
-                attention_mask = (full_sequence != self.tokenizer.pad_token_id).long()
+                # Create attention mask (0 for padding, 1 for real tokens)
+                if self.tokenizer.pad_token_id is not None:
+                    attention_mask = (full_sequence != self.tokenizer.pad_token_id).long()
+                else:
+                    attention_mask = torch.ones_like(full_sequence)
 
                 # Forward pass with full sequence
                 if requires_grad:
@@ -261,7 +334,8 @@ class PPOTrainer:
                         outputs = self.model(
                             input_ids=full_sequence,
                             attention_mask=attention_mask,
-                            output_hidden_states=True
+                            output_hidden_states=True,
+                            use_cache=False  # Save memory by not caching KV
                         )
                 
                 # Get prompt length
@@ -284,7 +358,7 @@ class PPOTrainer:
                     outputs = self.model(**inputs, output_hidden_states=True)
                 else:
                     with torch.no_grad():
-                        outputs = self.model(**inputs, output_hidden_states=True)
+                        outputs = self.model(**inputs, output_hidden_states=True, use_cache=False)
 
             # Get last hidden state for value computation
             # Shape: (batch_size=1, seq_len, hidden_size)
@@ -297,17 +371,17 @@ class PPOTrainer:
 
             # FIXED: Normalize hidden states to prevent value head instability
             # Quantized models can have large magnitude hidden states
-            # last_prompt_hidden = F.layer_norm(
-            #     last_prompt_hidden,
-            #     (last_prompt_hidden.size(-1),)
-            # )
+            last_prompt_hidden = F.layer_norm(
+                last_prompt_hidden,
+                (last_prompt_hidden.size(-1),)
+            )
 
             # Compute value using value head
             # Shape: (1, 1) -> scalar
             value = self.value_head(last_prompt_hidden).squeeze()
 
             # FIXED: Clamp value to prevent extreme values
-            # value = torch.clamp(value, min=-10.0, max=10.0)
+            value = torch.clamp(value, min=-10.0, max=10.0)
 
             if requires_grad:
                 # Keep as tensor for gradient computation
@@ -341,44 +415,23 @@ class PPOTrainer:
                 for i in range(num_generated):
                     # Logit position that predicts the i-th generated token
                     logit_position = prompt_len - 1 + i
+                    current_input_ids = full_sequence[:, :prompt_len + i]
 
                     if logit_position < logits.shape[1]:
                         # Get token id
                         token_id = generated_ids_device[i].item()
 
                         # Handle EOS and Padding
-                        if token_id == eos_token_id:
-                            # Calculate for EOS
-                            token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
-                            
-                            # Apply temperature scaling
-                            if temperature > 0:
-                                token_logits = token_logits / temperature
-                                
-                            token_log_probs = F.log_softmax(token_logits, dim=-1)
-                            token_log_probs_list.append(token_log_probs[token_id])
-
-                            # Entropy for EOS - use safe computation
-                            token_probs = F.softmax(token_logits, dim=-1)
-                            # FIXED: Clamp probs to avoid 0 * -inf = NaN
-                            token_probs_safe = torch.clamp(token_probs, min=1e-10)
-                            token_log_probs_safe = torch.log(token_probs_safe)
-                            token_entropy = -(token_probs * token_log_probs_safe).sum(dim=-1)
-                            token_entropies_list.append(token_entropy)
-
-                            # Stop processing this sequence
-                            break
-
-                        # Skip padding tokens (if distinct from EOS)
                         if token_id == pad_token_id:
                             continue
 
                         token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
-                        
-                        # Apply temperature scaling
-                        if temperature > 0:
-                            token_logits = token_logits / temperature
-                            
+                        token_logits = self._apply_sampling_warpers(
+                            token_logits,
+                            temperature,
+                            current_input_ids,
+                            cached_warper=warper
+                        )
                         token_log_probs = F.log_softmax(token_logits, dim=-1)
 
                         # Get log prob of the token that was actually generated
@@ -392,6 +445,9 @@ class PPOTrainer:
                         token_entropy = -(token_probs * token_log_probs_safe).sum(dim=-1)
                         token_entropies_list.append(token_entropy)
 
+                        if token_id == eos_token_id:
+                            break
+
                 # Sum log prob across all tokens (standard for PPO)
                 if len(token_log_probs_list) > 0:
                     # FIXED: Proper tensor stacking and summing
@@ -399,28 +455,42 @@ class PPOTrainer:
                     sum_entropy = torch.stack(token_entropies_list).sum()
                 else:
                     # Empty sequence - use stored log_prob
-                    new_log_prob = torch.tensor(trajectory.log_prob, dtype=torch.float32, device=device)
+                    safe_log_prob = trajectory.log_prob if trajectory.log_prob != 0.0 else -100.0
+                    new_log_prob = torch.tensor(safe_log_prob, dtype=torch.float32, device=device)
                     sum_entropy = torch.tensor(0.1, dtype=torch.float32, device=device)  # Small positive entropy
 
                 all_log_probs.append(new_log_prob)
                 all_entropies.append(sum_entropy)
+                if self.debug_kl and not requires_grad:
+                    self._debug_log_diffs.append(new_log_prob.item() - float(trajectory.log_prob))
             else:
                 # Fallback: use stored log_prob if no generated_ids available
-                all_log_probs.append(torch.tensor(trajectory.log_prob, dtype=torch.float32, device=device))
+                safe_log_prob = trajectory.log_prob if trajectory.log_prob != 0.0 else -100.0
+                all_log_probs.append(torch.tensor(safe_log_prob, dtype=torch.float32, device=device))
 
                 # Compute entropy from last position - FIXED: Safe computation
                 last_logits = outputs.logits[:, -1, :].float()  # Cast to float32
-                
-                # Apply temperature scaling
-                if temperature > 0:
-                    last_logits = last_logits / temperature
-                    
+                last_logits = self._apply_sampling_warpers(
+                    last_logits,
+                    temperature,
+                    input_ids,
+                    cached_warper=warper
+                )
                 last_probs = F.softmax(last_logits, dim=-1)
                 # FIXED: Clamp to avoid log(0) = -inf
                 last_probs_safe = torch.clamp(last_probs, min=1e-10)
                 last_log_probs_safe = torch.log(last_probs_safe)
                 entropy = -(last_probs * last_log_probs_safe).sum(dim=-1)
                 all_entropies.append(entropy)
+                if self.debug_kl and not requires_grad:
+                    self._debug_log_diffs.append(float(safe_log_prob) - float(trajectory.log_prob))
+
+            # Free intermediate tensors to reduce memory pressure
+            del outputs
+            if 'full_sequence' in dir():
+                del full_sequence
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
 
         # Stack tensors
         log_probs_tensor = torch.stack(all_log_probs)
@@ -431,7 +501,7 @@ class PPOTrainer:
         # Final safety check (should rarely trigger now)
         if torch.isnan(log_probs_tensor).any() or torch.isnan(values_tensor).any() or torch.isnan(entropy_tensor).any():
             # Replace NaNs with zeros or small values to prevent crash, but this indicates a problem
-            log_probs_tensor = torch.nan_to_num(log_probs_tensor, nan=0.0, neginf=-100.0)
+            log_probs_tensor = torch.nan_to_num(log_probs_tensor, nan=-100.0, neginf=-100.0)
             values_tensor = torch.nan_to_num(values_tensor, nan=0.0)
             entropy_tensor = torch.nan_to_num(entropy_tensor, nan=0.0)
             
@@ -471,6 +541,10 @@ class PPOTrainer:
         """
         # Ratio between new and old policy
         # Safe log-ratio computation
+        
+        # Clamp new log probs too for stability
+        log_probs = torch.clamp(log_probs, min=-20.0, max=20.0)
+        
         log_ratio = log_probs - old_log_probs
         log_ratio = torch.clamp(log_ratio, -10.0, 10.0)
         ratio = torch.exp(log_ratio)
@@ -499,7 +573,9 @@ class PPOTrainer:
         # Calculate approximate KL divergence for logging/early stopping
         with torch.no_grad():
             # http://joschu.net/blog/kl-approx.html
-            approx_kl = ((ratio - 1) - log_ratio).mean()
+            # Use a more stable KL approximation: 0.5 * (log_ratio)^2
+            # This is less sensitive to extreme ratios than (ratio - 1) - log_ratio
+            approx_kl = 0.5 * (log_ratio ** 2).mean()
 
         # Total loss
         total_loss = (
@@ -537,10 +613,24 @@ class PPOTrainer:
             return {"error": "No trajectories in buffer"}
 
         # Get ALL trajectories from buffer (PPO is on-policy)
-        all_trajectories = self.trajectory_buffer.get_all()
+        raw_trajectories = self.trajectory_buffer.get_all()
         
-        if not all_trajectories:
+        if not raw_trajectories:
             return {"error": "Empty buffer"}
+
+        # --- FILTERING STEP: Remove trajectories with invalid log_probs ---
+        all_trajectories = []
+        for t in raw_trajectories:
+            # Check for inf/nan in stored log_prob
+            if np.isfinite(t.log_prob) and abs(t.log_prob) < 1000:
+                all_trajectories.append(t)
+        
+        dropped_count = len(raw_trajectories) - len(all_trajectories)
+        if dropped_count > 0:
+            print(f"Dropped {dropped_count} trajectories with invalid stored log_probs")
+
+        if not all_trajectories:
+            return {"error": "No valid trajectories after filtering"}
 
         # Sort trajectories by game, agent, and round to ensure temporal order for GAE
         # This is CRITICAL for correct advantage estimation
@@ -552,10 +642,16 @@ class PPOTrainer:
         # Sanitize old_log_probs
         old_log_probs = torch.nan_to_num(
             old_log_probs,
-            nan=0.0,
-            neginf=-20.0,
-            posinf=20.0
+            nan=-100.0,
+            neginf=-100.0,  # Relaxed from -20.0 to avoid artificial KL
+            posinf=100.0
         )
+        
+        # --- CRITICAL FIX: Clamp old_log_probs to avoid extreme values ---
+        # Even with nan_to_num, we might have very small probabilities (e.g. -500)
+        # that cause massive ratios when the new model predicts -10.
+        # We clamp to a reasonable range for stability.
+        old_log_probs = torch.clamp(old_log_probs, min=-20.0, max=20.0)
         
         rewards = [t.reward for t in all_trajectories]
         
@@ -572,13 +668,44 @@ class PPOTrainer:
         # First pass: compute initial values for GAE computation
         # We process in chunks to avoid OOM if buffer is large
         initial_values_list = []
+        valid_indices = [] # Keep track of indices that pass recomputation
+        
         eval_batch_size = 16  # Small batch size for evaluation
+        if self.debug_kl:
+            self._debug_log_diffs = []
         
         with torch.no_grad():
             for i in range(0, len(all_trajectories), eval_batch_size):
                 batch = all_trajectories[i:i+eval_batch_size]
-                _, values, _ = self._recompute_log_probs_and_values(batch)
-                initial_values_list.extend(values.tolist())
+                batch_log_probs, values, _ = self._recompute_log_probs_and_values(batch)
+                
+                # Check for validity of recomputed values
+                for j, (val, lp) in enumerate(zip(values, batch_log_probs)):
+                    if torch.isfinite(val) and torch.isfinite(lp):
+                        initial_values_list.append(val.item())
+                        valid_indices.append(i + j)
+        
+        # --- SECOND FILTERING STEP: Remove trajectories where recomputation failed ---
+        if len(valid_indices) < len(all_trajectories):
+            print(f"Dropped {len(all_trajectories) - len(valid_indices)} trajectories due to recomputation failure")
+            all_trajectories = [all_trajectories[i] for i in valid_indices]
+            old_log_probs = old_log_probs[valid_indices]
+            rewards = [rewards[i] for i in valid_indices]
+            confidences = confidences[valid_indices]
+            # initial_values_list is already filtered
+
+        if self.debug_kl and self._debug_log_diffs:
+            diffs = np.array(self._debug_log_diffs)
+            # Filter out infs/nans for stats
+            finite_diffs = diffs[np.isfinite(diffs)]
+            if len(finite_diffs) > 0:
+                print(
+                    f"[PPO DEBUG] old/new log_prob diff -> mean {finite_diffs.mean():.2f}, std {finite_diffs.std():.2f}, "
+                    f"min {finite_diffs.min():.2f}, max {finite_diffs.max():.2f}, "
+                    f"infs/nans: {len(diffs) - len(finite_diffs)}"
+                )
+            else:
+                print(f"[PPO DEBUG] old/new log_prob diff -> all infs/nans (count: {len(diffs)})")
 
         # Determine episode boundaries (dones)
         # Group by game_id and agent_id, mark last trajectory in each episode as done
@@ -703,6 +830,9 @@ class PPOTrainer:
                     torch.cuda.empty_cache()
 
         # Average metrics across PPO epochs
+        if not all_metrics:
+            return {"error": "No metrics collected (early stopping before first update?)"}
+
         avg_metrics = {
             key: np.mean([m[key] for m in all_metrics])
             for key in all_metrics[0].keys()

@@ -51,10 +51,10 @@ def main():
         },
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 10,
-        "games_per_iteration": 4,  # Increased for parallel training
-        "learning_rate": 1e-5,
+        "games_per_iteration": 8,  # Increased for parallel training
+        "learning_rate": 2e-6,
         "use_4bit": True,
-        "num_workers": 4,  # Number of parallel game workers
+        "num_workers": 8,  # Number of parallel game workers
         "seed": 42
     }
 

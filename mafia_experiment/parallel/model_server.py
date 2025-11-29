@@ -103,26 +103,46 @@ class ModelServer:
             
         # Process results
         prompt_len = inputs.input_ids.shape[1]
+        eos_token_id = self.tokenizer.eos_token_id if self.tokenizer.eos_token_id is not None else 128001
+        pad_token_id = self.tokenizer.pad_token_id if self.tokenizer.pad_token_id is not None else 128001
         
         for i, (worker_id, req_id) in enumerate(zip(worker_ids, request_ids)):
             # Extract sequence
             gen_ids = outputs.sequences[i][prompt_len:]
-            text = self.tokenizer.decode(gen_ids, skip_special_tokens=True)
             
-            # Extract scores
+            # Strip trailing padding/EOS tokens from generated_ids
+            # These are added for batch padding but weren't actually sampled
+            stripped_gen_ids = gen_ids.clone()
+            # Find first EOS/pad token and truncate
+            for end_pos in range(len(gen_ids)):
+                if gen_ids[end_pos].item() == eos_token_id or gen_ids[end_pos].item() == pad_token_id:
+                    # Include this token if it's EOS (but not subsequent padding)
+                    if gen_ids[end_pos].item() == eos_token_id:
+                        stripped_gen_ids = gen_ids[:end_pos+1]
+                    else:
+                        stripped_gen_ids = gen_ids[:end_pos]
+                    break
+            
+            text = self.tokenizer.decode(stripped_gen_ids, skip_special_tokens=True)
+            
+            # Extract scores (only up to stripped length)
             # outputs.scores is tuple of (batch, vocab), slice for this sample
-            sample_scores = tuple(score[i:i+1] for score in outputs.scores)
+            sample_scores = tuple(score[i:i+1] for score in outputs.scores[:len(stripped_gen_ids)])
             
-            # Compute log prob
-            log_prob = LLMAgent.compute_log_prob_from_scores(sample_scores, gen_ids)
+            # Compute log prob (passing token IDs for proper EOS/pad handling)
+            log_prob = LLMAgent.compute_log_prob_from_scores(
+                sample_scores, stripped_gen_ids, 
+                eos_token_id=eos_token_id,
+                pad_token_id=pad_token_id
+            )
             
-            # Prepare result
+            # Prepare result - use stripped generated_ids
             result = {
                 "request_id": req_id,
                 "text": text,
                 "log_prob": log_prob,
                 "input_ids": inputs.input_ids[i].cpu(),
-                "generated_ids": gen_ids.cpu()
+                "generated_ids": stripped_gen_ids.cpu()  # Store stripped version
             }
             
             # Send back to specific worker

@@ -188,7 +188,9 @@ class LLMAgent(BaseAgent):
     @staticmethod
     def compute_log_prob_from_scores(
         scores: Tuple[torch.Tensor],
-        generated_ids: torch.Tensor
+        generated_ids: torch.Tensor,
+        eos_token_id: int = 128001,  # Default for Llama-3
+        pad_token_id: int = 128001   # Default for Llama-3 (same as EOS)
     ) -> float:
         """
         Compute log probability from generation scores (Static version for batching)
@@ -196,9 +198,12 @@ class LLMAgent(BaseAgent):
         Args:
             scores: Tuple of logit tensors (one per generated token)
             generated_ids: Generated token IDs
+            eos_token_id: EOS token ID to stop accumulation at
+            pad_token_id: Pad token ID to skip
+            Temperature scaling is already applied inside the generation pipeline
 
         Returns:
-            Average log probability per token
+            Sum of log probabilities for the generated sequence
         """
         log_prob_sum = 0.0
         count = 0
@@ -207,13 +212,34 @@ class LLMAgent(BaseAgent):
             if i >= len(generated_ids):
                 break
 
-            # Get log probabilities
-            log_probs = torch.log_softmax(logits[0], dim=-1)
-
-            # Get log prob of selected token
             token_id = generated_ids[i].item()
-            log_prob_sum += log_probs[token_id].item()
+            
+            # Skip padding tokens entirely - they weren't actually sampled
+            if token_id == pad_token_id:
+                continue
+                
+            # Get log probabilities (scores already include sampling temperature)
+            log_probs = torch.log_softmax(logits[0], dim=-1)
+            
+            # Get log prob of selected token
+            token_log_prob = log_probs[token_id].item()
+            
+            # Handle -inf case (shouldn't happen but be safe)
+            if token_log_prob == float('-inf'):
+                # Token was filtered by top-k/top-p but somehow selected
+                # This indicates padding/EOS confusion - skip it
+                continue
+            
+            log_prob_sum += token_log_prob
             count += 1
+            
+            # Stop if we hit EOS token (everything after is padding)
+            if token_id == eos_token_id:
+                break
+
+        # Handle empty sequence case
+        if count == 0:
+            return -100.0
 
         # Return sum of log probs (standard for PPO)
         return log_prob_sum
@@ -323,6 +349,7 @@ class LLMAgent(BaseAgent):
         Args:
             scores: Tuple of logit tensors (one per generated token)
             generated_ids: Generated token IDs
+            temperature: Temperature used for sampling
 
         Returns:
             Average log probability per token
@@ -334,13 +361,17 @@ class LLMAgent(BaseAgent):
             if i >= len(generated_ids):
                 break
 
-            # Get log probabilities
+            # Get log probabilities (scores already include sampling temperature)
             log_probs = torch.log_softmax(logits[0], dim=-1)
 
             # Get log prob of selected token
             token_id = generated_ids[i].item()
             log_prob_sum += log_probs[token_id].item()
             count += 1
+
+        # Handle empty sequence case
+        if count == 0:
+            return -100.0
 
         # Return sum of log probs (standard for PPO)
         return log_prob_sum
