@@ -130,6 +130,7 @@ class ModelServer:
             sample_scores = tuple(score[i:i+1] for score in outputs.scores[:len(stripped_gen_ids)])
             
             # Compute log prob (passing token IDs for proper EOS/pad handling)
+            # Use the static method we just added to LLMAgent
             log_prob = LLMAgent.compute_log_prob_from_scores(
                 sample_scores, stripped_gen_ids, 
                 eos_token_id=eos_token_id,

@@ -194,6 +194,8 @@ class PPOTrainer:
         # Normalize advantages
         if len(advantages) > 1:
             advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+            # # Clip advantages to prevent extreme updates
+            # advantages = advantages.clamp(-6.0, 6.0)
 
         return advantages, returns
 
@@ -321,6 +323,9 @@ class PPOTrainer:
                     attention_mask = (full_sequence != self.tokenizer.pad_token_id).long()
                 else:
                     attention_mask = torch.ones_like(full_sequence)
+
+                # CRITICAL FIX: Ensure attention mask is contiguous and on correct device
+                attention_mask = attention_mask.to(device).contiguous()
 
                 # Forward pass with full sequence
                 if requires_grad:
@@ -540,11 +545,31 @@ class PPOTrainer:
             Tuple of (total_loss, loss_components_dict)
         """
         # Ratio between new and old policy
+        
+        # Filter out non-finite values (NaNs or Infs)
+        finite_mask = torch.isfinite(log_probs) & torch.isfinite(old_log_probs)
+        
+        if not finite_mask.all():
+            # Only keep valid entries
+            log_probs = log_probs[finite_mask]
+            old_log_probs = old_log_probs[finite_mask]
+            advantages = advantages[finite_mask]
+            values = values[finite_mask]
+            returns = returns[finite_mask]
+            entropy = entropy[finite_mask]
+            if confidence is not None:
+                confidence = confidence[finite_mask]
+                
+        if len(log_probs) == 0:
+             return torch.tensor(0.0, device=self.model.device, requires_grad=True), {
+                "policy_loss": 0.0,
+                "value_loss": 0.0,
+                "entropy_loss": 0.0,
+                "total_loss": 0.0,
+                "approx_kl": 0.0
+            }
+        
         # Safe log-ratio computation
-        
-        # Clamp new log probs too for stability
-        log_probs = torch.clamp(log_probs, min=-20.0, max=20.0)
-        
         log_ratio = log_probs - old_log_probs
         log_ratio = torch.clamp(log_ratio, -10.0, 10.0)
         ratio = torch.exp(log_ratio)
@@ -576,6 +601,9 @@ class PPOTrainer:
             # Use a more stable KL approximation: 0.5 * (log_ratio)^2
             # This is less sensitive to extreme ratios than (ratio - 1) - log_ratio
             approx_kl = 0.5 * (log_ratio ** 2).mean()
+            # per_sample_kl = 0.5 * (log_ratio ** 2)
+            # per_sample_kl = per_sample_kl.clamp(max=0.5)  # Clamp to disallow a few extreme sample KL values from dominating KL calc
+            # approx_kl = per_sample_kl.mean()
 
         # Total loss
         total_loss = (
@@ -642,19 +670,12 @@ class PPOTrainer:
         # Extract data from trajectories
         old_log_probs = torch.tensor([t.log_prob for t in all_trajectories], dtype=torch.float32)
         
-        # Sanitize old_log_probs
-        old_log_probs = torch.nan_to_num(
-            old_log_probs,
-            nan=-100.0,
-            neginf=-100.0,  # Relaxed from -20.0 to avoid artificial KL
-            posinf=100.0
-        )
+        # Sanitize old_log_probs - REMOVED to allow raw values
+        # old_log_probs = torch.nan_to_num(...)
         
         # --- CRITICAL FIX: Clamp old_log_probs to avoid extreme values ---
-        # Even with nan_to_num, we might have very small probabilities (e.g. -500)
-        # that cause massive ratios when the new model predicts -10.
-        # We clamp to a reasonable range for stability.
-        old_log_probs = torch.clamp(old_log_probs, min=-20.0, max=20.0)
+        # REMOVED: We now filter invalid values in compute_ppo_loss instead of clamping
+        # old_log_probs = torch.clamp(old_log_probs, min=-20.0, max=20.0)
         
         rewards = [t.reward for t in all_trajectories]
         
@@ -807,6 +828,11 @@ class PPOTrainer:
 
                 # Check for early stopping based on KL
                 mean_kl = np.mean(batch_kls)
+                
+                # Always print KL if debug flag is on
+                if os.environ.get("PPO_DEBUG_KL", "0") == "1":
+                    print(f"[PPO DEBUG] Epoch {epoch} Batch KL: {mean_kl:.4f}")
+
                 if self.target_kl is not None and mean_kl > 1.5 * self.target_kl:
                     print(f"Early stopping at epoch {epoch} due to KL divergence {mean_kl:.4f} > {1.5 * self.target_kl:.4f}")
                     stop_early = True

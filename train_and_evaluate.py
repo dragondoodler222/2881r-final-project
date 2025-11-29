@@ -15,6 +15,7 @@ import json
 import numpy as np
 import time
 import queue
+import csv
 
 from mafia_experiment.training import ModelManager, RewardFunction, PPOTrainer
 from mafia_experiment.game import GameEngine
@@ -61,12 +62,12 @@ def main():
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 100,
         "games_per_iteration": 64,
-        "learning_rate": 1e-5,  # Lowered for 1B model stability
+        "learning_rate": 6e-6,  # Lowered for 1B model stability
         "ppo_batch_size": 256,  # Logical batch size
         "mini_batch_size": 16,   # Physical batch size (reduced for memory)
         "ppo_epochs": 2,        # Number of passes over the data per iteration
         "target_kl": 0.03,      # Target KL divergence for early stopping
-        "clip_epsilon": 0.2,    # Stricter clipping for stability
+        "clip_epsilon": 0.1,    # Stricter clipping for stability
         "use_4bit": True,
         "num_workers": 8,
         "seed": 42,
@@ -86,7 +87,8 @@ def main():
     logger.info("\n[1/5] Initializing model manager...")
     model_manager = ModelManager(
         model_name=config["model_name"],
-        use_4bit=config["use_4bit"]
+        use_4bit=config["use_4bit"],
+        lora_dropout=0.0  # Disable dropout for PPO stability
     )
 
     logger.info("[2/5] Loading model with LoRA...")
@@ -132,6 +134,23 @@ def main():
     )
 
     logger.info("Setup complete!")
+
+    # Initialize metrics logging
+    metrics_file = log_dir / "metrics.csv"
+    with open(metrics_file, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            "iteration", 
+            "mafia_win_rate", 
+            "policy_loss", 
+            "value_loss", 
+            "entropy_loss", 
+            "approx_kl", 
+            "mean_reward", 
+            "mean_return",
+            "std_return",
+            "trajectories_collected"
+        ])
 
     # Training loop
     logger.info(f"\n{'='*60}")
@@ -222,6 +241,7 @@ def main():
 
             # 3. Training step
             logger.info("\n  Running PPO training step...")
+            metrics = {}
             if len(ppo_trainer.trajectory_buffer) > 0:
                 metrics = ppo_trainer.train_iteration(
                     batch_size=config.get("ppo_batch_size", 32),
@@ -232,6 +252,22 @@ def main():
                 logger.info(f"    Mean Reward: {metrics.get('mean_reward', 0):.4f}")
             else:
                 logger.warning("    Skipped (no trajectories)")
+
+            # Log to CSV
+            with open(metrics_file, "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([
+                    iteration + 1,
+                    win_rate,
+                    metrics.get("policy_loss", 0),
+                    metrics.get("value_loss", 0),
+                    metrics.get("entropy_loss", 0),
+                    metrics.get("approx_kl", 0),
+                    metrics.get("mean_reward", 0),
+                    metrics.get("mean_return", 0),
+                    metrics.get("std_return", 0),
+                    trajectories_collected
+                ])
 
             # Save checkpoint
             if (iteration + 1) % 5 == 0:

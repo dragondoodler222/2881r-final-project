@@ -54,10 +54,21 @@ class ModelManager:
 
         # Configure quantization if needed
         quantization_config = None
+        compute_dtype = torch.float16
+
         if self.use_4bit:
+            # # Use bfloat16 if available for better numerical stability, else float32
+            # if torch.cuda.is_available() and torch.cuda.is_bf16_supported():
+            #     print("USING BF16 FOR 4BIT MODEL")
+            #     compute_dtype = torch.bfloat16
+            # else:
+            #     # Fallback to float16 to prevent NaNs if bf16 is not supported
+            #     print("USING FLOAT16 FOR 4BIT MODEL")
+            #     compute_dtype = torch.float16
+
             quantization_config = BitsAndBytesConfig(
                 load_in_4bit=True,
-                bnb_4bit_compute_dtype=torch.float16,
+                bnb_4bit_compute_dtype=compute_dtype,
                 bnb_4bit_use_double_quant=True,
                 bnb_4bit_quant_type="nf4"
             )
@@ -68,7 +79,7 @@ class ModelManager:
             quantization_config=quantization_config,
             device_map="auto",
             trust_remote_code=True,
-            torch_dtype=torch.float16 if self.use_4bit else torch.float32
+            torch_dtype=compute_dtype if self.use_4bit else torch.float32
         )
 
         # Prepare for k-bit training if using quantization
@@ -138,10 +149,20 @@ class ModelManager:
 
         # Load base model
         quantization_config = None
+        compute_dtype = torch.float16
+
         if self.use_4bit:
+            # # Use bfloat16 if available for better numerical stability, else float32
+            # if torch.cuda.is_available() and torch.cuda.is_bf16_supported():
+            #     print("USING BF16 FOR 4BIT MODEL")
+            #     compute_dtype = torch.bfloat16
+            # else:
+            #     print("USING FLOAT16 FOR 4BIT MODEL")
+            #     compute_dtype = torch.float16
+
             quantization_config = BitsAndBytesConfig(
                 load_in_4bit=True,
-                bnb_4bit_compute_dtype=torch.float16,
+                bnb_4bit_compute_dtype=compute_dtype,
                 bnb_4bit_use_double_quant=True,
                 bnb_4bit_quant_type="nf4"
             )
@@ -151,7 +172,7 @@ class ModelManager:
             quantization_config=quantization_config,
             device_map="auto",
             trust_remote_code=True,
-            torch_dtype=torch.float16 if self.use_4bit else torch.float32
+            torch_dtype=compute_dtype if self.use_4bit else torch.float32
         )
 
         # Load LoRA adapters
