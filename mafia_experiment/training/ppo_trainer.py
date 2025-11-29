@@ -609,6 +609,9 @@ class PPOTrainer:
         Returns:
             Dictionary of training metrics
         """
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
         if len(self.trajectory_buffer) == 0:
             return {"error": "No trajectories in buffer"}
 

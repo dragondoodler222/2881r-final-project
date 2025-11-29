@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 import random
+import os
 from typing import Dict, Any, List
 from ..game.game_engine import GameEngine
 from ..agents.llm_agent import LLMAgent
@@ -18,6 +19,9 @@ def worker_process(
     result_queue,
     config: Dict[str, Any]
 ):
+    # Disable CUDA for workers to save memory
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""
+    
     # Seeding
     seed = config.get('seed', 42) + (worker_id * 10000)
     random.seed(seed)

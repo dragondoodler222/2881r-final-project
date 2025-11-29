@@ -4,7 +4,7 @@ Training and Evaluation script for Mafia RL experiment with PPO
 
 import os
 # Set allocator to avoid fragmentation
-os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
 
 import logging
 import sys
@@ -59,14 +59,14 @@ def main():
             RoleType.VILLAGER: 4
         },
         "cot_visibility": VisibilityMode.PUBLIC,
-        "num_training_iterations": 50,
-        "games_per_iteration": 16,
-        "learning_rate": 5e-7,  # Lowered for 1B model stability
-        "ppo_batch_size": 64,  # Logical batch size
+        "num_training_iterations": 100,
+        "games_per_iteration": 64,
+        "learning_rate": 1e-5,  # Lowered for 1B model stability
+        "ppo_batch_size": 256,  # Logical batch size
         "mini_batch_size": 16,   # Physical batch size (reduced for memory)
         "ppo_epochs": 2,        # Number of passes over the data per iteration
         "target_kl": 0.03,      # Target KL divergence for early stopping
-        "clip_epsilon": 0.1,    # Stricter clipping for stability
+        "clip_epsilon": 0.2,    # Stricter clipping for stability
         "use_4bit": True,
         "num_workers": 8,
         "seed": 42,

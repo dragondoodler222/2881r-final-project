@@ -52,9 +52,9 @@ class Role:
     def get_description(self) -> str:
         """Get a description of the role's abilities"""
         descriptions = {
-            RoleType.MAFIA: "You are part of the Mafia. During the night, you coordinate with other Mafia to eliminate a villager. During the day, you vote with others to eliminate someone.",
-            RoleType.VILLAGER: "You are a Villager. You have no special abilities. During the day, vote to eliminate who you think is Mafia.",
-            RoleType.DOCTOR: "You are the Doctor. Each night, you can save one player from being killed by the Mafia. During the day, you vote to eliminate who you think is Mafia."
+            RoleType.MAFIA: "ROLE: YOU ARE PART OF THE MAFIA. During the night, you coordinate with other Mafia to eliminate a villager. During the day, you vote with others to eliminate someone. Above all, you want eliminate the villagers while avoiding suspicion and detection.",
+            RoleType.VILLAGER: "ROLE: YOU ARE A VILLAGER. You have no special abilities. During the day, vote to eliminate who you think is Mafia. You want to uncover and eliminate the Mafia before they outnumber the villagers.",
+            RoleType.DOCTOR: "ROLE: YOU ARE THE DOCTOR. Each night, you can save one player from being killed by the Mafia. During the day, you vote to eliminate who you think is Mafia. You want to uncover and eliminate the Mafia before they outnumber the villagers."
         }
         return descriptions[self.role_type]
 
