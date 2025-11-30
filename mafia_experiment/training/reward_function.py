@@ -4,6 +4,8 @@ Reward Function: Compute rewards from game outcomes
 
 from typing import Dict, Any, List
 from ..game.game_state import GameState
+from ..game.phases import PhaseType, NightPhaseResult, DayPhaseResult
+from ..game.roles import RoleType
 
 
 class RewardFunction:
@@ -16,12 +18,23 @@ class RewardFunction:
         win_reward: float = 1.0,
         loss_reward: float = -1.0,
         survival_weight: float = 0.3,
-        mafia_stealth_bonus: float = 0.2
+        mafia_stealth_bonus: float = 0.2,
+        # Shaping rewards (scaled down)
+        mafia_kill_reward: float = 0.1,
+        mafia_mislynch_reward: float = 0.2,
+        villager_catch_reward: float = 0.2,
+        doctor_save_reward: float = 0.2
     ):
         self.win_reward = win_reward
         self.loss_reward = loss_reward
         self.survival_weight = survival_weight
         self.mafia_stealth_bonus = mafia_stealth_bonus
+
+        # Shaping rewards
+        self.mafia_kill_reward = mafia_kill_reward
+        self.mafia_mislynch_reward = mafia_mislynch_reward
+        self.villager_catch_reward = villager_catch_reward
+        self.doctor_save_reward = doctor_save_reward
 
     def compute_game_reward(
         self,
@@ -125,7 +138,9 @@ class RewardFunction:
 
         # Compute terminal reward for each agent
         for agent_id, agent_trajs in agent_trajectories.items():
-            rounds_survived = len(agent_trajs)
+            # Use the max round_number this agent appears in as "rounds survived"
+            # len(agent_trajs) would count actions (multiple per round), inflating the bonus
+            rounds_survived = max(traj["round_number"] for traj in agent_trajs)
 
             # Calculate if agent was suspected (simplified version)
             # In full implementation, track votes against the agent
@@ -140,15 +155,72 @@ class RewardFunction:
                 was_suspected=was_suspected
             )
 
+            # Determine if agent's team won (for conditional shaping)
+            agent_role = game_state.roles.get(agent_id)
+            team_won = False
+            if agent_role:
+                if (agent_role.is_mafia and winner == "mafia") or \
+                   (agent_role.is_village and winner == "village"):
+                    team_won = True
+
             # Assign rewards to trajectory steps
-            # For REINFORCE, we typically use Monte Carlo returns
-            # Give terminal reward to last step, 0 to others
             for i, traj in enumerate(agent_trajs):
+                step_reward = 0.0
+                
+                # Apply shaping rewards ONLY if team won
+                if team_won and agent_role:
+                    round_num = traj["round_number"]
+                    phase_type = traj["phase"] # "night", "day_discuss_1", "day_vote", etc.
+                    
+                    # Find corresponding phase result
+                    target_phase_type = None
+                    if phase_type == "night":
+                        target_phase_type = PhaseType.NIGHT
+                    elif phase_type.startswith("day"):
+                        target_phase_type = PhaseType.DAY
+                        
+                    phase_result = None
+                    if target_phase_type:
+                        for pr in game_state.phase_history:
+                            if pr.phase.round_number == round_num and pr.phase.phase_type == target_phase_type:
+                                phase_result = pr
+                                break
+                    
+                    if phase_result:
+                        # Night Actions
+                        if phase_type == "night" and isinstance(phase_result, NightPhaseResult):
+                            # Mafia Kill Reward
+                            if agent_role.is_mafia and phase_result.killed_player:
+                                step_reward += self.mafia_kill_reward
+                            
+                            # Doctor Save Reward
+                            if agent_role.role_type == RoleType.DOCTOR and phase_result.doctor_save:
+                                # Check if save was successful (target was mafia target)
+                                if phase_result.mafia_target and phase_result.doctor_save == phase_result.mafia_target:
+                                    step_reward += self.doctor_save_reward
+                        
+                        # Day Actions (Voting)
+                        elif phase_type == "day_vote" and isinstance(phase_result, DayPhaseResult):
+                            lynched = phase_result.lynched_player
+                            if lynched:
+                                # Check if agent voted for the lynched player
+                                voted_target = phase_result.votes.get(agent_id)
+                                if voted_target == lynched:
+                                    lynched_role = game_state.roles.get(lynched)
+                                    if lynched_role:
+                                        # Mafia Mislynch Reward (Mafia voting for Villager)
+                                        if agent_role.is_mafia and lynched_role.is_village:
+                                            step_reward += self.mafia_mislynch_reward
+                                        
+                                        # Villager Catch Reward (Village/Doctor voting for Mafia)
+                                        if agent_role.is_village and lynched_role.is_mafia:
+                                            step_reward += self.villager_catch_reward
+
                 if i == len(agent_trajs) - 1:
-                    # Last step gets the terminal reward
-                    traj["reward"] = terminal_reward
+                    # Last step gets the terminal reward + any step reward
+                    traj["reward"] = terminal_reward + step_reward
                 else:
-                    # Intermediate steps get 0 (or step reward if using)
-                    traj["reward"] = 0.0
+                    # Intermediate steps get step reward
+                    traj["reward"] = step_reward
 
         return trajectories

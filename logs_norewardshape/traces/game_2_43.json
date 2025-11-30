@@ -1,0 +1,14 @@
+{
+  "game_id": "9312d8b7-3ac8-49c7-b801-5081dc37dbd2",
+  "winner": "mafia",
+  "rounds": 3,
+  "roles": {
+    "player_1": "villager",
+    "player_2": "villager",
+    "player_3": "villager",
+    "player_4": "doctor",
+    "player_5": "villager",
+    "player_6": "mafia"
+  },
+  "cot_history": []
+}

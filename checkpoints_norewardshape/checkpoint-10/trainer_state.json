@@ -1,0 +1,142 @@
+{
+  "iteration": 10,
+  "training_history": [
+    {
+      "policy_loss": 0.042854068856175265,
+      "value_loss": 1.644493992372257,
+      "entropy_loss": -24.891486987835023,
+      "total_loss": 0.6161862004820894,
+      "approx_kl": 0.015107265985423553,
+      "iteration": 0,
+      "mean_reward": 0.2731772831926324,
+      "mean_return": 1.0633472204208374,
+      "std_return": 0.8081161975860596,
+      "num_trajectories": 1303,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.03968957832913442,
+      "value_loss": 1.4382940555911465,
+      "entropy_loss": -26.26517558385091,
+      "total_loss": 0.49618485623813535,
+      "approx_kl": 0.00907316470360215,
+      "iteration": 1,
+      "mean_reward": 0.2608910891089109,
+      "mean_return": 1.0410892963409424,
+      "std_return": 0.8373587727546692,
+      "num_trajectories": 1313,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.030276206693008213,
+      "value_loss": 1.2292870852973434,
+      "entropy_loss": -28.81202805173266,
+      "total_loss": 0.35679947797741207,
+      "approx_kl": 0.006076353538026944,
+      "iteration": 2,
+      "mean_reward": 0.25303187803187804,
+      "mean_return": 1.0362492799758911,
+      "std_return": 0.8232961297035217,
+      "num_trajectories": 1443,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.04648561116896178,
+      "value_loss": 1.0358580777519628,
+      "entropy_loss": -30.211841377459073,
+      "total_loss": 0.26229624324723294,
+      "approx_kl": 0.006312662474221342,
+      "iteration": 3,
+      "mean_reward": 0.23405940594059405,
+      "mean_return": 1.0641608238220215,
+      "std_return": 0.7804940938949585,
+      "num_trajectories": 1515,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.02542313257876186,
+      "value_loss": 0.9499459789123064,
+      "entropy_loss": -33.365351194216885,
+      "total_loss": 0.166742616781482,
+      "approx_kl": 0.008494028576360843,
+      "iteration": 4,
+      "mean_reward": 0.22331133540372672,
+      "mean_return": 0.9489757418632507,
+      "std_return": 0.873044490814209,
+      "num_trajectories": 1288,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.01551504979841411,
+      "value_loss": 0.8545091289281845,
+      "entropy_loss": -32.497295150756834,
+      "total_loss": 0.11779667116701603,
+      "approx_kl": 0.009481906489854737,
+      "iteration": 5,
+      "mean_reward": 0.20257537688442212,
+      "mean_return": 0.9484217762947083,
+      "std_return": 0.871228039264679,
+      "num_trajectories": 1592,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.004169037094276434,
+      "value_loss": 0.7849402793692154,
+      "entropy_loss": -36.092138757983456,
+      "total_loss": 0.03571779714915359,
+      "approx_kl": 0.008238348824571641,
+      "iteration": 6,
+      "mean_reward": 0.2133720930232558,
+      "mean_return": 1.0526692867279053,
+      "std_return": 0.8375322818756104,
+      "num_trajectories": 1634,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.015571005123945856,
+      "value_loss": 0.776874579412421,
+      "entropy_loss": -38.764351068083776,
+      "total_loss": 0.016364792880323744,
+      "approx_kl": 0.01465340413970179,
+      "iteration": 7,
+      "mean_reward": 0.20480645161290326,
+      "mean_return": 0.9976611733436584,
+      "std_return": 0.8734881281852722,
+      "num_trajectories": 1550,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.02158323557019825,
+      "value_loss": 0.7319304937353501,
+      "entropy_loss": -39.59276595940957,
+      "total_loss": -0.00837916823533865,
+      "approx_kl": 0.015584945947326699,
+      "iteration": 8,
+      "mean_reward": 0.1993389423076923,
+      "mean_return": 1.0439602136611938,
+      "std_return": 0.8535621166229248,
+      "num_trajectories": 1664,
+      "ppo_epochs": 2
+    },
+    {
+      "policy_loss": 0.016371267359002982,
+      "value_loss": 0.7692936427227342,
+      "entropy_loss": -44.44774970441762,
+      "total_loss": -0.04345939883796295,
+      "approx_kl": 0.016674647757549836,
+      "iteration": 9,
+      "mean_reward": 0.2024113254511512,
+      "mean_return": 1.0098873376846313,
+      "std_return": 0.8782907128334045,
+      "num_trajectories": 1607,
+      "ppo_epochs": 2
+    }
+  ],
+  "ppo_config": {
+    "gamma": 0.99,
+    "lambda_gae": 0.95,
+    "clip_epsilon": 0.1,
+    "value_coef": 0.5,
+    "entropy_coef": 0.01
+  }
+}
