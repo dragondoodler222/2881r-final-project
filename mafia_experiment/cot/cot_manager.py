@@ -102,8 +102,6 @@ class CoTManager:
         Returns:
             Created CoTEntry
         """
-        print(f"DEBUG record_cot CALLED: agent={agent_id}, phase={phase}, action={action_type}, cot_len={len(cot_text)}")
-        
         entry = CoTEntry(
             agent_id=agent_id,
             round_number=round_number,
@@ -114,7 +112,6 @@ class CoTManager:
         )
 
         self.cot_log.append(entry)
-        print(f"DEBUG record_cot: cot_log now has {len(self.cot_log)} entries")
         return entry
 
     def get_visible_cots(

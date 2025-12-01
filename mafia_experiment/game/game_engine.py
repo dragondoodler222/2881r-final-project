@@ -98,6 +98,8 @@ class GameEngine:
                 max_new_tokens=max_tokens,
                 temperature=temperature,
                 do_sample=True,
+                top_k=0,
+                top_p=1.0,
                 output_scores=True,
                 return_dict_in_generate=True,
                 pad_token_id=self.tokenizer.pad_token_id
@@ -130,8 +132,6 @@ class GameEngine:
             
             text = self.tokenizer.decode(stripped_gen_ids, skip_special_tokens=True)
             
-            # DEBUG: Always print generated text
-            print(f"DEBUG GENERATE: Agent {i} generated text length: {len(text)}, first 150 chars: '{text[:150] if text else 'EMPTY'}'")
             if not text.strip():
                 print(f"WARNING: Empty generation for prompt length {prompt_len}. Gen IDs: {gen_ids.tolist()}")
 
@@ -414,9 +414,7 @@ class GameEngine:
         for agent_id, action in batch_actions.items():
             agent = next(a for a in self.players if a.agent_id == agent_id)
             
-            # DEBUG: Check what last_cot contains
             cot_text = getattr(agent, 'last_cot', '')
-            print(f"DEBUG NIGHT: Agent {agent_id} last_cot length: {len(cot_text)}, first 100 chars: '{cot_text[:100] if cot_text else 'EMPTY'}'")
             
             # Record CoT
             if self.cot_manager is not None:
@@ -526,8 +524,6 @@ class GameEngine:
             })
 
         # Record all CoTs from Round 1 (Simultaneous revelation)
-        print(f"DEBUG DAY: About to record {len(round_1_cots_to_add)} CoTs for round 1")
-        print(f"DEBUG DAY: self.cot_manager is None: {self.cot_manager is None}")
         if self.cot_manager is not None:
             for item in round_1_cots_to_add:
                 self.cot_manager.record_cot(

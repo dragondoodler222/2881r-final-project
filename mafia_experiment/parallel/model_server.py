@@ -96,6 +96,8 @@ class ModelServer:
                 max_new_tokens=max_tokens,
                 temperature=temperature,
                 do_sample=True,
+                top_k=0,
+                top_p=1.0,
                 output_scores=True,
                 return_dict_in_generate=True,
                 pad_token_id=self.tokenizer.pad_token_id

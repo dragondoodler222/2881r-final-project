@@ -101,12 +101,20 @@ class PPOTrainer:
         self.debug_kl = bool(int(os.environ.get("PPO_DEBUG_KL", "0")))
         self._debug_log_diffs: List[float] = []
         gen_config = getattr(self.model, "generation_config", None)
+        # Force-disable top-k / top-p truncation so log probs remain finite.
+        # Sampling still uses temperature for stochasticity, but every token
+        # retains non-zero mass which keeps PPO ratios well-defined.
+        self._base_generation_top_k = 0
+        self._base_generation_top_p = 1.0
         if gen_config is not None:
-            self._base_generation_top_k = getattr(gen_config, "top_k", 0) or 0
-            self._base_generation_top_p = getattr(gen_config, "top_p", 1.0)
-        else:
-            self._base_generation_top_k = 0
-            self._base_generation_top_p = 1.0
+            prior_top_k = getattr(gen_config, "top_k", 0) or 0
+            prior_top_p = getattr(gen_config, "top_p", 1.0)
+            if prior_top_k not in (None, 0):
+                print(f"PPOTrainer: overriding generation top_k {prior_top_k} -> 0 for stability")
+            if prior_top_p is not None and prior_top_p < 1.0:
+                print(f"PPOTrainer: overriding generation top_p {prior_top_p} -> 1.0 for stability")
+            gen_config.top_k = 0
+            gen_config.top_p = 1.0
         self._warper_cache: Dict[Tuple[float, int, Optional[float]], Optional[LogitsProcessorList]] = {}
 
     def _add_value_head(self):
@@ -431,16 +439,26 @@ class PPOTrainer:
                             continue
 
                         token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
-                        token_logits = self._apply_sampling_warpers(
+                        warped_logits = self._apply_sampling_warpers(
                             token_logits,
                             temperature,
                             current_input_ids,
                             cached_warper=warper
                         )
-                        token_log_probs = F.log_softmax(token_logits, dim=-1)
+                        token_log_probs = F.log_softmax(warped_logits, dim=-1)
+                        token_log_prob = token_log_probs[token_id]
+
+                        # If truncation ever produced -inf (should not happen now),
+                        # fall back to temperature-only distribution to keep PPO finite.
+                        if not torch.isfinite(token_log_prob):
+                            safe_logits = token_logits
+                            if temperature and temperature != 1.0:
+                                safe_logits = TemperatureLogitsWarper(float(temperature))(current_input_ids, safe_logits)
+                            token_log_probs = F.log_softmax(safe_logits, dim=-1)
+                            token_log_prob = token_log_probs[token_id]
 
                         # Get log prob of the token that was actually generated
-                        token_log_probs_list.append(token_log_probs[token_id])
+                        token_log_probs_list.append(token_log_prob)
 
                         # Compute entropy safely - FIXED: Avoid NaN from 0 * -inf
                         token_probs = F.softmax(token_logits, dim=-1)

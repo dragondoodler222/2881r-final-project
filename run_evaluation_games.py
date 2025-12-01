@@ -157,8 +157,7 @@ def main():
         RoleType.VILLAGER: 4
     }
     
-    # ---------------------
-    
+    # Ensure output directory exists
     Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
     
     logger.info(f"Starting Evaluation Run")
@@ -177,7 +176,7 @@ def main():
 
     logger.info("Loading model...")
     model_manager = ModelManager(
-        model_name="meta-llama/Llama-3.2-3B-Instruct",  # Instruct-tuned base model
+        model_name="meta-llama/Llama-3.2-1B-Instruct",  # Instruct-tuned base model
         use_4bit=True
     )
     
