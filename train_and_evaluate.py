@@ -62,12 +62,12 @@ def main():
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 100,
         "games_per_iteration": 32,
-        "learning_rate": 6e-6,  # Lowered for 1B model stability
-        "ppo_batch_size": 64,  # Logical batch size
+        "learning_rate": 1e-6,  # Lowered for 1B model stability
+        "ppo_batch_size": 128,  # Logical batch size
         "mini_batch_size": 16,   # Physical batch size (reduced for memory)
-        "ppo_epochs": 2,        # Number of passes over the data per iteration
-        "target_kl": 0.03,      # Target KL divergence for early stopping
-        "clip_epsilon": 0.1,    # Stricter clipping for stability
+        "ppo_epochs": 1,        # Number of passes over the data per iteration
+        "target_kl": 0.1,      # Target KL divergence for early stopping
+        "clip_epsilon": 0.08,    # Stricter clipping for stability
         "use_4bit": True,
         "num_workers": 8,
         "seed": 42,
