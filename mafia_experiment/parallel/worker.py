@@ -45,7 +45,8 @@ def worker_process(
                     agent_id=agent_id,
                     role=None,
                     model=None, 
-                    tokenizer=None
+                    tokenizer=None,
+                    temperature=config.get("generation_temperature", 0.7)
                 )
                 agents.append(agent)
                 

@@ -42,6 +42,7 @@ class GameState:
         visible_state = {
             "game_id": self.game_id,
             "your_id": agent_id,
+            "self_player_id": agent_id,
             "your_role": str(agent_role.role_type) if agent_role else None,
             "alive_players": sorted(list(self.alive_players)),
             "dead_players": sorted(list(self.dead_players)),

@@ -52,7 +52,7 @@ def main():
 
     # Configuration
     config = {
-        "model_name": "meta-llama/Llama-3.2-1B",
+        "model_name": "meta-llama/Llama-3.2-1B-Instruct",
         "num_players": 6,
         "role_distribution": {
             RoleType.MAFIA: 1,
@@ -71,7 +71,9 @@ def main():
         "use_4bit": True,
         "num_workers": 8,
         "seed": 42,
-        "eval_games": 10
+        "eval_games": 10,
+        "generation_temperature": 0.3,
+        "resume_checkpoint": None  # Set to path (e.g., "checkpoints/checkpoint-5") to resume
     }
 
     logger.info(f"\nConfiguration:")
@@ -82,6 +84,8 @@ def main():
     logger.info(f"  Games per iteration: {config['games_per_iteration']}")
     logger.info(f"  PPO Epochs: {config['ppo_epochs']}")
     logger.info(f"  Workers: {config['num_workers']}")
+    if config["resume_checkpoint"]:
+        logger.info(f"  Resuming from: {config['resume_checkpoint']}")
 
     # Initialize components
     logger.info("\n[1/5] Initializing model manager...")
@@ -91,8 +95,13 @@ def main():
         lora_dropout=0.0  # Disable dropout for PPO stability
     )
 
-    logger.info("[2/5] Loading model with LoRA...")
-    model, tokenizer = model_manager.load_model_with_lora()
+    if config.get("resume_checkpoint"):
+        logger.info(f"[2/5] Resuming from checkpoint: {config['resume_checkpoint']}...")
+        model, tokenizer = model_manager.load_checkpoint(config["resume_checkpoint"])
+    else:
+        logger.info("[2/5] Loading model with LoRA...")
+        model, tokenizer = model_manager.load_model_with_lora()
+    
     logger.info(f"  Trainable parameters: {model_manager.get_trainable_parameters():,}")
 
     logger.info("[3/5] Initializing reward function...")
@@ -107,6 +116,10 @@ def main():
         ppo_epochs=config["ppo_epochs"],
         target_kl=config.get("target_kl", 0.02)
     )
+    
+    if config.get("resume_checkpoint"):
+        logger.info(f"  Restoring trainer state from {config['resume_checkpoint']}...")
+        ppo_trainer.load_checkpoint(config["resume_checkpoint"], load_model=False)
 
     # --- Parallel Setup ---
     logger.info("[5/5] Setting up parallel infrastructure...")
@@ -137,20 +150,21 @@ def main():
 
     # Initialize metrics logging
     metrics_file = log_dir / "metrics.csv"
-    with open(metrics_file, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            "iteration", 
-            "mafia_win_rate", 
-            "policy_loss", 
-            "value_loss", 
-            "entropy_loss", 
-            "approx_kl", 
-            "mean_reward", 
-            "mean_return",
-            "std_return",
-            "trajectories_collected"
-        ])
+    if not config.get("resume_checkpoint") or not metrics_file.exists():
+        with open(metrics_file, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([
+                "iteration", 
+                "mafia_win_rate", 
+                "policy_loss", 
+                "value_loss", 
+                "entropy_loss", 
+                "approx_kl", 
+                "mean_reward", 
+                "mean_return",
+                "std_return",
+                "trajectories_collected"
+            ])
 
     # Training loop
     logger.info(f"\n{'='*60}")
@@ -158,7 +172,8 @@ def main():
     logger.info(f"{'='*60}\n")
 
     try:
-        for iteration in range(config["num_training_iterations"]):
+        start_iteration = ppo_trainer.current_iteration
+        for iteration in range(start_iteration, config["num_training_iterations"]):
             logger.info(f"Iteration {iteration + 1}/{config['num_training_iterations']}")
             logger.info("-" * 40)
 

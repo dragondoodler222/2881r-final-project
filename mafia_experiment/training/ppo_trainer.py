@@ -934,14 +934,15 @@ class PPOTrainer:
         print(f"Checkpoint saved: {checkpoint_path}")
         return str(checkpoint_path)
 
-    def load_checkpoint(self, checkpoint_path: str) -> None:
+    def load_checkpoint(self, checkpoint_path: str, load_model: bool = True) -> None:
         """Load training checkpoint"""
         checkpoint_path = Path(checkpoint_path)
 
-        # Load model
-        self.model, self.tokenizer = self.model_manager.load_checkpoint(
-            str(checkpoint_path)
-        )
+        if load_model:
+            # Load model
+            self.model, self.tokenizer = self.model_manager.load_checkpoint(
+                str(checkpoint_path)
+            )
 
         # Load value head if available
         value_head_path = checkpoint_path / "value_head.pt"

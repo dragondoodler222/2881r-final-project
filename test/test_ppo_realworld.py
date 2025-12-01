@@ -20,7 +20,7 @@ from mafia_experiment.cot.cot_manager import VisibilityMode
 
 def main():
     print("Loading model...")
-    model_manager = ModelManager(model_name="meta-llama/Llama-3.2-1B", use_4bit=True)
+    model_manager = ModelManager(model_name="meta-llama/Llama-3.2-1B-Instruct", use_4bit=True)
     model, tokenizer = model_manager.load_model_with_lora()
     print("Model loaded")
 
@@ -36,7 +36,7 @@ def main():
 
     # Setup parallel infrastructure
     config = {
-        "model_name": "meta-llama/Llama-3.2-1B",
+        "model_name": "meta-llama/Llama-3.2-1B-Instruct",
         "num_players": 6,
         "role_distribution": {RoleType.MAFIA: 1, RoleType.DOCTOR: 1, RoleType.VILLAGER: 4},
         "cot_visibility": VisibilityMode.PUBLIC,

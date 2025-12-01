@@ -3,7 +3,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from peft import PeftModel, PeftConfig
 import sys
 
-def load_model_for_inference(checkpoint_path, base_model_name="meta-llama/Llama-3.2-1B"):
+def load_model_for_inference(checkpoint_path, base_model_name="meta-llama/Llama-3.2-1B-Instruct"):
     """
     Load a model with LoRA adapters for inference
     """

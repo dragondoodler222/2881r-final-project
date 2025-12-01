@@ -42,7 +42,7 @@ def main():
 
     # Configuration
     config = {
-        "model_name": "meta-llama/Llama-3.2-3B",
+        "model_name": "meta-llama/Llama-3.2-3B-Instruct",
         "num_players": 5,
         "role_distribution": {
             RoleType.MAFIA: 1,

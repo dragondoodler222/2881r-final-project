@@ -65,8 +65,15 @@ class GameEngine:
         Generate responses for a batch of prompts
         """
         # Check if model is a RemoteModelClient (duck typing)
-        if hasattr(self.model, 'generate_batch'):
-            return self.model.generate_batch(prompts, max_tokens, temperature)
+        # NOTE: PeftModel might have a generate_batch method if it wraps a model that has it,
+        # but we want to use the standard generate method for local models.
+        # The error suggests that generate_batch is being called on a model that doesn't support it properly
+        # or is being routed to a method that expects a different config.
+        # We'll explicitly check if it's NOT a PeftModel before trying generate_batch,
+        # or just rely on standard generation if we have a tokenizer.
+        
+        if hasattr(self.model, 'generate_batch') and not isinstance(self.model, torch.nn.Module):
+             return self.model.generate_batch(prompts, max_tokens, temperature)
 
         if not self.model or not self.tokenizer:
             raise ValueError("Model and tokenizer must be provided for batch generation")
@@ -123,6 +130,11 @@ class GameEngine:
             
             text = self.tokenizer.decode(stripped_gen_ids, skip_special_tokens=True)
             
+            # DEBUG: Always print generated text
+            print(f"DEBUG GENERATE: Agent {i} generated text length: {len(text)}, first 150 chars: '{text[:150] if text else 'EMPTY'}'")
+            if not text.strip():
+                print(f"WARNING: Empty generation for prompt length {prompt_len}. Gen IDs: {gen_ids.tolist()}")
+
             # Construct scores for this sample (only up to stripped length)
             # outputs.scores is a tuple of len(generated_tokens). Each element is (batch_size, vocab_size).
             sample_scores = tuple(score[i:i+1] for score in outputs.scores[:len(stripped_gen_ids)])
@@ -174,7 +186,7 @@ class GameEngine:
                 
             visible_state = self.game_state.get_visible_state(agent.agent_id)
             visible_cots = []
-            if self.cot_manager:
+            if self.cot_manager is not None:
                 visible_cots = self.cot_manager.get_visible_cots(
                     agent.agent_id, 
                     self.game_state.current_round
@@ -226,7 +238,7 @@ class GameEngine:
             # Note: visible_cots needs to be re-fetched or passed through if we want to log it accurately
             # For simplicity, we re-fetch (it's cheap)
             visible_cots = []
-            if self.cot_manager:
+            if self.cot_manager is not None:
                 visible_cots = self.cot_manager.get_visible_cots(
                     agent.agent_id, 
                     self.game_state.current_round
@@ -271,7 +283,7 @@ class GameEngine:
         )
 
         # Update CoT manager with roles
-        if self.cot_manager:
+        if self.cot_manager is not None:
             self.cot_manager.set_role_assignments(role_assignments)
 
         return self.game_state
@@ -397,16 +409,20 @@ class GameEngine:
         
         # Run batch action
         batch_actions = self._run_batch_action(agents_to_act, action_type_map, "night")
-        
+
         # Process actions
         for agent_id, action in batch_actions.items():
             agent = next(a for a in self.players if a.agent_id == agent_id)
             
+            # DEBUG: Check what last_cot contains
+            cot_text = getattr(agent, 'last_cot', '')
+            print(f"DEBUG NIGHT: Agent {agent_id} last_cot length: {len(cot_text)}, first 100 chars: '{cot_text[:100] if cot_text else 'EMPTY'}'")
+            
             # Record CoT
-            if self.cot_manager:
+            if self.cot_manager is not None:
                 self.cot_manager.record_cot(
                     agent_id=agent.agent_id,
-                    cot_text=getattr(agent, 'last_cot', ''),
+                    cot_text=cot_text,
                     round_number=self.game_state.current_round,
                     phase="night",
                     action_type=action.action_type
@@ -423,7 +439,15 @@ class GameEngine:
 
         # Resolve night actions
         killed_player = None
-        # Only kill if: target exists, target is alive, and not saved by doctor
+        
+        # ENFORCE: Mafia cannot kill mafia members - if they try, no kill happens
+        if mafia_target and mafia_target in self.game_state.alive_players:
+            target_role = self.game_state.roles.get(mafia_target)
+            if target_role and target_role.is_mafia:
+                # Invalid target - no kill this night
+                mafia_target = None
+        
+        # Only kill if: target exists, target is alive, target is village, and not saved by doctor
         if mafia_target and mafia_target in self.game_state.alive_players and mafia_target != doctor_save:
             killed_player = mafia_target
             self.game_state.kill_player(killed_player, "killed at night")
@@ -461,7 +485,7 @@ class GameEngine:
 
         # Determine if CoT is public
         is_cot_public = False
-        if self.cot_manager and self.cot_manager.visibility_mode == VisibilityMode.PUBLIC:
+        if self.cot_manager is not None and self.cot_manager.visibility_mode == VisibilityMode.PUBLIC:
             is_cot_public = True
 
         # === DISCUSSION ROUND 1 ===
@@ -502,7 +526,9 @@ class GameEngine:
             })
 
         # Record all CoTs from Round 1 (Simultaneous revelation)
-        if self.cot_manager:
+        print(f"DEBUG DAY: About to record {len(round_1_cots_to_add)} CoTs for round 1")
+        print(f"DEBUG DAY: self.cot_manager is None: {self.cot_manager is None}")
+        if self.cot_manager is not None:
             for item in round_1_cots_to_add:
                 self.cot_manager.record_cot(
                     agent_id=item["agent_id"],
@@ -552,7 +578,7 @@ class GameEngine:
             })
 
         # Record all CoTs from Round 2
-        if self.cot_manager:
+        if self.cot_manager is not None:
             for item in round_2_cots_to_add:
                 self.cot_manager.record_cot(
                     agent_id=item["agent_id"],
@@ -578,7 +604,7 @@ class GameEngine:
             action = batch_actions_vote[agent.agent_id]
             
             # Record CoT for vote
-            if self.cot_manager:
+            if self.cot_manager is not None:
                 self.cot_manager.record_cot(
                     agent_id=agent.agent_id,
                     cot_text=getattr(agent, 'last_cot', ''),
@@ -643,7 +669,7 @@ class GameEngine:
     ) -> Dict[str, Any]:
         """Create final game result dictionary"""
         cot_history = []
-        if self.cot_manager:
+        if self.cot_manager is not None:
             cot_history = [entry.to_dict() for entry in self.cot_manager.cot_log]
 
         return {
