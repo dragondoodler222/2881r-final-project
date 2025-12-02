@@ -34,6 +34,7 @@ class LLMAgent(BaseAgent):
         # For storing current step's log prob (needed for RL)
         self.last_log_prob = None
         self.last_cot = ""
+        self.last_raw_response = ""  # Store full raw response for PUBLIC ARGUMENT extraction
         self.last_prompt = ""  # Store prompt for PPO recomputation
         self.last_input_ids = None  # Store tokenized input for PPO recomputation
         self.last_generated_ids = None  # Store generated tokens for PPO log prob recomputation
@@ -91,6 +92,9 @@ class LLMAgent(BaseAgent):
         self.last_input_ids = input_ids
         self.last_generated_ids = generated_ids
         self.last_token_log_probs = token_log_probs
+        
+        # Store raw response for PUBLIC ARGUMENT extraction
+        self.last_raw_response = cot_and_action
 
         # Parse CoT and action
         cot, action, confidence = self._parse_response(cot_and_action, game_state, action_type)
@@ -169,6 +173,9 @@ class LLMAgent(BaseAgent):
         self.last_input_ids = input_ids
         self.last_generated_ids = generated_ids
         self.last_token_log_probs = token_log_probs or []
+        
+        # Store raw response for PUBLIC ARGUMENT extraction in game_engine
+        self.last_raw_response = generated_text
 
         # Parse CoT and action
         cot, target, confidence = self._parse_response(generated_text, game_state, action_type)
@@ -527,6 +534,10 @@ class LLMAgent(BaseAgent):
     def get_last_cot(self) -> str:
         """Get last chain of thought"""
         return self.last_cot
+
+    def get_last_raw_response(self) -> str:
+        """Get last raw response (full generated text before parsing)"""
+        return self.last_raw_response
 
     def get_last_prompt(self) -> str:
         """Get last prompt (for PPO recomputation)"""

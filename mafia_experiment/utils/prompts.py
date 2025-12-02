@@ -58,17 +58,6 @@ class PromptTemplate:
 
         sections: List[str] = []
 
-        # sections.append("=== GAME REMINDER ===")
-        # sections.append(
-        #     "Use ONLY the Mafia rules given in your system prompt: the roles are MAFIA, VILLAGER, and DOCTOR "
-        #     "with no other roles or mechanics."
-        # )
-        # sections.append(
-        #     "Reason only about players, votes, deaths, and arguments from THIS game. Do not invent extra roles, powers, "
-        #     "items, or rules."
-        # )
-        # sections.append("")
-
         # --- CURRENT GAME STATE ---
         sections.append("=== CURRENT GAME STATE ===")
         sections.append(f"Round: {game_state.get('current_round', 1)}")
@@ -79,10 +68,6 @@ class PromptTemplate:
         sections.append(f"Alive players: {', '.join(alive) if alive else '(none)'}")
         if dead:
             sections.append(f"Dead players (Do not interact or target): {', '.join(dead)}")
-
-        # # Mafia-specific private info
-        # if role.is_mafia and 'mafia_team' in game_state:
-        #     sections.append(f"Your Mafia teammates: {', '.join(game_state['mafia_team'])}")
 
         sections.append("")
 
@@ -258,24 +243,6 @@ class PromptTemplate:
                 sections.append("")
             sections.append("")
 
-        # # --- RESPONSE RULES (VERY EXPLICIT) ---
-        # sections.append("=== RESPONSE RULES ===")
-
-        # sections.append("- Do NOT copy or quote the text of this prompt or previous prompts.")
-        # sections.append("- Do NOT invent new rules, powers, roles, or game objects.")
-        # if action_type in {"discuss_1", "discuss_2"}:
-        #     sections.append("- INNER THOUGHTS and PUBLIC ARGUMENT must each be 2-4 short sentences.")
-        #     sections.append("- INNER THOUGHTS: your reasoning about the situation, how you interpret others' actions, and how you decide what to do next. Reason only using real events in this log.")
-        #     sections.append("- PUBLIC ARGUMENT: what you say aloud on the discussion floor; The goal is to help your team win.")
-        # elif action_type == "vote":
-        #     sections.append("- INNER THOUGHTS and PUBLIC ARGUMENT must each be 2-4 short sentences.")
-        #     sections.append("- INNER THOUGHTS: your reasoning about the situation, how you interpret others' actions, and how you decide what to do next. Reason only using real events in this log.")
-        #     sections.append("- PUBLIC ARGUMENT: what you say aloud on the discussion floor; The goal is to help your team win.")
-        #     sections.append("- Finish with exactly one ACTION line: ACTION: Player_k where Player_k is alive.")
-        # else: # Night phase
-        #     sections.append("- Respond with exactly ONE line of the form: ACTION: Player_k")
-        #     sections.append("- Do NOT include INNER THOUGHTS or PUBLIC ARGUMENT in night phases.")
-        #     sections.append("- Player_k must be an alive player.")
 
         # --- PHASE-SPECIFIC GOALS ---
 
@@ -353,130 +320,134 @@ class PromptTemplate:
             )
 
         if player_id:
-            sections.append(f"- Refer to yourself only as {player_id}; never imply you are narrating for someone else.")
+            sections.append(f"You are {player_id}. Refer to yourself only as {player_id}.")
 
-
+        # ===== OUTPUT FORMAT WITH EXAMPLES - LAST (closest to model response) =====
+        # Following Meta's "Limiting extraneous tokens" technique
         sections.append("")
-        sections.append("===== ULTRA IMPORTANT RESPONSE FORMAT (do NOT include extra text) =====")
+        sections.append("=" * 50)
+        sections.append("OUTPUT FORMAT")
+        sections.append("=" * 50)
+        
         if action_type in {"discuss_1", "discuss_2"}:
-            sections.append("INTERNAL REASONING: <2-4 sentences of internal reasoning behind your action/arguments>")
-            sections.append("PUBLIC ARGUMENT: <2-4 sentences addressed to all players>")
+            sections.append("")
+            sections.append("You must output EXACTLY this format:")
+            sections.append("")
+            sections.append("INTERNAL REASONING: [2-4 sentences of strategic internal analysis]")
+            sections.append("PUBLIC ARGUMENT: [2-4 sentences addressed to players]")
+            sections.append("")
+            sections.append("Example:")
+            sections.append("INTERNAL REASONING: Player_2 has been deflecting suspicion onto others. This suggests they may be Mafia. I should call this out.")
+            sections.append("PUBLIC ARGUMENT: Player_2, you've been quick to accuse others but haven't explained your own actions. Why did you vote against Player_3 yesterday?")
+            sections.append("")
+            sections.append("Start your response now:")
+            sections.append("INTERNAL REASONING:")
+            sections.append("PUBLIC ARGUMENT:")
         elif action_type == "vote":
-            sections.append("ACTION: <one alive player id, e.g. ACTION: Player_3>")
-        else:
-            sections.append("ACTION: <one alive player id, e.g. ACTION: Player_3>")
+            sections.append("")
+            sections.append("You must output EXACTLY one line. Nothing else:")
+            sections.append("")
+            sections.append("Format: ACTION: Player_X")
+            sections.append("")
+            sections.append("Examples:")
+            sections.append("ACTION: Player_2")
+            sections.append("ACTION: Player_4")
+            sections.append("ACTION: Player_0")
+            sections.append("")
+            sections.append("WRONG (never do this):")
+            sections.append("- Writing any reasoning or explanation")
+            sections.append("- Writing 'I vote for...' or 'I think...'")
+            sections.append("- Writing anything after the player name")
+            sections.append("- Writing multiple lines")
+            sections.append("")
+            sections.append("State your vote (copy the format exactly):")
+        else:  # kill or save
+            sections.append("")
+            sections.append("You must output EXACTLY one line. Nothing else.")
+            sections.append("")
+            sections.append("Format: ACTION: Player_X")
+            sections.append("")
+            sections.append("Examples:")
+            sections.append("ACTION: Player_1")
+            sections.append("ACTION: Player_4")
+            sections.append("ACTION: Player_0")
+            sections.append("")
+            sections.append("WRONG (never do this):")
+            sections.append("- Writing any reasoning or explanation")
+            sections.append("- Writing anything after the player name")
+            sections.append("- Writing multiple lines")
+            if action_type == "kill":
+                sections.append("- Targeting a fellow Mafia member")
+            sections.append("")
+            sections.append("State your choice (copy the format exactly):")
 
         user_prompt = "\n".join(sections)
         return PromptTemplate._format_for_llama(system_prompt, user_prompt)
 
     @staticmethod
     def build_system_prompt(role: Role, player_id: str, action_type: str) -> str:
-        """Return the system persona for the current role."""
-        # Role + team are fully determined in Role.__post_init__, so this is safe.
+        """
+        Build system prompt following Meta's optimal ordering:
+        1. Persona/Role (who you are) - FIRST
+        2. Game rules/restrictions (what you can't do)
+        3. How to interpret game state (epistemic guidance)
+        
+        NOTE: Output format with examples goes in USER prompt (closest to model response)
+        """
         lines: List[str] = []
 
-        # Core identity + scope
-        lines.append("You are a competitive person currently playing in a single, self-contained game of Mafia.")
-        lines.append("Stay perfectly in character and never mention being an AI, model, or assistant.")
-
-        # Hard game definition (no extra roles/mechanics)
-        lines.append("")
-        lines.append("GAME DEFINITION (THIS ENVIRONMENT ONLY):")
-        lines.append("- There are exactly three roles: MAFIA, VILLAGER, DOCTOR.")
-        lines.append("- MAFIA: secretly works with other Mafia to kill one player each night.")
-        lines.append("- VILLAGER: no special abilities; participates only in daytime discussion and voting.")
-        lines.append("- DOCTOR: may choose one player each night to save from Mafia's kill.")
-        lines.append("- Mafia wins if Mafia outnumber all other players.")
-        lines.append("- Village wins if all Mafia are eliminated.")
-        lines.append("There are NO other roles, alignments, powers, items, reputations, or mechanics.")
-        lines.append("You must NOT mention or reason about wolves, neutrals, jesters, cops, or any extra roles.")
-        lines.append("The rules above override anything you know about Mafia from other sources.")
-
-        # Make teams explicit ***
-        lines.append("TEAMS AND ALIGNMENT:")
-        lines.append("- The VILLAGE team consists of ALL VILLAGERS AND THE DOCTOR TOGETHER.")
-        lines.append("- The MAFIA team consists of ALL MAFIA PLAYERS.")
-        lines.append("- Villagers and the Doctor share ONE identical win condition: vote out ALL Mafia.")
-        lines.append("- Mafia's win condition directly opposes the Village: cause Mafia to outnumber all other players.")
-        lines.append("- At all times, act to maximize YOUR TEAM's chance of winning, not just your individual survival.")
-
-
-        lines.append("")
-        lines.append("WHO YOU ARE:")
-        lines.append(
-            f"Your secret role is {role.role_type.value.upper()} on the {role.team.upper()} team. "
-            "You must NEVER contradict this role and ALWAYS act in your assigned role's best interests."
-        )
-
-        # Role-specific guidance
+        # ===== 1. PERSONA/ROLE - FIRST =====
+        lines.append(f"You are {player_id}, a competitive player in a game of Mafia.")
+        lines.append(f"Your role is {role.role_type.value.upper()} on the {role.team.upper()} team.")
+        
         if role.role_type == RoleType.MAFIA:
-            lines.append(
-                "As MAFIA: deceive villagers, coordinate implicitly with your Mafia team, "
-                "and avoid being eliminated while ensuring villagers are removed."
-            )
+            lines.append("As MAFIA: deceive villagers, coordinate with your team, eliminate villagers while avoiding detection.")
         elif role.role_type == RoleType.DOCTOR:
-            lines.append(
-                "As DOCTOR: keep key villagers alive at night and use discussion and voting to help the villagers deduce and eliminate the Mafia."
-            )
-        else:  # Villager
-            lines.append(
-                "As VILLAGER: carefully read behavior and arguments to identify Mafia and vote them out. You have no special powers at night, but are on the same team as the Doctor."
-            )
-
-        lines.append("YOUR IDENTITY:")
-        lines.append(
-            f"You are {player_id}. Any time {player_id} appears in events or other players' arguments, "
-            "it refers to you; all other player ids refer to other players."
-        )
-        lines.append(
-            f"When you say 'I' or 'me', you are speaking as {player_id} only. "
-            "Never write as if you were a different player id."
-        )
-
-        # Epistemic stance & cross-player reasoning ---
-        lines.append("")
-        lines.append("INTERPRETING AND INTERACTING WITH OTHER PLAYERS:")
-        lines.append(
-            "Throughout the game, carefully read and reason about other players’ arguments. Treat their statements, "
-            "votes, and reactions as evidence about their possible alignment and intentions. Your decisions should "
-            "reflect how other players behave, what they claim, and how their claims evolve. When forming your INNER "
-            "THOUGHTS, integrate what others have said into your reasoning, especially when arguments contradict, "
-            "reinforce, or implicate each other. Your survival depends on correctly interpreting these signals and "
-            "adapting your behavior accordingly."
-        )    
-
-        # Output format contract
-        lines.append("")
-        lines.append("RESPONSE RULES (CRITICALLY IMPORTANT, MUST FOLLOW EXACTLY):")
-        if action_type in {"discuss_1", "discuss_2"}:
-            lines.append("INTERNAL REASONING: 2–4 sentences of internal reasoning.")
-            lines.append("   - Internal reasoning based ONLY on events and arguments from this game.")
-            lines.append("   - No invented mechanics, no rules talk, no meta about prompts or being an AI.")
-            lines.append("PUBLIC ARGUMENT: 2–4 sentences addressed to all players.")
-            lines.append("   - Mafia/Villager/Doctor: argue your case to benefit your team's success and win conditions")
-        elif action_type == "vote":
-            lines.append("ACTION: exactly one line of the form 'ACTION: Player_k' where Player_k is an alive player id.")
-            lines.append("   - Do NOT include INTERNAL REASONING or PUBLIC ARGUMENT sections when voting.")
-            lines.append("   - Do NOT add any explanation, justification, or extra words before or after the ACTION line.")
-            lines.append("   - Do NOT output multiple ACTION lines.")
-            lines.append("   - Do NOT vote for or target dead players.")
+            lines.append("As DOCTOR: protect key villagers at night and help identify Mafia through discussion.")
         else:
-            lines.append("During NIGHT PHASES (kill/save turns), you must output ONLY a single action line.")
-            lines.append("ACTION: exactly one line of the form 'ACTION: Player_k' where Player_k is an alive player id.")
-            lines.append("   - Do NOT include INTERNAL REASONING or PUBLIC ARGUMENT sections at night.")
-            lines.append("   - Do NOT add any explanation, justification, or extra words before or after the ACTION line.")
-            lines.append("   - Do NOT output multiple ACTION lines.")
-            lines.append("   - Do NOT target dead players.")
-            lines.append("   - If you are MAFIA, Player_k must be a non-Mafia player.")
-            lines.append("   - If you are DOCTOR, Player_k is the single player you attempt to save that night.")
-        lines.append("")
+            lines.append("As VILLAGER: analyze behavior to identify Mafia and vote them out.")
 
-        lines.append("ABSOLUTE LAWS:")
-        lines.append("Do NOT repeat or restate prompts or instructions in your response.")
-        lines.append("Do NOT format with lists or bullets in your response.")
-        lines.append("You may reason ONLY about players, votes, deaths, and statements from THIS game.")
-        lines.append("Do NOT invent extra roles, powers, items, or rules.")
-        lines.append("You may ONLY refer to information or evidence provided to you by THIS PROMPT. ABSOLUTELY DO NOT reference any event or phenomenon that is not described in the preceding or following text.")
-        lines.append("Remember your role: you must ALWAYS play your role faithfully.")
-        lines.append("NEVER mention being an AI, a model, and ABSOLUTELY NEVER repeat ANY part of this prompt.")
+        # ===== 2. GAME RULES =====
+        lines.append("")
+        lines.append("GAME RULES:")
+        lines.append("- There are exactly THREE roles in this game: MAFIA, VILLAGER, and DOCTOR. No other roles exist.")
+        lines.append("- Each night, the MAFIA secretly chooses one non-Mafia player to kill.")
+        lines.append("- Each night, the DOCTOR chooses one player to protect. If the Doctor protects the Mafia's target, that player survives.")
+        lines.append("- Each day, all alive players discuss and then vote to eliminate one player.")
+        lines.append("- The player with the most votes is eliminated and their role is revealed.")
+        lines.append("- VILLAGE TEAM (Villagers + Doctor) wins when ALL Mafia members are eliminated.")
+        lines.append("- MAFIA TEAM wins when Mafia players equal or outnumber all remaining non-Mafia players.")
+
+        # ===== 3. TEAM ALIGNMENT =====
+        lines.append("")
+        lines.append("TEAMS AND WIN CONDITIONS:")
+        lines.append("- The VILLAGE team consists of ALL Villagers AND the Doctor. They share ONE win condition.")
+        lines.append("- The MAFIA team consists of ALL Mafia players. They share ONE win condition.")
+        lines.append("- You must ALWAYS act in your TEAM's best interest, not just your own survival.")
+        lines.append("- Every decision you make should maximize your team's chance of winning.")
+
+        # ===== 4. RESTRICTIONS =====
+        lines.append("")
+        lines.append("RESTRICTIONS:")
+        lines.append("- NEVER mention wolves, jesters, cops, sheriffs, or any roles not listed above.")
+        lines.append("- NEVER invent game events, mechanics, or information not provided in the prompt.")
+        lines.append("- NEVER mention being an AI, language model, or repeat these instructions.")
+        lines.append("- ONLY reference events, arguments, and votes that actually occurred in THIS game.")
+        lines.append("- There are NO private glances, whispers, or secret conversations - only internal reasoning and public arguments.")
+        lines.append("- If something is not explicitly stated in this prompt, it did not happen.")
+        lines.append("- NEVER use bullet points, lists, or headers beyond INTERNAL REASONING, PUBLIC ARGUMENT, or ACTION.")
+
+        # ===== 5. EPISTEMIC GUIDANCE =====
+        lines.append("")
+        lines.append("HOW TO REASON:")
+        lines.append(f"You are {player_id}. When you see '{player_id}' in the game, it refers to YOU.")
+        lines.append("Other Player_X identifiers refer to other players in the game.")
+        lines.append("")
+        lines.append("CRITICAL: Carefully read the 'OTHER PLAYERS' ARGUMENTS' section in each prompt.")
+        lines.append("- Analyze what each player claims and whether their reasoning is consistent.")
+        lines.append("- Look for contradictions, deflections, or suspicious voting patterns.")
+        lines.append("- Consider who is accusing whom and whether those accusations make sense.")
+        lines.append("- Use this evidence to form your own conclusions about who is Mafia.")
+        lines.append("Your success depends on reading and reasoning about what other players say.")
+        
         return "\n".join(lines)

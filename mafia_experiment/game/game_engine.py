@@ -505,12 +505,18 @@ class GameEngine:
                 continue
                 
             action = batch_actions_1[agent.agent_id]
+            # Use raw response for PUBLIC ARGUMENT extraction (last_cot only has INTERNAL REASONING)
+            raw_response = getattr(agent, 'last_raw_response', '')
             cot_text = getattr(agent, 'last_cot', '')
             
-            # Extract public argument
+            # Extract public argument from RAW response (not stripped cot_text)
             import re
             public_arg = ""
-            public_match = re.search(r'PUBLIC ARGUMENT:(.*?)ACTION:', cot_text + "ACTION:", re.DOTALL | re.IGNORECASE)
+            # Try multiple patterns to extract PUBLIC ARGUMENT
+            public_match = re.search(
+                r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT)\s*:\s*(.*?)(?:ACTION:|$)', 
+                raw_response, re.DOTALL | re.IGNORECASE
+            )
             if public_match:
                 public_arg = public_match.group(1).strip()
             
@@ -555,12 +561,17 @@ class GameEngine:
                 continue
                 
             action = batch_actions_2[agent.agent_id]
+            # Use raw response for PUBLIC ARGUMENT extraction (last_cot only has INTERNAL REASONING)
+            raw_response = getattr(agent, 'last_raw_response', '')
             cot_text = getattr(agent, 'last_cot', '')
             
-            # Extract public argument
+            # Extract public argument from RAW response (not stripped cot_text)
             import re
             public_arg = ""
-            public_match = re.search(r'PUBLIC ARGUMENT:(.*?)ACTION:', cot_text + "ACTION:", re.DOTALL | re.IGNORECASE)
+            public_match = re.search(
+                r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT)\s*:\s*(.*?)(?:ACTION:|$)', 
+                raw_response, re.DOTALL | re.IGNORECASE
+            )
             if public_match:
                 public_arg = public_match.group(1).strip()
             
