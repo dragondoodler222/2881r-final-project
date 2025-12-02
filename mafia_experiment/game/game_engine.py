@@ -211,7 +211,7 @@ class GameEngine:
         if "discuss" in current_action_type:
             max_tokens = 256
         else:
-            max_tokens = 64 # Voting/Actions are short
+            max_tokens = 10  # Vote/kill/save should just be "ACTION: Player_X"
             
         results = self._batch_generate(prompts, max_tokens=max_tokens)
         

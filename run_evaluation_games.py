@@ -217,7 +217,7 @@ def main():
                 role=None, # Assigned by game engine
                 model=model,
                 tokenizer=tokenizer,
-                temperature=0.3
+                temperature=0.55
             )
             players.append(agent)
             

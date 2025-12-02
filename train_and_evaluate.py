@@ -61,7 +61,7 @@ def main():
         },
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 50,
-        "games_per_iteration": 48,
+        "games_per_iteration": 36,
         "learning_rate": 7e-6,  # Lowered for 1B model stability
         "ppo_batch_size": 256,  # Logical batch size
         "mini_batch_size": 16,   # Physical batch size (reduced for memory)
@@ -213,23 +213,24 @@ def main():
                                 # Log result
                                 logger.info(f"    Game finished ({completed_games}/{games_to_play}): Winner={game_result['winner']}")
                                 
-                                # Save trace
-                                log_dir_traces = Path("logs/traces")
-                                iter_dir = log_dir_traces / f"iteration_{iteration + 1}"
-                                iter_dir.mkdir(parents=True, exist_ok=True)
-                                
-                                trace_file = iter_dir / f"game_{game_result['game_id'][:8]}.json"
-                                
-                                serializable_result = {
-                                    "game_id": game_result["game_id"],
-                                    "winner": game_result["winner"],
-                                    "total_rounds": game_result["total_rounds"],
-                                    "cot_history": game_result["cot_history"],
-                                    "final_state": game_result["final_state"]
-                                }
-                                
-                                with open(trace_file, "w") as f:
-                                    json.dump(serializable_result, f, indent=2)
+                                # Save trace (only every 10th game to save storage)
+                                if completed_games % 10 == 0:
+                                    log_dir_traces = Path("logs/traces")
+                                    iter_dir = log_dir_traces / f"iteration_{iteration + 1}"
+                                    iter_dir.mkdir(parents=True, exist_ok=True)
+                                    
+                                    trace_file = iter_dir / f"game_{game_result['game_id'][:8]}.json"
+                                    
+                                    serializable_result = {
+                                        "game_id": game_result["game_id"],
+                                        "winner": game_result["winner"],
+                                        "total_rounds": game_result["total_rounds"],
+                                        "cot_history": game_result["cot_history"],
+                                        "final_state": game_result["final_state"]
+                                    }
+                                    
+                                    with open(trace_file, "w") as f:
+                                        json.dump(serializable_result, f, indent=2)
                                 
                                 # Add trajectories
                                 trajs = game_result['trajectories']
@@ -344,23 +345,24 @@ def main():
                             completed_eval_games += 1
                             game_result = res["game_result"]
                             
-                            # Save trace
-                            log_dir_traces = Path("logs/traces")
-                            iter_dir = log_dir_traces / "eval"
-                            iter_dir.mkdir(parents=True, exist_ok=True)
-                            
-                            trace_file = iter_dir / f"game_{game_result['game_id'][:8]}.json"
-                            
-                            serializable_result = {
-                                "game_id": game_result["game_id"],
-                                "winner": game_result["winner"],
-                                "total_rounds": game_result["total_rounds"],
-                                "cot_history": game_result["cot_history"],
-                                "final_state": game_result["final_state"]
-                            }
-                            
-                            with open(trace_file, "w") as f:
-                                json.dump(serializable_result, f, indent=2)
+                            # Save trace (only every 10th game to save storage)
+                            if completed_eval_games % 10 == 0:
+                                log_dir_traces = Path("logs/traces")
+                                iter_dir = log_dir_traces / "eval"
+                                iter_dir.mkdir(parents=True, exist_ok=True)
+                                
+                                trace_file = iter_dir / f"game_{game_result['game_id'][:8]}.json"
+                                
+                                serializable_result = {
+                                    "game_id": game_result["game_id"],
+                                    "winner": game_result["winner"],
+                                    "total_rounds": game_result["total_rounds"],
+                                    "cot_history": game_result["cot_history"],
+                                    "final_state": game_result["final_state"]
+                                }
+                                
+                                with open(trace_file, "w") as f:
+                                    json.dump(serializable_result, f, indent=2)
 
                             eval_results.append(game_result)
                             logger.info(f"    Eval Game finished ({completed_eval_games}/{eval_games}): Winner={game_result['winner']}")

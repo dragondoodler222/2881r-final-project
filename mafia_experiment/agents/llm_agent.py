@@ -88,7 +88,6 @@ class LLMAgent(BaseAgent):
         # Store prompt, log prob, input_ids, and generated_ids for RL training (PPO recomputation)
         self.last_prompt = prompt
         self.last_log_prob = log_prob
-        self.last_cot = cot_and_action
         self.last_input_ids = input_ids
         self.last_generated_ids = generated_ids
         self.last_token_log_probs = token_log_probs
@@ -96,6 +95,9 @@ class LLMAgent(BaseAgent):
         # Parse CoT and action
         cot, action, confidence = self._parse_response(cot_and_action, game_state, action_type)
         self.last_parsing_confidence = confidence
+        
+        # Store PARSED cot (not raw generated text) to avoid hallucination propagation
+        self.last_cot = cot if cot else cot_and_action
 
         return cot, action
 
@@ -164,7 +166,6 @@ class LLMAgent(BaseAgent):
         # Store prompt, log prob, input_ids, and generated_ids for RL training (PPO recomputation)
         self.last_prompt = prompt
         self.last_log_prob = log_prob
-        self.last_cot = generated_text
         self.last_input_ids = input_ids
         self.last_generated_ids = generated_ids
         self.last_token_log_probs = token_log_probs or []
@@ -172,6 +173,11 @@ class LLMAgent(BaseAgent):
         # Parse CoT and action
         cot, target, confidence = self._parse_response(generated_text, game_state, action_type)
         self.last_parsing_confidence = confidence
+        
+        # Store PARSED cot (not raw generated_text) to avoid hallucination propagation
+        # For vote/kill/save actions, this will be "" or just the action
+        # For discussion, this will be the extracted reasoning
+        self.last_cot = cot if cot else generated_text
 
         # Create action object
         action = AgentAction(
@@ -506,6 +512,11 @@ class LLMAgent(BaseAgent):
                 # Pick the last mentioned player (often the conclusion)
                 target = found_players[-1]
                 confidence = 0.5
+        
+        # For action-only phases (vote/kill/save), clear the cot to prevent hallucination propagation
+        # The CoT for these phases should just be the action itself, not reasoning
+        if expect_action_only:
+            cot = f"ACTION: {target}" if target else ""
 
         return cot, target, confidence
 

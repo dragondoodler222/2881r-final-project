@@ -3,6 +3,7 @@ Prompt templates for Mafia game agents
 Optimized for Llama 3.2 Instruct chat formatting and stable PPO training.
 """
 
+import re
 from typing import Dict, List, Any
 from ..game.roles import Role, RoleType
 
@@ -112,7 +113,7 @@ class PromptTemplate:
 
                 private_raw = (sections_payload.get("private_raw") or "").strip()
                 public_raw = (sections_payload.get("public_raw") or "").strip()
-                action_type = (sections_payload.get("action_type") or cot_entry.get("action_type") or "").lower()
+                cot_action_type = (sections_payload.get("action_type") or cot_entry.get("action_type") or "").lower()
 
                 formatted_text = ""
                 has_content = False
@@ -126,26 +127,47 @@ class PromptTemplate:
                     Only strips complete label phrases at the start of text to avoid
                     accidentally removing content that happens to start with similar words.
                     """
-                    import re
                     # Strip any leading label pattern
                     text = re.sub(r'^\s*(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|ACTION)\s*:\s*', '', text, flags=re.IGNORECASE)
                     text = re.sub(r'^\s*(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC)\s*:\s*', '', text, flags=re.IGNORECASE)
                     return text.strip()
+                
+                def _sanitize_hallucinations(text: str) -> str:
+                    """Remove hallucinated prompt markers from model output."""
+                    # Remove === SOMETHING === patterns
+                    text = re.sub(r'===\s*[A-Z0-9\s\']+\s*===', '', text)
+                    # Remove common hallucinated markers
+                    markers = [
+                        "DISCUSSION ROUND 1:", "DISCUSSION ROUND 2:",
+                        "VOTING RULES", "VOTING GOAL", "VOTING",
+                        "CURRENT GAME STATE", "GAME STATE",
+                        "YOUR TASK", "Please provide your response",
+                        "NOW RESPOND EXACTLY", "do NOT include extra text",
+                        "Round:", "Phase:", "Alive players:", "Dead players:",
+                        "Voter:", "Voted off:", "Village wins", "Mafia wins",
+                    ]
+                    for marker in markers:
+                        text = text.replace(marker, "")
+                    return text.strip()
+
+                # Sanitize hallucinations from raw content
+                private_raw = _sanitize_hallucinations(private_raw)
+                public_raw = _sanitize_hallucinations(public_raw)
 
                 # Private/internal reasoning is only visible when CoT is public
                 if private_raw:
                     show_private = False
-                    if action_type == "vote":
+                    if cot_action_type == "vote":
                         label = "ACTION"
                         show_private = True
-                    elif action_type in {"kill", "save"}:
+                    elif cot_action_type in {"kill", "save"}:
                         label = "ACTION"
                         show_private = False  # Never reveal night actions
                     else:
                         label = "INTERNAL REASONING"
                         show_private = bool(is_cot_public)
 
-                    if show_private and (action_type == "vote" or is_cot_public):
+                    if show_private and (cot_action_type == "vote" or is_cot_public):
                         # Strip any existing label from raw text to avoid duplication
                         cleaned = _strip_label(_clean(private_raw))
                         if cleaned:
@@ -162,7 +184,6 @@ class PromptTemplate:
                 if not has_content:
                     # Fallback to legacy parsing of display_text/cot_text
                     raw_text = cot_entry.get("display_text") or cot_entry.get("cot_text") or ""
-                    import re
                     
                     # Improved regex: handle newlines before PUBLIC ARGUMENT
                     # For INTERNAL: capture from label until we hit PUBLIC or ACTION: or end of string
@@ -203,11 +224,32 @@ class PromptTemplate:
                             formatted_text = f"{agent}: {clean_text}"
                             has_content = True
 
-                    for marker in [
+                    # Comprehensive sanitization of hallucinated prompt markers
+                    hallucinated_markers = [
+                        # Discussion markers
                         "DISCUSSION ROUND 1:", "DISCUSSION ROUND 2:",
-                        "=== YOUR TASK ===", "Please provide your response in the following format:"
-                    ]:
+                        "=== DISCUSSION ROUND 1 GOAL ===", "=== DISCUSSION ROUND 2 GOAL ===",
+                        "=== DISCUSSION ROUND 1 ===", "=== DISCUSSION ROUND 2 ===",
+                        # Voting markers
+                        "=== VOTING ===", "=== VOTING GOAL ===", "=== VOTING RULES ===",
+                        "=== VOTE RESOLUTION ===", "=== VILLAGE'S VOTE ===", "=== MAFIA'S VOTE ===",
+                        # State markers
+                        "=== CURRENT GAME STATE ===", "=== GAME STATE ===",
+                        "=== RECENT EVENTS ===", "=== OTHER PLAYERS' ARGUMENTS ===",
+                        # Format markers
+                        "=== YOUR TASK ===", "Please provide your response in the following format:",
+                        "NOW RESPOND EXACTLY IN THIS FORMAT", "do NOT include extra text",
+                        # Night markers
+                        "=== NIGHT SAVE GOAL ===", "=== NIGHT KILL GOAL ===",
+                        # Generic markers
+                        "Round:", "Phase:", "Alive players:", "Dead players:",
+                        "Voter:", "Voted off:",
+                    ]
+                    for marker in hallucinated_markers:
                         formatted_text = formatted_text.replace(marker, "")
+                    
+                    # Also strip any === SOMETHING === pattern that might be hallucinated
+                    formatted_text = re.sub(r'===\s*[A-Z\s]+\s*===', '', formatted_text)
 
                 if not formatted_text.strip():
                     continue
@@ -256,7 +298,6 @@ class PromptTemplate:
                     "Present your genuine suspicions. Point to behaviors, claims, or inconsistencies that might "
                     "indicate Mafia alignment. Your goal is to build shared confidence around identifying threats."
                 )
-
         elif action_type == "discuss_2":
             sections.append("=== DISCUSSION ROUND 2 GOAL ===")
 
@@ -275,14 +316,12 @@ class PromptTemplate:
                     "Evaluate previous arguments and push the group toward consensus. Expose weak reasoning, clarify "
                     "your stance, and help the village converge on the most suspicious player."
                 )
-
         elif action_type == "vote":
             sections.append("=== VOTING GOAL ===")
-
             if role.is_mafia:
                 sections.append(
                     "Vote in a way that advances Mafia interests without exposing yourself or teammates. Avoid voting "
-                    "patterns that clearly align Mafia members together. Your justification must sound rational and fair."
+                    "patterns that clearly align Mafia members together."
                 )
             elif role.role_type == RoleType.DOCTOR:
                 sections.append(
@@ -294,7 +333,6 @@ class PromptTemplate:
                     "Vote for the player most likely to be Mafia based on arguments, actions, and behavior. "
                     "Your job is to remove the threat before Mafia gains power."
                 )
-
         elif action_type == "kill":
             sections.append(
                 "As Mafia, choose ONE alive non-Mafia player to eliminate tonight. "
@@ -319,7 +357,7 @@ class PromptTemplate:
 
 
         sections.append("")
-        sections.append("NOW RESPOND EXACTLY IN THIS FORMAT WITH THE SAME RESPONSE STRUCTURE (do NOT include extra text):")
+        sections.append("===== ULTRA IMPORTANT RESPONSE FORMAT (do NOT include extra text) =====")
         if action_type in {"discuss_1", "discuss_2"}:
             sections.append("INTERNAL REASONING: <2-4 sentences of internal reasoning behind your action/arguments>")
             sections.append("PUBLIC ARGUMENT: <2-4 sentences addressed to all players>")
@@ -417,8 +455,8 @@ class PromptTemplate:
             lines.append("PUBLIC ARGUMENT: 2–4 sentences addressed to all players.")
             lines.append("   - Mafia/Villager/Doctor: argue your case to benefit your team's success and win conditions")
         elif action_type == "vote":
-            lines.append("ACTION: exactly one line of the form 'ACTION: Player_k' where Player_k is an alive player id whom you want to eliminate.")
-            lines.append("   - Do NOT include INTERNAL REASONING or PUBLIC ARGUMENT sections in your response.")
+            lines.append("ACTION: exactly one line of the form 'ACTION: Player_k' where Player_k is an alive player id.")
+            lines.append("   - Do NOT include INTERNAL REASONING or PUBLIC ARGUMENT sections when voting.")
             lines.append("   - Do NOT add any explanation, justification, or extra words before or after the ACTION line.")
             lines.append("   - Do NOT output multiple ACTION lines.")
             lines.append("   - Do NOT vote for or target dead players.")
