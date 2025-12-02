@@ -26,6 +26,7 @@ class Trajectory:
     prompt: str = ""  # Full prompt used for this action (needed for PPO recomputation)
     input_ids: Optional[torch.Tensor] = None  # Tokenized input (needed for PPO recomputation)
     generated_ids: Optional[torch.Tensor] = None  # Generated token IDs (for PPO log prob recomputation)
+    token_log_probs: Optional[List[float]] = None  # Log probs per token (needed for masked PPO)
     parsing_confidence: float = 1.0  # Confidence in parsing the action (1.0=explicit, 0.0=random)
     temperature: float = 1.0  # Temperature used for sampling
 

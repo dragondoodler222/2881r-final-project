@@ -32,6 +32,7 @@ def worker_process(
     
     while True:
         task = task_queue.get()
+            
         if task == "STOP":
             break
             

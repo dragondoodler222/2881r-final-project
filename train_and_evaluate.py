@@ -4,7 +4,7 @@ Training and Evaluation script for Mafia RL experiment with PPO
 
 import os
 # Set allocator to avoid fragmentation
-os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 import logging
 import sys
@@ -60,19 +60,19 @@ def main():
             RoleType.VILLAGER: 4
         },
         "cot_visibility": VisibilityMode.PUBLIC,
-        "num_training_iterations": 100,
-        "games_per_iteration": 32,
-        "learning_rate": 1e-6,  # Lowered for 1B model stability
-        "ppo_batch_size": 128,  # Logical batch size
+        "num_training_iterations": 50,
+        "games_per_iteration": 48,
+        "learning_rate": 7e-6,  # Lowered for 1B model stability
+        "ppo_batch_size": 256,  # Logical batch size
         "mini_batch_size": 16,   # Physical batch size (reduced for memory)
-        "ppo_epochs": 1,        # Number of passes over the data per iteration
-        "target_kl": 0.1,      # Target KL divergence for early stopping
-        "clip_epsilon": 0.08,    # Stricter clipping for stability
+        "ppo_epochs": 2,        # Number of passes over the data per iteration
+        "target_kl": 0.067,      # Target KL divergence for early stopping
+        "clip_epsilon": 0.1,    # Stricter clipping for stability
         "use_4bit": True,
         "num_workers": 8,
         "seed": 42,
         "eval_games": 10,
-        "generation_temperature": 0.7,
+        "generation_temperature": 0.55,
         "resume_checkpoint": None  # Set to path (e.g., "checkpoints/checkpoint-5") to resume
     }
 
@@ -214,20 +214,23 @@ def main():
                                 logger.info(f"    Game finished ({completed_games}/{games_to_play}): Winner={game_result['winner']}")
                                 
                                 # Save trace
-                                trace_dir = log_dir / "traces"
-                                trace_dir.mkdir(exist_ok=True)
-                                trace_file = trace_dir / f"game_{iteration}_{completed_games}.json"
+                                log_dir_traces = Path("logs/traces")
+                                iter_dir = log_dir_traces / f"iteration_{iteration + 1}"
+                                iter_dir.mkdir(parents=True, exist_ok=True)
                                 
-                                trace_data = {
+                                trace_file = iter_dir / f"game_{game_result['game_id'][:8]}.json"
+                                
+                                serializable_result = {
                                     "game_id": game_result["game_id"],
                                     "winner": game_result["winner"],
-                                    "rounds": game_result["total_rounds"],
-                                    "roles": {aid: str(r) for aid, r in game_result["game_state"].roles.items()},
-                                    "cot_history": game_result.get("cot_history", [])
+                                    "total_rounds": game_result["total_rounds"],
+                                    "cot_history": game_result["cot_history"],
+                                    "final_state": game_result["final_state"]
                                 }
+                                
                                 with open(trace_file, "w") as f:
-                                    json.dump(trace_data, f, indent=2)
-
+                                    json.dump(serializable_result, f, indent=2)
+                                
                                 # Add trajectories
                                 trajs = game_result['trajectories']
                                 if trajs:
@@ -340,6 +343,25 @@ def main():
                         if res["status"] == "success":
                             completed_eval_games += 1
                             game_result = res["game_result"]
+                            
+                            # Save trace
+                            log_dir_traces = Path("logs/traces")
+                            iter_dir = log_dir_traces / "eval"
+                            iter_dir.mkdir(parents=True, exist_ok=True)
+                            
+                            trace_file = iter_dir / f"game_{game_result['game_id'][:8]}.json"
+                            
+                            serializable_result = {
+                                "game_id": game_result["game_id"],
+                                "winner": game_result["winner"],
+                                "total_rounds": game_result["total_rounds"],
+                                "cot_history": game_result["cot_history"],
+                                "final_state": game_result["final_state"]
+                            }
+                            
+                            with open(trace_file, "w") as f:
+                                json.dump(serializable_result, f, indent=2)
+
                             eval_results.append(game_result)
                             logger.info(f"    Eval Game finished ({completed_eval_games}/{eval_games}): Winner={game_result['winner']}")
                         elif res["status"] == "error":

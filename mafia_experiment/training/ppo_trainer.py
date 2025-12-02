@@ -11,6 +11,8 @@ from pathlib import Path
 import json
 import numpy as np
 import os
+import re
+import itertools
 
 from transformers.generation.logits_process import (
     LogitsProcessorList,
@@ -82,7 +84,6 @@ class PPOTrainer:
 
         # Optimizer (include both model and value head parameters)
         # Combine model parameters with value head parameters
-        import itertools
         all_parameters = itertools.chain(
             self.model.parameters(),
             self.value_head.parameters()
@@ -262,24 +263,24 @@ class PPOTrainer:
         self,
         batch_trajectories: List[Trajectory],
         requires_grad: bool = False
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Recompute log probabilities and values using current model weights
 
-        This is the CORE of PPO - we need to recompute these values with the
-        updated model to compute the policy ratio for the PPO objective.
-
-        Args:
-            batch_trajectories: List of trajectories with stored prompts
-            requires_grad: Whether to compute gradients (True for training, False for evaluation)
-
         Returns:
-            Tuple of (log_probs, values, entropy)
+            Tuple of (log_probs, old_log_probs, values, entropy, masks)
+            log_probs: (batch_size, max_seq_len)
+            old_log_probs: (batch_size, max_seq_len)
+            values: (batch_size, 1)
+            entropy: (batch_size, max_seq_len)
+            masks: (batch_size, max_seq_len)
         """
         device = self.model.device
-        all_log_probs = []
+        all_log_probs_list = []
+        all_old_log_probs_list = []
         all_values = []
-        all_entropies = []
+        all_entropies_list = []
+        all_masks_list = []
 
         # Ensure tokenizer uses left padding for correct position IDs with causal models
         if self.tokenizer.padding_side != 'left':
@@ -291,15 +292,27 @@ class PPOTrainer:
             generated_ids = trajectory.generated_ids  # The tokens that were actually generated
             temperature = getattr(trajectory, 'temperature', 1.0)
             warper = self._get_logits_warper_for_temperature(temperature)
+            
+            # Get old token log probs
+            old_token_log_probs = getattr(trajectory, 'token_log_probs', None)
 
             if not prompt:
-                # Fallback: use stored log_prob if no prompt available
-                # Convert to tensor on device to ensure consistency
-                safe_log_prob = trajectory.log_prob if trajectory.log_prob != 0.0 else -100.0
-                all_log_probs.append(torch.tensor(safe_log_prob, dtype=torch.float32, device=device))
+                # Fallback: skip or use dummy
+                # We need to append something to keep batch alignment
+                all_log_probs_list.append(torch.tensor([0.0], device=device))
+                all_old_log_probs_list.append(torch.tensor([0.0], device=device))
                 all_values.append(torch.tensor(0.0, dtype=torch.float32, device=device))
-                all_entropies.append(torch.tensor(0.1, dtype=torch.float32, device=device))
+                all_entropies_list.append(torch.tensor([0.0], device=device))
+                all_masks_list.append(torch.tensor([0.0], device=device))
                 continue
+
+            # Create region mask
+            # We use the stored text (cot) and generated_ids
+            # If generated_ids is None, we can't mask properly
+            if generated_ids is not None and len(generated_ids) > 0:
+                region_mask = self._create_region_mask(trajectory.cot, generated_ids, trajectory.phase)
+            else:
+                region_mask = torch.tensor([0.0], device=device)
 
             # For PPO, we need to run the model on the full sequence (prompt + generated tokens)
             # to get the logits at the positions where tokens were generated
@@ -436,7 +449,13 @@ class PPOTrainer:
 
                         # Handle EOS and Padding
                         if token_id == pad_token_id:
-                            continue
+                            # If we hit padding, we stop collecting
+                            # But we need to match lengths.
+                            # We'll just append 0.0 and mask it out later if needed
+                            # But usually generated_ids are stripped of padding in Trajectory?
+                            # Trajectory stores stripped_gen_ids.
+                            # So we shouldn't hit padding unless it's EOS.
+                            pass
 
                         token_logits = logits[0, logit_position, :].float()  # Cast to float32 for stability
                         warped_logits = self._apply_sampling_warpers(
@@ -471,42 +490,55 @@ class PPOTrainer:
                         if token_id == eos_token_id:
                             break
 
-                # Sum log prob across all tokens (standard for PPO)
+                # Stack lists to tensors
                 if len(token_log_probs_list) > 0:
-                    # FIXED: Proper tensor stacking and summing
-                    new_log_prob = torch.stack(token_log_probs_list).sum()
-                    sum_entropy = torch.stack(token_entropies_list).sum()
+                    new_log_probs = torch.stack(token_log_probs_list)
+                    new_entropies = torch.stack(token_entropies_list)
+                    if getattr(self, "debug_kl", False) and not requires_grad:
+                        try:
+                            stored_log_prob = float(getattr(trajectory, "log_prob", 0.0))
+                            recomputed_sum = float(new_log_probs.sum().detach().cpu())
+                            self._debug_log_diffs.append(recomputed_sum - stored_log_prob)
+                        except Exception:
+                            pass
                 else:
-                    # Empty sequence - use stored log_prob
-                    safe_log_prob = trajectory.log_prob if trajectory.log_prob != 0.0 else -100.0
-                    new_log_prob = torch.tensor(safe_log_prob, dtype=torch.float32, device=device)
-                    sum_entropy = torch.tensor(0.1, dtype=torch.float32, device=device)  # Small positive entropy
+                    new_log_probs = torch.tensor([0.0], device=device)
+                    new_entropies = torch.tensor([0.0], device=device)
 
-                all_log_probs.append(new_log_prob)
-                all_entropies.append(sum_entropy)
-                if self.debug_kl and not requires_grad:
-                    self._debug_log_diffs.append(new_log_prob.item() - float(trajectory.log_prob))
+                # Handle old log probs
+                if old_token_log_probs is not None:
+                    # Use stored per-token log probs
+                    # Truncate or pad to match new_log_probs length if necessary (should match)
+                    old_log_probs = torch.tensor(old_token_log_probs, dtype=torch.float32, device=device)
+                    if len(old_log_probs) > len(new_log_probs):
+                        old_log_probs = old_log_probs[:len(new_log_probs)]
+                    elif len(old_log_probs) < len(new_log_probs):
+                        # This shouldn't happen if generated_ids matches
+                        padding = torch.zeros(len(new_log_probs) - len(old_log_probs), device=device)
+                        old_log_probs = torch.cat([old_log_probs, padding])
+                else:
+                    # Fallback: distribute scalar log prob uniformly? No, that's bad.
+                    # Fallback: use new log probs (KL=0)
+                    old_log_probs = new_log_probs.detach()
+
+                # Ensure mask matches length
+                if len(region_mask) > len(new_log_probs):
+                    region_mask = region_mask[:len(new_log_probs)]
+                elif len(region_mask) < len(new_log_probs):
+                    padding = torch.zeros(len(new_log_probs) - len(region_mask), device=device)
+                    region_mask = torch.cat([region_mask, padding])
+
+                all_log_probs_list.append(new_log_probs)
+                all_old_log_probs_list.append(old_log_probs)
+                all_entropies_list.append(new_entropies)
+                all_masks_list.append(region_mask)
+
             else:
-                # Fallback: use stored log_prob if no generated_ids available
-                safe_log_prob = trajectory.log_prob if trajectory.log_prob != 0.0 else -100.0
-                all_log_probs.append(torch.tensor(safe_log_prob, dtype=torch.float32, device=device))
-
-                # Compute entropy from last position - FIXED: Safe computation
-                last_logits = outputs.logits[:, -1, :].float()  # Cast to float32
-                last_logits = self._apply_sampling_warpers(
-                    last_logits,
-                    temperature,
-                    input_ids,
-                    cached_warper=warper
-                )
-                last_probs = F.softmax(last_logits, dim=-1)
-                # FIXED: Clamp to avoid log(0) = -inf
-                last_probs_safe = torch.clamp(last_probs, min=1e-10)
-                last_log_probs_safe = torch.log(last_probs_safe)
-                entropy = -(last_probs * last_log_probs_safe).sum(dim=-1)
-                all_entropies.append(entropy)
-                if self.debug_kl and not requires_grad:
-                    self._debug_log_diffs.append(float(safe_log_prob) - float(trajectory.log_prob))
+                # Fallback
+                all_log_probs_list.append(torch.tensor([0.0], device=device))
+                all_old_log_probs_list.append(torch.tensor([0.0], device=device))
+                all_entropies_list.append(torch.tensor([0.0], device=device))
+                all_masks_list.append(torch.tensor([0.0], device=device))
 
             # Free intermediate tensors to reduce memory pressure
             del outputs
@@ -515,27 +547,23 @@ class PPOTrainer:
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
 
-        # Stack tensors
-        log_probs_tensor = torch.stack(all_log_probs)
-        values_tensor = torch.stack(all_values)
-        entropy_tensor = torch.stack(all_entropies)
-
-        # FIXED: Added root cause fixes above, so NaNs should not occur
-        # Final safety check (should rarely trigger now)
-        if torch.isnan(log_probs_tensor).any() or torch.isnan(values_tensor).any() or torch.isnan(entropy_tensor).any():
-            # Replace NaNs with zeros or small values to prevent crash, but this indicates a problem
-            log_probs_tensor = torch.nan_to_num(log_probs_tensor, nan=-100.0, neginf=-100.0)
-            values_tensor = torch.nan_to_num(values_tensor, nan=0.0)
-            entropy_tensor = torch.nan_to_num(entropy_tensor, nan=0.0)
-            
-            print("WARNING: NaNs detected in _recompute_log_probs_and_values outputs! Replaced with safe values.")
+        # Pad sequences to max length in batch
+        from torch.nn.utils.rnn import pad_sequence
+        
+        log_probs_tensor = pad_sequence(all_log_probs_list, batch_first=True, padding_value=0.0).to(device)
+        old_log_probs_tensor = pad_sequence(all_old_log_probs_list, batch_first=True, padding_value=0.0).to(device)
+        entropy_tensor = pad_sequence(all_entropies_list, batch_first=True, padding_value=0.0).to(device)
+        masks_tensor = pad_sequence(all_masks_list, batch_first=True, padding_value=0.0).to(device)
+        values_tensor = torch.stack(all_values).to(device)
 
         if not requires_grad:
             log_probs_tensor = log_probs_tensor.detach()
+            old_log_probs_tensor = old_log_probs_tensor.detach()
             values_tensor = values_tensor.detach()
             entropy_tensor = entropy_tensor.detach()
+            masks_tensor = masks_tensor.detach()
 
-        return log_probs_tensor, values_tensor, entropy_tensor
+        return log_probs_tensor, old_log_probs_tensor, values_tensor, entropy_tensor, masks_tensor
 
     def compute_ppo_loss(
         self,
@@ -545,18 +573,20 @@ class PPOTrainer:
         values: torch.Tensor,
         returns: torch.Tensor,
         entropy: torch.Tensor,
+        masks: Optional[torch.Tensor] = None,
         confidence: Optional[torch.Tensor] = None
     ) -> Tuple[torch.Tensor, Dict[str, float]]:
         """
-        Compute PPO loss with clipping
+        Compute PPO loss with clipping and region masking
 
         Args:
-            log_probs: New log probabilities
-            old_log_probs: Old log probabilities (from data collection)
-            advantages: Advantage estimates
-            values: Value predictions
-            returns: Target returns
-            entropy: Policy entropy
+            log_probs: New log probabilities (B, L)
+            old_log_probs: Old log probabilities (B, L)
+            advantages: Advantage estimates (B, 1)
+            values: Value predictions (B, 1)
+            returns: Target returns (B, 1)
+            entropy: Policy entropy (B, L)
+            masks: Region masks (B, L)
             confidence: Parsing confidence weights (0.0 to 1.0)
 
         Returns:
@@ -568,60 +598,83 @@ class PPOTrainer:
         finite_mask = torch.isfinite(log_probs) & torch.isfinite(old_log_probs)
         
         if not finite_mask.all():
-            # Only keep valid entries
-            log_probs = log_probs[finite_mask]
-            old_log_probs = old_log_probs[finite_mask]
-            advantages = advantages[finite_mask]
-            values = values[finite_mask]
-            returns = returns[finite_mask]
-            entropy = entropy[finite_mask]
-            if confidence is not None:
-                confidence = confidence[finite_mask]
+            # Replace non-finite values with safe values (0 log prob = 1.0 prob, but log prob should be negative)
+            # We use -100.0 for log prob (very small prob)
+            log_probs = torch.nan_to_num(log_probs, nan=-100.0, neginf=-100.0, posinf=10.0)
+            old_log_probs = torch.nan_to_num(old_log_probs, nan=-100.0, neginf=-100.0, posinf=10.0)
                 
         if len(log_probs) == 0:
-             return torch.tensor(0.0, device=self.model.device, requires_grad=True), {
-                "policy_loss": 0.0,
-                "value_loss": 0.0,
-                "entropy_loss": 0.0,
-                "total_loss": 0.0,
-                "approx_kl": 0.0
-            }
+             return torch.tensor(0.0, requires_grad=True, device=log_probs.device), {}
         
         # Safe log-ratio computation
         log_ratio = log_probs - old_log_probs
         log_ratio = torch.clamp(log_ratio, -10.0, 10.0)
         ratio = torch.exp(log_ratio)
 
+        # Broadcast advantages to match sequence length
+        if advantages.dim() == 1:
+            advantages = advantages.unsqueeze(1)
+        if advantages.shape[1] != log_probs.shape[1]:
+            advantages_expanded = advantages.expand_as(log_probs)
+        else:
+            advantages_expanded = advantages
+
         # Clipped surrogate objective
-        surr1 = ratio * advantages
-        surr2 = torch.clamp(ratio, 1.0 - self.clip_epsilon, 1.0 + self.clip_epsilon) * advantages
+        surr1 = ratio * advantages_expanded
+        surr2 = torch.clamp(ratio, 1.0 - self.clip_epsilon, 1.0 + self.clip_epsilon) * advantages_expanded
         
         # Standard PPO loss (unweighted)
         policy_loss_unweighted = -torch.min(surr1, surr2)
         
-        # Apply confidence weighting if provided
-        if confidence is not None:
-            # Weight the policy loss by confidence
-            # Low confidence -> low weight -> less gradient update
-            policy_loss = (policy_loss_unweighted * confidence).mean()
+        # Apply masking
+        if masks is not None:
+            # Ensure masks match shape
+            if masks.shape != policy_loss_unweighted.shape:
+                # This might happen if padding was different? Should be handled in recompute.
+                # Try to crop/pad
+                pass
+            
+            # Apply confidence weighting if provided (broadcasted)
+            if confidence is not None:
+                if confidence.dim() == 1:
+                    confidence = confidence.unsqueeze(1)
+                confidence_expanded = confidence.expand_as(policy_loss_unweighted)
+                policy_loss_unweighted = policy_loss_unweighted * confidence_expanded
+
+            # Masked mean
+            masked_sum = (policy_loss_unweighted * masks).sum()
+            mask_sum = masks.sum()
+            policy_loss = masked_sum / (mask_sum + 1e-8)
+            
+            # Entropy loss (masked)
+            entropy_loss = -(entropy * masks).sum() / (mask_sum + 1e-8)
+            
+            # KL divergence (masked)
+            with torch.no_grad():
+                # approx_kl = (ratio - 1) - log_ratio  # http://joschu.net/blog/kl-approx.html
+                # Simpler approx: 0.5 * (log_ratio)^2
+                approx_kl_per_token = 0.5 * (log_ratio ** 2)
+                approx_kl = (approx_kl_per_token * masks).sum() / (mask_sum + 1e-8)
+
         else:
-            policy_loss = policy_loss_unweighted.mean()
+            # Apply confidence weighting if provided
+            if confidence is not None:
+                if confidence.dim() == 1:
+                    confidence = confidence.unsqueeze(1)
+                confidence_expanded = confidence.expand_as(policy_loss_unweighted)
+                policy_loss = (policy_loss_unweighted * confidence_expanded).mean()
+            else:
+                policy_loss = policy_loss_unweighted.mean()
 
-        # Value loss (MSE)
+            # Entropy bonus (encourage exploration)
+            entropy_loss = -entropy.mean()
+
+            # Calculate approximate KL divergence for logging/early stopping
+            with torch.no_grad():
+                approx_kl = ((ratio - 1) - log_ratio).mean()
+
+        # Value loss (MSE) - Value is per trajectory, so no masking needed
         value_loss = F.mse_loss(values, returns)
-
-        # Entropy bonus (encourage exploration)
-        entropy_loss = -entropy.mean()
-
-        # Calculate approximate KL divergence for logging/early stopping
-        with torch.no_grad():
-            # http://joschu.net/blog/kl-approx.html
-            # Use a more stable KL approximation: 0.5 * (log_ratio)^2
-            # This is less sensitive to extreme ratios than (ratio - 1) - log_ratio
-            approx_kl = 0.5 * (log_ratio ** 2).mean()
-            # per_sample_kl = 0.5 * (log_ratio ** 2)
-            # per_sample_kl = per_sample_kl.clamp(max=0.5)  # Clamp to disallow a few extreme sample KL values from dominating KL calc
-            # approx_kl = per_sample_kl.mean()
 
         # Total loss
         total_loss = (
@@ -635,10 +688,35 @@ class PPOTrainer:
             "value_loss": value_loss.item(),
             "entropy_loss": entropy_loss.item(),
             "total_loss": total_loss.item(),
-            "approx_kl": approx_kl.item()
+            "approx_kl": approx_kl.item(),
+            "mean_reward": returns.mean().item(),
+            "mean_return": returns.mean().item(),
+            "std_return": returns.std().item()
         }
 
         return total_loss, loss_components
+        #     # This is less sensitive to extreme ratios than (ratio - 1) - log_ratio
+        #     approx_kl = 0.5 * (log_ratio ** 2).mean()
+        #     # per_sample_kl = 0.5 * (log_ratio ** 2)
+        #     # per_sample_kl = per_sample_kl.clamp(max=0.5)  # Clamp to disallow a few extreme sample KL values from dominating KL calc
+        #     # approx_kl = per_sample_kl.mean()
+
+        # # Total loss
+        # total_loss = (
+        #     policy_loss +
+        #     self.value_coef * value_loss +
+        #     self.entropy_coef * entropy_loss
+        # )
+
+        # loss_components = {
+        #     "policy_loss": policy_loss.item(),
+        #     "value_loss": value_loss.item(),
+        #     "entropy_loss": entropy_loss.item(),
+        #     "total_loss": total_loss.item(),
+        #     "approx_kl": approx_kl.item()
+        # }
+
+        # return total_loss, loss_components
 
     def train_iteration(
         self,
@@ -677,6 +755,11 @@ class PPOTrainer:
         dropped_count = len(raw_trajectories) - len(all_trajectories)
         if dropped_count > 0:
             print(f"Dropped {dropped_count} trajectories with invalid stored log_probs")
+        if self.debug_kl:
+            print(
+                f"[PPO DEBUG] Log-prob filter: kept {len(all_trajectories)} / {len(raw_trajectories)}"
+                f" trajectories (dropped {dropped_count})"
+            )
 
         if not all_trajectories:
             return {"error": "No valid trajectories after filtering"}
@@ -685,16 +768,6 @@ class PPOTrainer:
         # This is CRITICAL for correct advantage estimation
         all_trajectories.sort(key=lambda t: (t.game_id, t.agent_id, t.round_number))
 
-        # Extract data from trajectories
-        old_log_probs = torch.tensor([t.log_prob for t in all_trajectories], dtype=torch.float32)
-        
-        # Sanitize old_log_probs - REMOVED to allow raw values
-        # old_log_probs = torch.nan_to_num(...)
-        
-        # --- CRITICAL FIX: Clamp old_log_probs to avoid extreme values ---
-        # REMOVED: We now filter invalid values in compute_ppo_loss instead of clamping
-        # old_log_probs = torch.clamp(old_log_probs, min=-20.0, max=20.0)
-        
         rewards = [t.reward for t in all_trajectories]
         
         # Extract confidence scores (default to 1.0 if not present)
@@ -702,6 +775,8 @@ class PPOTrainer:
             [getattr(t, 'parsing_confidence', 1.0) for t in all_trajectories], 
             dtype=torch.float32
         )
+
+        pre_recompute_count = len(all_trajectories)
 
         # ============================================================================
         # REAL PPO IMPLEMENTATION: Compute values from current model for GAE
@@ -719,11 +794,14 @@ class PPOTrainer:
         with torch.no_grad():
             for i in range(0, len(all_trajectories), eval_batch_size):
                 batch = all_trajectories[i:i+eval_batch_size]
-                batch_log_probs, values, _ = self._recompute_log_probs_and_values(batch)
+                # Updated call: returns 5 values
+                batch_log_probs, _, values, _, _ = self._recompute_log_probs_and_values(batch)
                 
                 # Check for validity of recomputed values
-                for j, (val, lp) in enumerate(zip(values, batch_log_probs)):
-                    if torch.isfinite(val) and torch.isfinite(lp):
+                for j, val in enumerate(values):
+                    # batch_log_probs is (B, L)
+                    lp = batch_log_probs[j]
+                    if torch.isfinite(val) and torch.isfinite(lp).all():
                         initial_values_list.append(val.item())
                         valid_indices.append(i + j)
         
@@ -731,23 +809,27 @@ class PPOTrainer:
         if len(valid_indices) < len(all_trajectories):
             print(f"Dropped {len(all_trajectories) - len(valid_indices)} trajectories due to recomputation failure")
             all_trajectories = [all_trajectories[i] for i in valid_indices]
-            old_log_probs = old_log_probs[valid_indices]
             rewards = [rewards[i] for i in valid_indices]
             confidences = confidences[valid_indices]
-            # initial_values_list is already filtered
 
-        if self.debug_kl and self._debug_log_diffs:
-            diffs = np.array(self._debug_log_diffs)
-            # Filter out infs/nans for stats
-            finite_diffs = diffs[np.isfinite(diffs)]
-            if len(finite_diffs) > 0:
-                print(
-                    f"[PPO DEBUG] old/new log_prob diff -> mean {finite_diffs.mean():.2f}, std {finite_diffs.std():.2f}, "
-                    f"min {finite_diffs.min():.2f}, max {finite_diffs.max():.2f}, "
-                    f"infs/nans: {len(diffs) - len(finite_diffs)}"
-                )
-            else:
-                print(f"[PPO DEBUG] old/new log_prob diff -> all infs/nans (count: {len(diffs)})")
+        recompute_dropped = pre_recompute_count - len(all_trajectories)
+        if self.debug_kl:
+            print(
+                f"[PPO DEBUG] Recompute filter: kept {len(all_trajectories)} / {pre_recompute_count}"
+                f" trajectories (dropped {recompute_dropped})"
+            )
+            if self._debug_log_diffs:
+                diffs = np.array(self._debug_log_diffs)
+                finite = diffs[np.isfinite(diffs)]
+                nan_count = len(diffs) - len(finite)
+                if len(finite) > 0:
+                    print(
+                        "[PPO DEBUG] log_prob diff stats -> "
+                        f"mean {finite.mean():.4f}, std {finite.std():.4f}, "
+                        f"min {finite.min():.4f}, max {finite.max():.4f}, n={len(finite)}, nan/inf={nan_count}"
+                    )
+                else:
+                    print(f"[PPO DEBUG] log_prob diff stats -> no finite entries (nan/inf count {nan_count})")
 
         # Determine episode boundaries (dones)
         # Group by game_id and agent_id, mark last trajectory in each episode as done
@@ -768,16 +850,39 @@ class PPOTrainer:
 
         # Move to device
         device = self.model.device
-        old_log_probs = old_log_probs.to(device)
         advantages = advantages.to(device)
         returns = returns.to(device)
         confidences = confidences.to(device)
 
+        # --- FILTERING: Keep only Discuss and Vote phases for training ---
+        training_indices = []
+        for i, t in enumerate(all_trajectories):
+            p = (t.phase or "").lower()
+            if "discuss" in p or "vote" in p:
+                training_indices.append(i)
+        
+        if not training_indices:
+            print("[PPO WARNING] No discuss/vote trajectories found. Skipping update loop.")
+            return {"error": "No trainable phases found"}
+            
+        if self.debug_kl:
+            print(f"[PPO DEBUG] Phase filter: kept {len(training_indices)} / {len(all_trajectories)} trajectories (discuss/vote only)")
+
+        # Filter the dataset for the update loop
+        train_trajectories = [all_trajectories[i] for i in training_indices]
+        train_advantages = advantages[training_indices]
+        train_returns = returns[training_indices]
+        train_confidences = confidences[training_indices]
+
         # PPO update loop
         all_metrics = []
+        total_mask_tokens = 0.0
+        total_trainable_tokens = 0.0
+        total_mask_sequences = 0
+        total_zero_mask_sequences = 0
         
         # Create indices for shuffling
-        dataset_size = len(all_trajectories)
+        dataset_size = len(train_trajectories)
         indices = np.arange(dataset_size)
         
         # Track KL for early stopping
@@ -807,100 +912,108 @@ class PPOTrainer:
                     mini_indices = batch_indices[mini_start:mini_end]
                     
                     # Get mini-batch data
-                    mini_trajectories = [all_trajectories[i] for i in mini_indices]
-                    mini_old_log_probs = old_log_probs[mini_indices]
-                    mini_advantages = advantages[mini_indices]
-                    mini_returns = returns[mini_indices]
-                    mini_confidences = confidences[mini_indices]
+                    mini_trajectories = [train_trajectories[i] for i in mini_indices]
+                    mini_advantages = train_advantages[mini_indices]
+                    mini_returns = train_returns[mini_indices]
+                    mini_confidences = train_confidences[mini_indices]
                     
                     # REAL IMPLEMENTATION: Forward pass through model with gradients
                     # Recompute log probs, values, and entropy with current model weights
-                    new_log_probs, new_values, entropy = self._recompute_log_probs_and_values(
+                    new_log_probs, old_log_probs, new_values, entropy, masks = self._recompute_log_probs_and_values(
                         mini_trajectories,
                         requires_grad=True
                     )
 
+                    batch_total_tokens = float(masks.numel()) if masks.numel() > 0 else 0.0
+                    batch_trainable_tokens = float(masks.sum().item()) if batch_total_tokens > 0 else 0.0
+                    seq_sums = masks.sum(dim=1)
+                    zero_mask_seqs = int(torch.count_nonzero(seq_sums < 1e-6).item()) if masks.shape[0] > 0 else 0
+                    trainable_ratio = (batch_trainable_tokens / batch_total_tokens) if batch_total_tokens > 0 else 0.0
+                    zero_ratio = (zero_mask_seqs / masks.shape[0]) if masks.shape[0] > 0 else 0.0
+                    total_mask_tokens += batch_total_tokens
+                    total_trainable_tokens += batch_trainable_tokens
+                    total_mask_sequences += masks.shape[0]
+                    total_zero_mask_sequences += zero_mask_seqs
+
                     # Compute PPO loss
                     loss, loss_components = self.compute_ppo_loss(
                         new_log_probs,
-                        mini_old_log_probs,
+                        old_log_probs,
                         mini_advantages,
                         new_values,
                         mini_returns,
                         entropy,
+                        masks=masks,
                         confidence=mini_confidences
                     )
+                    if self.debug_kl:
+                        print(
+                            f"[PPO DEBUG] mini-batch approx_kl={loss_components['approx_kl']:.5f}, "
+                            f"policy={loss_components['policy_loss']:.4f}, value={loss_components['value_loss']:.4f}, "
+                            f"entropy={loss_components['entropy_loss']:.4f}, trainable_tokens={batch_trainable_tokens:.0f}/"
+                            f"{batch_total_tokens:.0f} ({trainable_ratio:.1%}), zero-mask seq {zero_mask_seqs}/"
+                            f"{masks.shape[0]} ({zero_ratio:.1%})"
+                        )
                     
-                    # Track KL
+                    # Backward pass (accumulate gradients)
+                    # Normalize loss by number of mini-batches to keep scale correct
+                    loss = loss / (current_batch_size / mini_batch_size)
+                    loss.backward()
+                    
                     batch_kls.append(loss_components["approx_kl"])
-                    
-                    # Scale loss for gradient accumulation
-                    loss_scale = len(mini_indices) / current_batch_size
-                    scaled_loss = loss * loss_scale
-                    
-                    # Backward pass (accumulates gradients)
-                    scaled_loss.backward()
-                    
-                    # Store metrics (unscaled)
                     all_metrics.append(loss_components)
 
-                # Check for early stopping based on KL
-                mean_kl = np.mean(batch_kls)
+                # Clip gradients
+                torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                 
-                # Always print KL if debug flag is on
-                if os.environ.get("PPO_DEBUG_KL", "0") == "1":
-                    print(f"[PPO DEBUG] Epoch {epoch} Batch KL: {mean_kl:.4f}")
-
-                if self.target_kl is not None and mean_kl > 1.5 * self.target_kl:
-                    print(f"Early stopping at epoch {epoch} due to KL divergence {mean_kl:.4f} > {1.5 * self.target_kl:.4f}")
-                    stop_early = True
-                    # Don't step optimizer if KL is too high
-                    self.optimizer.zero_grad()
-                    break
-
-                # Gradient clipping (clip both model and value head)
-                import itertools
-                all_params = itertools.chain(
-                    self.model.parameters(),
-                    self.value_head.parameters()
-                )
-                torch.nn.utils.clip_grad_norm_(
-                    all_params,
-                    self.max_grad_norm
-                )
-
                 # Update weights
                 self.optimizer.step()
+                
+                # Check early stopping
+                mean_kl = np.mean(batch_kls)
+                if self.debug_kl:
+                    logical_batch_idx = (start_idx // batch_size) + 1
+                    print(
+                        f"[PPO DEBUG] Epoch {epoch} logical batch {logical_batch_idx}: mean KL {mean_kl:.5f}"
+                    )
+                if mean_kl > self.target_kl * 1.5:
+                    stop_early = True
+                    break
+        
+        mask_trainable_ratio = (total_trainable_tokens / total_mask_tokens) if total_mask_tokens > 0 else 0.0
+        mask_zero_sequence_ratio = (total_zero_mask_sequences / total_mask_sequences) if total_mask_sequences > 0 else 0.0
 
-                # Clear GPU cache to free fragmented memory
-                if torch.cuda.is_available():
-                    torch.cuda.empty_cache()
+        if self.debug_kl:
+            print(
+                f"[PPO DEBUG] Mask summary: trainable tokens {total_trainable_tokens:.0f}/"
+                f"{total_mask_tokens:.0f} ({mask_trainable_ratio:.1%}), zero-mask seq {total_zero_mask_sequences}/"
+                f"{total_mask_sequences} ({mask_zero_sequence_ratio:.1%})"
+            )
+            print(
+                f"[PPO DEBUG] Trajectories used {len(all_trajectories)} / {len(raw_trajectories)}"
+                f" after all filters"
+            )
 
-        # Average metrics across PPO epochs
+        # Aggregate metrics
         if not all_metrics:
-            return {"error": "No metrics collected (early stopping before first update?)"}
+            return {}
+            
+        avg_metrics = {}
+        for key in all_metrics[0].keys():
+            avg_metrics[key] = np.mean([m[key] for m in all_metrics])
 
-        avg_metrics = {
-            key: np.mean([m[key] for m in all_metrics])
-            for key in all_metrics[0].keys()
-        }
-
-        # Add additional metrics
         avg_metrics.update({
-            "iteration": self.current_iteration,
-            "mean_reward": np.mean(rewards),
-            "mean_return": returns.mean().item(),
-            "std_return": returns.std().item(),
-            "num_trajectories": len(all_trajectories),
-            "ppo_epochs": self.ppo_epochs
+            "trajectories_total": len(raw_trajectories),
+            "trajectories_used": len(all_trajectories),
+            "trajectories_dropped_logprob": dropped_count,
+            "trajectories_dropped_recompute": recompute_dropped,
+            "mask_trainable_ratio": mask_trainable_ratio,
+            "mask_zero_sequence_ratio": mask_zero_sequence_ratio
         })
-
+            
         self.training_history.append(avg_metrics)
         self.current_iteration += 1
         
-        # Clear buffer after training (on-policy)
-        self.clear_buffer()
-
         return avg_metrics
 
     def save_checkpoint(
@@ -1011,3 +1124,107 @@ class PPOTrainer:
             "recent_mean_reward": np.mean([h["mean_reward"] for h in recent_history]),
             "buffer_size": len(self.trajectory_buffer)
         }
+
+    def _create_region_mask(self, text: str, generated_ids: torch.Tensor, phase: str = "unknown") -> torch.Tensor:
+        """
+        Create a boolean mask for PPO training regions.
+        1 = Trainable (Reasoning, Argument)
+        0 = Frozen (Scaffolding, Action)
+        """
+        device = generated_ids.device
+        mask = torch.zeros(len(generated_ids), dtype=torch.float32, device=device)
+        
+        # Normalize phase
+        phase = phase.lower() if phase else "unknown"
+        
+        is_discuss = "discuss" in phase
+        is_vote = "vote" in phase
+        is_night = "night" in phase
+
+        # If not a trainable phase, return zeros
+        if not (is_discuss or is_vote or is_night):
+            return mask
+
+        # Find markers
+        # Support multiple variations for robustness
+        inner_match = re.search(r'(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|INNER):', text, re.IGNORECASE)
+        public_match = re.search(r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC):', text, re.IGNORECASE)
+        action_label_match = re.search(r'ACTION:', text, re.IGNORECASE)
+        action_target_match = re.search(r'ACTION:\s*(\S+)', text, re.IGNORECASE)
+        
+        trainable_spans = []
+        
+        # Helper to add span
+        def add_span(start, end):
+            if end > start:
+                trainable_spans.append((start, end))
+        
+        def add_action_target_span():
+            if action_target_match and action_target_match.lastindex >= 1:
+                start, end = action_target_match.span(1)
+                add_span(start, end)
+
+        action_label_pos = action_label_match.start() if action_label_match else len(text)
+
+        # Logic for Discuss phases (No ACTION expected)
+        if is_discuss:
+            # Region: Inner Thoughts
+            if inner_match:
+                start = inner_match.end()
+                # End at Public Argument if exists, else End of Text
+                end = public_match.start() if public_match else len(text)
+                add_span(start, end)
+            
+            # Region: Public Argument
+            if public_match:
+                start = public_match.end()
+                # End at End of Text (ignore ACTION if present, as per instructions)
+                end = action_label_pos
+                add_span(start, end)
+
+        # Logic for Vote phases (Expects ACTION)
+        elif is_vote or is_night:
+            # Only train on the specific action target token(s)
+            add_action_target_span()
+
+        if not trainable_spans:
+            return mask
+            
+        # Map character spans to tokens
+        # We need offsets mapping. Since we don't have it stored, we re-tokenize.
+        # This is an approximation but usually accurate for deterministic tokenizers.
+        try:
+            # Note: generated_ids usually doesn't include BOS, but might include EOS.
+            # text is decoded from generated_ids.
+            enc = self.tokenizer(text, return_offsets_mapping=True, add_special_tokens=False)
+            offsets = enc.offset_mapping
+            
+            # Check if token count matches
+            # generated_ids might have EOS/Pad at the end which decode to empty string or are skipped
+            # But text was decoded from generated_ids.
+            # If len(offsets) != len(generated_ids), it's likely due to special tokens.
+            
+            # We iterate up to min length
+            limit = min(len(offsets), len(generated_ids))
+            
+            for i in range(limit):
+                start, end = offsets[i]
+                # Skip zero-length offsets (special tokens)
+                if start == end:
+                    continue
+
+                # Check if token overlaps any trainable span
+                is_trainable = False
+                for span_start, span_end in trainable_spans:
+                    if start < span_end and end > span_start:
+                        is_trainable = True
+                        break
+                
+                if is_trainable:
+                    mask[i] = 1.0
+                    
+        except Exception as e:
+            print(f"Error creating region mask: {e}")
+            return mask
+            
+        return mask

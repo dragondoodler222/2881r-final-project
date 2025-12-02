@@ -51,6 +51,118 @@ class CoTManager:
         self.cot_log: List[CoTEntry] = []
         self.role_assignments: Dict[str, str] = {}  # agent_id -> role
 
+    @staticmethod
+    def _strip_label(text: str) -> str:
+        """Remove leading labels like 'INTERNAL REASONING:', 'PUBLIC ARGUMENT:', etc.
+        
+        Only strips complete label phrases at the start of text to avoid
+        accidentally removing content that happens to start with similar words.
+        """
+        import re
+        # Strip specific leading label patterns (must be complete phrases)
+        text = re.sub(r'^\s*INTERNAL REASONING\s*:\s*', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'^\s*INNER THOUGHTS\s*:\s*', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'^\s*PUBLIC ARGUMENT\s*:\s*', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'^\s*PUBLIC STATEMENT\s*:\s*', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'^\s*ACTION\s*:\s*', '', text, flags=re.IGNORECASE)
+        return text.strip()
+
+    @staticmethod
+    def _extract_internal_only(text: str) -> str:
+        """Extract only the INTERNAL REASONING portion, excluding PUBLIC ARGUMENT if present."""
+        import re
+        # First strip leading label
+        text = CoTManager._strip_label(text)
+        
+        # If there's a PUBLIC ARGUMENT section embedded, extract only the part before it
+        public_match = re.search(
+            r'\s*(?:PUBLIC ARGUMENT|PUBLIC STATEMENT)\s*:',
+            text, re.IGNORECASE
+        )
+        if public_match:
+            # Return only the text before PUBLIC ARGUMENT
+            return text[:public_match.start()].strip()
+        
+        # Also check for ACTION: which might follow internal reasoning
+        action_match = re.search(r'\s*ACTION\s*:', text, re.IGNORECASE)
+        if action_match:
+            return text[:action_match.start()].strip()
+        
+        return text.strip()
+
+    @staticmethod
+    def _build_display_sections(
+        entry_dict: Dict[str, Any],
+        include_private: bool,
+        include_public: bool
+    ) -> Dict[str, Any]:
+        """Return structured display data for a CoT entry."""
+        agent_label = (entry_dict.get("agent_id") or "").strip()
+        action_type = (entry_dict.get("action_type") or "").lower()
+        phase = (entry_dict.get("phase") or "").lower()
+
+        # Extract only the internal reasoning portion (excluding any embedded PUBLIC ARGUMENT)
+        cot_text = (entry_dict.get("cot_text") or "").strip()
+        raw_private = CoTManager._extract_internal_only(cot_text)
+        
+        # For public argument, use the dedicated field if available, otherwise try to extract from cot_text
+        public_arg_field = (entry_dict.get("public_argument") or "").strip()
+        if public_arg_field:
+            raw_public = CoTManager._strip_label(public_arg_field)
+        else:
+            # Try to extract PUBLIC ARGUMENT from cot_text if not separately provided
+            import re
+            public_match = re.search(
+                r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT)\s*:\s*(.*?)(?=\s*ACTION:|$)',
+                cot_text, re.DOTALL | re.IGNORECASE
+            )
+            raw_public = public_match.group(1).strip() if public_match else ""
+
+        combined_sections: List[str] = []
+        private_formatted = ""
+        public_formatted = ""
+
+        # Never expose night-only actions regardless of visibility
+        if action_type in CoTManager.NIGHT_ONLY_ACTIONS or phase.startswith("night"):
+            include_private = False
+            include_public = False
+            raw_private = ""
+            raw_public = ""
+
+        if include_private and raw_private:
+            if action_type in {"vote", "kill", "save"}:
+                label = "ACTION OUTPUT"
+            else:
+                label = "INTERNAL REASONING"
+            prefix = f"[{agent_label}] " if agent_label else ""
+            private_formatted = f"{label}: {prefix}{raw_private}"
+            combined_sections.append(private_formatted)
+        else:
+            raw_private = ""
+
+        if include_public and raw_public:
+            if action_type.startswith("discuss"):
+                public_label = "PUBLIC ARGUMENT"
+            else:
+                public_label = "PUBLIC STATEMENT"
+            prefix = f"[{agent_label}] " if agent_label else ""
+            public_formatted = f"{public_label}: {prefix}{raw_public}"
+            combined_sections.append(public_formatted)
+        else:
+            raw_public = ""
+
+        combined = "\n".join([s for s in combined_sections if s]).strip()
+
+        return {
+            "agent_id": agent_label,
+            "action_type": action_type,
+            "private_raw": raw_private,
+            "public_raw": raw_public,
+            "private_formatted": private_formatted,
+            "public_formatted": public_formatted,
+            "combined": combined
+        }
+
     def _should_hide_entry(self, entry: CoTEntry, requesting_agent_id: str) -> bool:
         """Return True if this entry should be hidden from the requesting agent."""
         if entry.agent_id == requesting_agent_id:
@@ -145,11 +257,9 @@ class CoTManager:
             for c in cots:
                 if c.agent_id != requesting_agent_id and not self._should_hide_entry(c, requesting_agent_id):
                     d = c.to_dict()
-                    # Combine private and public for display
-                    if d.get("public_argument"):
-                        d["display_text"] = f"PRIVATE: {d['cot_text']}\nPUBLIC: {d['public_argument']}"
-                    else:
-                        d["display_text"] = d["cot_text"]
+                    sections = self._build_display_sections(d, include_private=True, include_public=True)
+                    d["display_sections"] = sections
+                    d["display_text"] = sections["combined"] or d.get("cot_text", "")
                     visible.append(d)
             return visible
 
@@ -159,13 +269,12 @@ class CoTManager:
             for c in cots:
                 if c.agent_id != requesting_agent_id and not self._should_hide_entry(c, requesting_agent_id):
                     d = c.to_dict()
-                    # Only show public argument if available
-                    if d.get("public_argument"):
-                        d["display_text"] = f"PUBLIC: {d['public_argument']}"
-                        # Hide private thought
+                    sections = self._build_display_sections(d, include_private=False, include_public=True)
+                    if sections["combined"]:
+                        d["display_sections"] = sections
+                        d["display_text"] = sections["combined"]
                         d["cot_text"] = "[HIDDEN]"
                         visible.append(d)
-                    # If no public argument (e.g. night action), show nothing or generic
             return visible
 
         elif self.visibility_mode == VisibilityMode.ROLE_BASED:
@@ -182,16 +291,17 @@ class CoTManager:
                         and not self._should_hide_entry(c, requesting_agent_id)
                     ):
                         d = c.to_dict()
-                        if d.get("public_argument"):
-                            d["display_text"] = f"PRIVATE: {d['cot_text']}\nPUBLIC: {d['public_argument']}"
-                        else:
-                            d["display_text"] = d["cot_text"]
+                        sections = self._build_display_sections(d, include_private=True, include_public=True)
+                        d["display_sections"] = sections
+                        d["display_text"] = sections["combined"] or d.get("cot_text", "")
                         visible.append(d)
                     elif c.agent_id != requesting_agent_id and not self._should_hide_entry(c, requesting_agent_id):
                         # See non-Mafia public arguments only
                         d = c.to_dict()
-                        if d.get("public_argument"):
-                            d["display_text"] = f"PUBLIC: {d['public_argument']}"
+                        sections = self._build_display_sections(d, include_private=False, include_public=True)
+                        if sections["combined"]:
+                            d["display_sections"] = sections
+                            d["display_text"] = sections["combined"]
                             d["cot_text"] = "[HIDDEN]"
                             visible.append(d)
                 return visible
@@ -201,8 +311,10 @@ class CoTManager:
                 for c in cots:
                     if c.agent_id != requesting_agent_id and not self._should_hide_entry(c, requesting_agent_id):
                         d = c.to_dict()
-                        if d.get("public_argument"):
-                            d["display_text"] = f"PUBLIC: {d['public_argument']}"
+                        sections = self._build_display_sections(d, include_private=False, include_public=True)
+                        if sections["combined"]:
+                            d["display_sections"] = sections
+                            d["display_text"] = sections["combined"]
                             d["cot_text"] = "[HIDDEN]"
                             visible.append(d)
                 return visible
@@ -239,8 +351,15 @@ class CoTManager:
         self.cot_log = []
 
     def export_log(self) -> List[Dict[str, Any]]:
-        """Export all CoTs as dictionaries"""
-        return [cot.to_dict() for cot in self.cot_log]
+        """Export all CoTs as dictionaries with structured display_sections."""
+        result = []
+        for cot in self.cot_log:
+            d = cot.to_dict()
+            # Add structured display_sections for cleaner logging
+            sections = self._build_display_sections(d, include_private=True, include_public=True)
+            d["display_sections"] = sections
+            result.append(d)
+        return result
 
     def __len__(self) -> int:
         return len(self.cot_log)

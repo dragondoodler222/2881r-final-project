@@ -38,6 +38,7 @@ class LLMAgent(BaseAgent):
         self.last_input_ids = None  # Store tokenized input for PPO recomputation
         self.last_generated_ids = None  # Store generated tokens for PPO log prob recomputation
         self.last_parsing_confidence = 1.0  # Store parsing confidence
+        self.last_token_log_probs: List[float] = []
 
     def perceive(self, game_state: Dict, visible_cots: List[Dict]) -> None:
         """
@@ -82,7 +83,7 @@ class LLMAgent(BaseAgent):
         )
 
         # Generate response
-        cot_and_action, log_prob, input_ids, generated_ids = self._generate_with_log_prob(prompt)
+        cot_and_action, log_prob, input_ids, generated_ids, token_log_probs = self._generate_with_log_prob(prompt)
 
         # Store prompt, log prob, input_ids, and generated_ids for RL training (PPO recomputation)
         self.last_prompt = prompt
@@ -90,9 +91,10 @@ class LLMAgent(BaseAgent):
         self.last_cot = cot_and_action
         self.last_input_ids = input_ids
         self.last_generated_ids = generated_ids
+        self.last_token_log_probs = token_log_probs
 
         # Parse CoT and action
-        cot, action, confidence = self._parse_response(cot_and_action, game_state)
+        cot, action, confidence = self._parse_response(cot_and_action, game_state, action_type)
         self.last_parsing_confidence = confidence
 
         return cot, action
@@ -140,7 +142,8 @@ class LLMAgent(BaseAgent):
         log_prob: float,
         input_ids: torch.Tensor,
         generated_ids: torch.Tensor,
-        game_state: Dict
+        game_state: Dict,
+        token_log_probs: List[float] = None
     ) -> AgentAction:
         """
         Process the generated response and create action (Step 2 of batch generation)
@@ -153,6 +156,7 @@ class LLMAgent(BaseAgent):
             input_ids: Input token IDs
             generated_ids: Generated token IDs
             game_state: Current game state
+            token_log_probs: List of log probs per token
 
         Returns:
             AgentAction object
@@ -163,9 +167,10 @@ class LLMAgent(BaseAgent):
         self.last_cot = generated_text
         self.last_input_ids = input_ids
         self.last_generated_ids = generated_ids
+        self.last_token_log_probs = token_log_probs or []
 
         # Parse CoT and action
-        cot, target, confidence = self._parse_response(generated_text, game_state)
+        cot, target, confidence = self._parse_response(generated_text, game_state, action_type)
         self.last_parsing_confidence = confidence
 
         # Create action object
@@ -286,7 +291,7 @@ class LLMAgent(BaseAgent):
 
         return action
 
-    def _generate_with_log_prob(self, prompt: str) -> Tuple[str, float, torch.Tensor, torch.Tensor]:
+    def _generate_with_log_prob(self, prompt: str) -> Tuple[str, float, torch.Tensor, torch.Tensor, List[float]]:
         """
         Generate text and compute log probability
 
@@ -294,13 +299,16 @@ class LLMAgent(BaseAgent):
             prompt: Input prompt
 
         Returns:
-            Tuple of (generated_text, log_prob, input_ids, generated_ids)
+            Tuple of (generated_text, log_prob, input_ids, generated_ids, token_log_probs)
         """
         # If using remote client (model has generate_batch), use it
         if hasattr(self.model, 'generate_batch'):
             results = self.model.generate_batch([prompt], self.max_tokens, self.temperature)
             res = results[0]
-            return res['text'], res['log_prob'], res['input_ids'], res['generated_ids']
+            # Assuming remote model also returns token_log_probs, if not we might have an issue.
+            # For now, assume it does or handle it.
+            token_log_probs = res.get('token_log_probs', [])
+            return res['text'], res['log_prob'], res['input_ids'], res['generated_ids'], token_log_probs
 
         # Tokenize input
         inputs = self.tokenizer(
@@ -336,9 +344,9 @@ class LLMAgent(BaseAgent):
         generated_ids_cpu = generated_ids.cpu().clone()
 
         # Compute log probability of the generated sequence
-        log_prob = self._compute_log_prob_from_scores(outputs.scores, generated_ids)
+        log_prob, token_log_probs = self._compute_log_prob_from_scores(outputs.scores, generated_ids)
 
-        return generated_text, log_prob, input_ids, generated_ids_cpu
+        return generated_text, log_prob, input_ids, generated_ids_cpu, token_log_probs
 
     @staticmethod
     def compute_log_prob_from_scores(
@@ -346,7 +354,7 @@ class LLMAgent(BaseAgent):
         generated_ids: torch.Tensor,
         eos_token_id: int = None,
         pad_token_id: int = None
-    ) -> float:
+    ) -> Tuple[float, List[float]]:
         """
         Compute log probability from generation scores
 
@@ -357,9 +365,10 @@ class LLMAgent(BaseAgent):
             pad_token_id: Pad token ID to stop counting
 
         Returns:
-            Sum of log probabilities
+            Tuple of (Sum of log probabilities, List of per-token log probabilities)
         """
         log_prob_sum = 0.0
+        token_log_probs_list = []
         count = 0
 
         for i, logits in enumerate(scores):
@@ -377,7 +386,9 @@ class LLMAgent(BaseAgent):
             # But we want the log prob under the sampling distribution, so this is correct.
             log_probs = torch.log_softmax(logits[0], dim=-1)
 
-            log_prob_sum += log_probs[token_id].item()
+            token_log_prob = log_probs[token_id].item()
+            log_prob_sum += token_log_prob
+            token_log_probs_list.append(token_log_prob)
             count += 1
             
             # Stop after processing EOS
@@ -386,10 +397,10 @@ class LLMAgent(BaseAgent):
 
         # Handle empty sequence case
         if count == 0:
-            return -100.0
+            return -100.0, []
 
-        # Return sum of log probs (standard for PPO)
-        return log_prob_sum
+        # Return sum of log probs (standard for PPO) and list of token log probs
+        return log_prob_sum, token_log_probs_list
 
     def _compute_log_prob_from_scores(
         self,
@@ -405,7 +416,8 @@ class LLMAgent(BaseAgent):
     def _parse_response(
         self,
         response: str,
-        game_state: Dict
+        game_state: Dict,
+        action_type: Optional[str] = None
     ) -> Tuple[str, Optional[str], float]:
         """
         Parse the response into CoT and action using multi-tier strategy
@@ -413,6 +425,7 @@ class LLMAgent(BaseAgent):
         Args:
             response: Generated text
             game_state: Current game state
+            action_type: Type of action that produced this response
 
         Returns:
             Tuple of (chain_of_thought, target_player, confidence_score)
@@ -428,6 +441,8 @@ class LLMAgent(BaseAgent):
         target = None
         cot = response
         confidence = 0.0
+        action_type_norm = (action_type or "").lower()
+        expect_action_only = action_type_norm in {"vote", "kill", "save"}
 
         # TIER 1: Explicit ACTION: format (highest priority)
         # Look for "ACTION: player_X" at the end of response
@@ -435,13 +450,21 @@ class LLMAgent(BaseAgent):
         if action_match:
             candidate = action_match.group(1).strip()
             
-            # Extract PRIVATE THOUGHTS if present
-            private_match = re.search(r'PRIVATE THOUGHTS:(.*?)PUBLIC ARGUMENT:', response, re.DOTALL | re.IGNORECASE)
-            if private_match:
-                cot = private_match.group(1).strip()
+            if expect_action_only:
+                # Vote / night actions should not emit reasoning
+                cot = ""
             else:
-                # Fallback: everything before action
-                cot = response[:action_match.start()].strip()
+                # Extract INTERNAL REASONING if present
+                private_match = re.search(
+                    r'(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|PRIVATE THOUGHTS):(.*?)(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC):',
+                    response,
+                    re.DOTALL | re.IGNORECASE
+                )
+                if private_match:
+                    cot = private_match.group(1).strip()
+                else:
+                    # Fallback: everything before action
+                    cot = response[:action_match.start()].strip()
 
             # Check if it's a valid player
             if candidate in alive_players:
@@ -456,9 +479,11 @@ class LLMAgent(BaseAgent):
                         break
         
         # TIER 2: Structured format without explicit ACTION
-        elif "PRIVATE THOUGHTS:" in response and "PUBLIC ARGUMENT:" in response:
-            # Extract PRIVATE THOUGHTS
-            private_match = re.search(r'PRIVATE THOUGHTS:(.*?)PUBLIC ARGUMENT:', response, re.DOTALL | re.IGNORECASE)
+        elif re.search(r'(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|PRIVATE THOUGHTS):', response, re.IGNORECASE) and \
+            re.search(r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC):', response, re.IGNORECASE):
+            
+            # Extract INTERNAL REASONING
+            private_match = re.search(r'(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|PRIVATE THOUGHTS):(.*?)(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC):', response, re.DOTALL | re.IGNORECASE)
             if private_match:
                 cot = private_match.group(1).strip()
             
@@ -511,3 +536,7 @@ class LLMAgent(BaseAgent):
     def get_last_temperature(self) -> float:
         """Get temperature used for last action"""
         return self.temperature
+
+    def get_last_token_log_probs(self) -> Optional[List[float]]:
+        """Get last token log probs (for masked PPO)"""
+        return self.last_token_log_probs

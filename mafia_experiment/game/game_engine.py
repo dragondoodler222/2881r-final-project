@@ -140,7 +140,7 @@ class GameEngine:
             sample_scores = tuple(score[i:i+1] for score in outputs.scores[:len(stripped_gen_ids)])
             
             # Compute log prob using LLMAgent's static method (with EOS/pad handling)
-            log_prob = LLMAgent.compute_log_prob_from_scores(
+            log_prob, token_log_probs = LLMAgent.compute_log_prob_from_scores(
                 sample_scores, stripped_gen_ids,
                 eos_token_id=eos_token_id,
                 pad_token_id=pad_token_id
@@ -149,6 +149,7 @@ class GameEngine:
             results.append({
                 "text": text,
                 "log_prob": log_prob,
+                "token_log_probs": token_log_probs,
                 "input_ids": inputs.input_ids[i].cpu(),
                 "generated_ids": stripped_gen_ids.cpu()  # Store stripped version
             })
@@ -227,7 +228,8 @@ class GameEngine:
                 log_prob=res["log_prob"],
                 input_ids=res["input_ids"],
                 generated_ids=res["generated_ids"],
-                game_state=self.game_state.get_visible_state(agent.agent_id)
+                game_state=self.game_state.get_visible_state(agent.agent_id),
+                token_log_probs=res.get("token_log_probs")
             )
             
             actions[agent.agent_id] = action
@@ -350,6 +352,7 @@ class GameEngine:
         prompt = agent.get_last_prompt()
         input_ids = agent.get_last_input_ids()
         generated_ids = agent.get_last_generated_ids()
+        token_log_probs = getattr(agent, 'get_last_token_log_probs', lambda: None)()
         cot = agent.get_last_cot()
         parsing_confidence = getattr(agent, 'get_last_parsing_confidence', lambda: 1.0)()
         temperature = getattr(agent, 'get_last_temperature', lambda: 1.0)()
@@ -372,6 +375,7 @@ class GameEngine:
             prompt=prompt,
             input_ids=input_ids,
             generated_ids=generated_ids,
+            token_log_probs=token_log_probs,
             parsing_confidence=parsing_confidence,
             temperature=temperature
         )
@@ -666,7 +670,7 @@ class GameEngine:
         """Create final game result dictionary"""
         cot_history = []
         if self.cot_manager is not None:
-            cot_history = [entry.to_dict() for entry in self.cot_manager.cot_log]
+            cot_history = self.cot_manager.export_log()
 
         return {
             "game_id": self.game_id,

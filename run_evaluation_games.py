@@ -46,6 +46,40 @@ def format_game_log(game_result: Dict[str, Any], cot_visibility: VisibilityMode)
         log.append(f"{agent_id}: {role.role_type.value} ({role.team})")
     log.append("\n")
     
+    def _format_cot_entry(cot: Dict[str, Any], role_str: str) -> List[str]:
+        """Format a single CoT entry using structured display sections."""
+        lines = []
+        agent_id = cot["agent_id"]
+        action_type = cot.get("action_type", "unknown")
+        
+        lines.append(f"\n[Agent {agent_id} ({role_str}) - {action_type}]")
+        
+        # Try to use structured display_sections if available
+        display_sections = cot.get("display_sections")
+        if display_sections:
+            private_raw = display_sections.get("private_raw", "").strip()
+            public_raw = display_sections.get("public_raw", "").strip()
+            
+            if action_type in {"kill", "save"}:
+                # Night actions - just show the action
+                lines.append(f"ACTION: {cot.get('cot_text', '').strip()}")
+            elif action_type == "vote":
+                lines.append(f"VOTE: {cot.get('cot_text', '').strip()}")
+            else:
+                # Discussion phases - show structured output
+                if private_raw:
+                    lines.append(f"INTERNAL REASONING: {private_raw}")
+                if public_raw:
+                    lines.append(f"PUBLIC ARGUMENT: {public_raw}")
+                if not private_raw and not public_raw:
+                    # Fallback to raw cot_text
+                    lines.append(f"RAW OUTPUT: {cot.get('cot_text', '').strip()}")
+        else:
+            # Fallback to raw cot_text if no display_sections
+            lines.append(f"RAW OUTPUT: {cot.get('cot_text', '').strip()}")
+        
+        return lines
+    
     # Process by Round
     current_round = 0
     
@@ -73,18 +107,9 @@ def format_game_log(game_result: Dict[str, Any], cot_visibility: VisibilityMode)
             agent_id = cot["agent_id"]
             role = game_state.roles.get(agent_id)
             role_str = role.role_type.value if role else "Unknown"
-            
-            log.append(f"\n[Agent {agent_id} ({role_str}) - Night Action]")
-            log.append(f"Action Type: {cot['action_type']}")
-            log.append("RAW OUTPUT:")
-            log.append(f"{cot['cot_text']}")
+            log.extend(_format_cot_entry(cot, role_str))
             
         # Find night events (kills)
-        # We can look at public events that start with "Round {r}:" and contain "killed" or "eliminated"
-        # But public events are just strings.
-        # Better to look at phase history if available, but game_result might not have full phase objects easily accessible
-        # Let's use public events for outcomes
-        
         log.append("\n--- NIGHT OUTCOME ---")
         round_events = [e for e in public_events if e.startswith(f"Round {r}:")]
         for event in round_events:
@@ -101,10 +126,7 @@ def format_game_log(game_result: Dict[str, Any], cot_visibility: VisibilityMode)
             agent_id = cot["agent_id"]
             role = game_state.roles.get(agent_id)
             role_str = role.role_type.value if role else "Unknown"
-            
-            log.append(f"\n[Agent {agent_id} ({role_str})]")
-            log.append("RAW OUTPUT:")
-            log.append(f"{cot['cot_text']}")
+            log.extend(_format_cot_entry(cot, role_str))
 
         # Discussion 2
         log.append(f"\n--- DISCUSSION ROUND 2 ---")
@@ -113,10 +135,7 @@ def format_game_log(game_result: Dict[str, Any], cot_visibility: VisibilityMode)
             agent_id = cot["agent_id"]
             role = game_state.roles.get(agent_id)
             role_str = role.role_type.value if role else "Unknown"
-            
-            log.append(f"\n[Agent {agent_id} ({role_str})]")
-            log.append("RAW OUTPUT:")
-            log.append(f"{cot['cot_text']}")
+            log.extend(_format_cot_entry(cot, role_str))
 
         # Voting
         log.append(f"\n--- VOTING ---")
@@ -125,12 +144,7 @@ def format_game_log(game_result: Dict[str, Any], cot_visibility: VisibilityMode)
             agent_id = cot["agent_id"]
             role = game_state.roles.get(agent_id)
             role_str = role.role_type.value if role else "Unknown"
-            
-            log.append(f"\n[Agent {agent_id} ({role_str})]")
-            log.append("RAW OUTPUT:")
-            log.append(f"{cot['cot_text']}")
-            # Extract vote target from CoT or action if possible. 
-            # The CoT text usually ends with "ACTION: Vote <Target>"
+            log.extend(_format_cot_entry(cot, role_str))
             
         log.append("\n--- DAY OUTCOME ---")
         for event in round_events:
