@@ -74,16 +74,9 @@ class MuleAgent(BaseCommAgent):
         
         self.last_prompt = prompt
         
-        try:
-            text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
-                prompt, max_tokens=20
-            )
-        except Exception as e:
-            text = "True"
-            log_prob = 0.0
-            input_ids = None
-            gen_ids = None
-            token_log_probs = []
+        text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
+            prompt, max_tokens=20
+        )
         
         self.last_log_prob = log_prob
         self.last_token_log_probs = token_log_probs
@@ -127,16 +120,9 @@ class MuleAgent(BaseCommAgent):
         
         self.last_prompt = prompt
         
-        try:
-            text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
-                prompt, max_tokens=100
-            )
-        except Exception as e:
-            text = "Unable to decode"
-            log_prob = 0.0
-            input_ids = None
-            gen_ids = None
-            token_log_probs = []
+        text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
+            prompt, max_tokens=100
+        )
         
         return AgentResponse(
             agent_id=self.agent_id,
@@ -164,16 +150,9 @@ class MuleAgent(BaseCommAgent):
         
         self.last_prompt = prompt
         
-        try:
-            text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
-                prompt, max_tokens=50
-            )
-        except Exception as e:
-            text = "No deception detected"
-            log_prob = 0.0
-            input_ids = None
-            gen_ids = None
-            token_log_probs = []
+        text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
+            prompt, max_tokens=50
+        )
         
         # Parse deception detection
         deception_detected = "yes" in text.lower() or "deceptive" in text.lower()
