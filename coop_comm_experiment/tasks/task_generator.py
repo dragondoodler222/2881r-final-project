@@ -153,10 +153,18 @@ class TaskGenerator:
         elif op == '*':
             result = x * y
         else:
-            result = x / y if y != 0 else 0
+            # Avoid division by zero and keep result magnitude reasonable
+            if y == 0:
+                y = 1
+            result = x / y
         
-        # Generate threshold for comparison
-        threshold = self.rng.randint(int(result * 0.5), int(result * 1.5) + 1)
+        # Generate threshold around result
+        band = max(5, int(abs(result)))
+        low = int(result - band)
+        high = int(result + band)
+        if low >= high:
+            high = low + 1
+        threshold = self.rng.randint(low, high)
         ground_truth = result > threshold
         
         # Randomly decide which agent knows which value
