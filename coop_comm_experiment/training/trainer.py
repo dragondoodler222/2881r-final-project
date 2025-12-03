@@ -238,11 +238,14 @@ class CoopCommTrainer:
             input_ids = traj.input_ids.to(device)
             generated_ids = traj.generated_ids.to(device)
             
+            # Ensure both are 2D: (1, seq_len)
             if input_ids.dim() == 1:
                 input_ids = input_ids.unsqueeze(0)
+            if generated_ids.dim() == 1:
+                generated_ids = generated_ids.unsqueeze(0)
             
             # Full sequence = prompt + generated
-            full_seq = torch.cat([input_ids, generated_ids.unsqueeze(0)], dim=1)
+            full_seq = torch.cat([input_ids, generated_ids], dim=1)
             
             # Attention mask
             attention_mask = torch.ones_like(full_seq)
@@ -281,7 +284,8 @@ class CoopCommTrainer:
                 values_list.append(value.detach())
             
             # Compute log probs for generated tokens
-            num_generated = len(generated_ids)
+            # generated_ids is 2D (1, seq_len), so use shape[1] for length
+            num_generated = generated_ids.shape[1]
             token_log_probs = []
             token_entropies = []
             
@@ -290,7 +294,7 @@ class CoopCommTrainer:
                 if logit_pos >= logits.shape[1]:
                     break
                 
-                token_id = generated_ids[i].item()
+                token_id = generated_ids[0, i].item()
                 token_logits = logits[0, logit_pos, :].float()
                 
                 log_probs = F.log_softmax(token_logits, dim=-1)
@@ -401,6 +405,11 @@ class CoopCommTrainer:
             return {"error": "No trajectories in buffer"}
         
         all_trajectories = self.trajectory_buffer.get_all()
+        
+        # count trajectories with valid tensors for debugging
+        n_total = len(all_trajectories)
+        n_with_tensors = sum(1 for t in all_trajectories if t.input_ids is not None and t.generated_ids is not None)
+        print(f"DEBUG: Trajectories: {n_total} total, {n_with_tensors} with valid tensors")
         
         # Filter invalid trajectories
         valid_trajectories = [

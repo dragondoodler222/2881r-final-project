@@ -263,13 +263,9 @@ class TaskGenerator:
         fact_p2 = self.rng.choice([True, False])
         
         if logic_type == "implies":
-            # If p1 then outcome
+            # If p1 then outcome: outcome is true iff p1 is true (rule fires)
             rule = f"If it is {p1}, then {outcome_nice}"
-            ground_truth = not fact_p1 or True  # p1 -> outcome simplified
-            if fact_p1:
-                ground_truth = True
-            else:
-                ground_truth = self.rng.choice([True, False])  # Unknown if antecedent false
+            ground_truth = fact_p1  # Outcome happens only when antecedent is true
         elif logic_type == "and":
             rule = f"{outcome_nice.capitalize()} happens when it is both {p1} and {p2}"
             ground_truth = fact_p1 and fact_p2
@@ -347,7 +343,9 @@ class TaskGenerator:
             question = f"Do the two sets have more than {threshold} items in common?"
             ground_truth = overlap_size > threshold
         else:
-            target_item = self.rng.choice(all_items)
+            # Choose from items that are in at least one set (solvable through communication)
+            possible_items = list(set(set_a) | set(set_b))
+            target_item = self.rng.choice(possible_items)
             question = f"Is '{target_item}' in both sets?"
             ground_truth = target_item in set_a and target_item in set_b
         

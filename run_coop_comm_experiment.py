@@ -258,7 +258,7 @@ def main():
             # Training step
             if len(trainer.trajectory_buffer) > 0:
                 train_metrics = trainer.train_iteration(batch_size=config.batch_size)
-                logger.info(f"  Loss: {train_metrics.get('loss', 0):.4f}")
+                logger.info(f"  Loss: {train_metrics.get('total_loss', 0):.4f}")
                 logger.info(f"  Avg Reward: {train_metrics.get('avg_reward', 0):.4f}")
             
             # Clear buffer for on-policy training

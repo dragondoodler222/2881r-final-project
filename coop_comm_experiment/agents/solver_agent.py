@@ -53,15 +53,7 @@ class SolverAgent(BaseCommAgent):
         
         self.last_prompt = prompt
         
-        try:
-            text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(prompt)
-        except Exception as e:
-            # Fallback for testing without model
-            text = f"My information suggests we should think about this carefully."
-            log_prob = 0.0
-            input_ids = None
-            gen_ids = None
-            token_log_probs = []
+        text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(prompt)
         
         self.last_log_prob = log_prob
         self.last_token_log_probs = token_log_probs
@@ -69,7 +61,6 @@ class SolverAgent(BaseCommAgent):
         self.last_generated_ids = gen_ids
         self.last_raw_response = text
         
-        # Parse message content
         message = self._parse_message(text)
         
         return AgentResponse(
@@ -98,16 +89,9 @@ class SolverAgent(BaseCommAgent):
         
         self.last_prompt = prompt
         
-        try:
-            text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
-                prompt, max_tokens=20
-            )
-        except Exception as e:
-            text = "True"
-            log_prob = 0.0
-            input_ids = None
-            gen_ids = None
-            token_log_probs = []
+        text, log_prob, input_ids, gen_ids, token_log_probs = self._generate_with_log_prob(
+            prompt, max_tokens=20
+        )
         
         self.last_log_prob = log_prob
         self.last_token_log_probs = token_log_probs
