@@ -203,65 +203,6 @@ class LLMAgent(BaseAgent):
 
         return action
 
-    @staticmethod
-    def compute_log_prob_from_scores(
-        scores: Tuple[torch.Tensor],
-        generated_ids: torch.Tensor,
-        eos_token_id: int = 128001,  # Default for Llama-3
-        pad_token_id: int = 128001   # Default for Llama-3 (same as EOS)
-    ) -> float:
-        """
-        Compute log probability from generation scores (Static version for batching)
-
-        Args:
-            scores: Tuple of logit tensors (one per generated token)
-            generated_ids: Generated token IDs
-            eos_token_id: EOS token ID to stop accumulation at
-            pad_token_id: Pad token ID to skip
-            Temperature scaling is already applied inside the generation pipeline
-
-        Returns:
-            Sum of log probabilities for the generated sequence
-        """
-        log_prob_sum = 0.0
-        count = 0
-
-        for i, logits in enumerate(scores):
-            if i >= len(generated_ids):
-                break
-
-            token_id = generated_ids[i].item()
-            
-            # Skip padding tokens entirely - they weren't actually sampled
-            if token_id == pad_token_id:
-                continue
-                
-            # Get log probabilities (scores already include sampling temperature)
-            log_probs = torch.log_softmax(logits[0], dim=-1)
-            
-            # Get log prob of selected token
-            token_log_prob = log_probs[token_id].item()
-            
-            # Handle -inf case (shouldn't happen but be safe)
-            if token_log_prob == float('-inf'):
-                # Token was filtered by top-k/top-p but somehow selected
-                # This indicates padding/EOS confusion - skip it
-                continue
-            
-            log_prob_sum += token_log_prob
-            count += 1
-            
-            # Stop if we hit EOS token (everything after is padding)
-            if token_id == eos_token_id:
-                break
-
-        # Handle empty sequence case
-        if count == 0:
-            return -100.0
-
-        # Return sum of log probs (standard for PPO)
-        return log_prob_sum
-
     def act(
         self,
         action_type: str,
@@ -419,7 +360,8 @@ class LLMAgent(BaseAgent):
         self,
         scores: Tuple[torch.Tensor],
         generated_ids: torch.Tensor
-    ) -> float:
+    ) -> Tuple[float, List[float]]:
+        """Instance method wrapper for compute_log_prob_from_scores."""
         return LLMAgent.compute_log_prob_from_scores(
             scores, generated_ids, 
             self.tokenizer.eos_token_id, 
@@ -436,7 +378,7 @@ class LLMAgent(BaseAgent):
         Parse the response into CoT and action using multi-tier strategy
 
         Args:
-            response: Generated text
+            response: Generated text (model output, may not include labels if prompt ended with them)
             game_state: Current game state
             action_type: Type of action that produced this response
 
@@ -456,6 +398,7 @@ class LLMAgent(BaseAgent):
         confidence = 0.0
         action_type_norm = (action_type or "").lower()
         expect_action_only = action_type_norm in {"vote", "kill", "save"}
+        is_discuss = "discuss" in action_type_norm
 
         # TIER 1: Explicit ACTION: format (highest priority)
         # Look for "ACTION: player_X" at the end of response
@@ -491,7 +434,7 @@ class LLMAgent(BaseAgent):
                         confidence = 0.8
                         break
         
-        # TIER 2: Structured format without explicit ACTION
+        # TIER 2: Structured format with both labels in response
         elif re.search(r'(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|PRIVATE THOUGHTS):', response, re.IGNORECASE) and \
             re.search(r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC):', response, re.IGNORECASE):
             
@@ -507,8 +450,29 @@ class LLMAgent(BaseAgent):
                     confidence = 0.6
                     break
         
+        # TIER 2b: Discuss format where prompt ended with INTERNAL REASONING:
+        # Response has PUBLIC ARGUMENT: but no INTERNAL REASONING: (because it was in prompt)
+        elif is_discuss and re.search(r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT):', response, re.IGNORECASE):
+            # Everything before PUBLIC ARGUMENT is the internal reasoning
+            public_match = re.search(r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT):', response, re.IGNORECASE)
+            if public_match:
+                cot = response[:public_match.start()].strip()
+                confidence = 0.8
+            
+            # Try to find target in the whole response
+            for player in other_players:
+                if player in response:
+                    target = player
+                    confidence = 0.6
+                    break
+        
         # TIER 3: Heuristic search (fallback)
         else:
+            # For discuss phases without any labels, use full response as cot
+            if is_discuss:
+                cot = response.strip()
+                confidence = 0.5
+            
             # Look for player names in the text
             found_players = []
             for player in other_players:
@@ -518,7 +482,7 @@ class LLMAgent(BaseAgent):
             if found_players:
                 # Pick the last mentioned player (often the conclusion)
                 target = found_players[-1]
-                confidence = 0.5
+                confidence = max(confidence, 0.5)
         
         # For action-only phases (vote/kill/save), clear the cot to prevent hallucination propagation
         # The CoT for these phases should just be the action itself, not reasoning

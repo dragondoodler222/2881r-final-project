@@ -21,7 +21,8 @@ class Trajectory:
     action: str  # Action taken
     log_prob: float  # Log probability of the action
     reward: float = 0.0  # Reward (assigned later)
-    cot: str = ""  # Chain of thought
+    cot: str = ""  # Chain of thought (parsed - internal reasoning only)
+    raw_response: str = ""  # Full raw model response (with labels for masking)
     visible_cots: List[Dict] = field(default_factory=list)  # CoTs from other agents
     prompt: str = ""  # Full prompt used for this action (needed for PPO recomputation)
     input_ids: Optional[torch.Tensor] = None  # Tokenized input (needed for PPO recomputation)
@@ -42,6 +43,7 @@ class Trajectory:
             "log_prob": self.log_prob,
             "reward": self.reward,
             "cot": self.cot,
+            "raw_response": self.raw_response,
             "num_visible_cots": len(self.visible_cots),
             "parsing_confidence": self.parsing_confidence
         }

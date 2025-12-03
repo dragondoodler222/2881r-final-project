@@ -61,7 +61,7 @@ def main():
         },
         "cot_visibility": VisibilityMode.PUBLIC,
         "num_training_iterations": 50,
-        "games_per_iteration": 36,
+        "games_per_iteration": 16,
         "learning_rate": 7e-6,  # Lowered for 1B model stability
         "ppo_batch_size": 256,  # Logical batch size
         "mini_batch_size": 16,   # Physical batch size (reduced for memory)

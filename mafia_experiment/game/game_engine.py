@@ -354,6 +354,7 @@ class GameEngine:
         generated_ids = agent.get_last_generated_ids()
         token_log_probs = getattr(agent, 'get_last_token_log_probs', lambda: None)()
         cot = agent.get_last_cot()
+        raw_response = getattr(agent, 'get_last_raw_response', lambda: cot)()  # Fallback to cot if not available
         parsing_confidence = getattr(agent, 'get_last_parsing_confidence', lambda: 1.0)()
         temperature = getattr(agent, 'get_last_temperature', lambda: 1.0)()
 
@@ -371,6 +372,7 @@ class GameEngine:
             log_prob=log_prob,
             reward=0.0,  # Will be assigned later
             cot=cot,
+            raw_response=raw_response,
             visible_cots=visible_cots,
             prompt=prompt,
             input_ids=input_ids,

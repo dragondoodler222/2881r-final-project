@@ -307,10 +307,20 @@ class PPOTrainer:
                 continue
 
             # Create region mask
-            # We use the stored text (cot) and generated_ids
+            # Use raw_response (with labels) for masking, fallback to cot if not available
+            mask_text = getattr(trajectory, 'raw_response', None) or trajectory.cot
+            
+            # Debug: check what mask_text contains
+            if self.debug_kl and getattr(self, '_mask_text_debug_counter', 0) < 5:
+                self._mask_text_debug_counter = getattr(self, '_mask_text_debug_counter', 0) + 1
+                has_raw = bool(getattr(trajectory, 'raw_response', None))
+                print(f"[MASK TEXT DEBUG] Phase: {trajectory.phase}, Has raw_response: {has_raw}")
+                print(f"[MASK TEXT DEBUG] mask_text ({len(mask_text)} chars): {mask_text[:150]}...")
+                print(f"[MASK TEXT DEBUG] cot ({len(trajectory.cot)} chars): {trajectory.cot[:150]}..." if trajectory.cot else "[MASK TEXT DEBUG] cot is empty")
+            
             # If generated_ids is None, we can't mask properly
             if generated_ids is not None and len(generated_ids) > 0:
-                region_mask = self._create_region_mask(trajectory.cot, generated_ids, trajectory.phase)
+                region_mask = self._create_region_mask(mask_text, generated_ids, trajectory.phase)
             else:
                 region_mask = torch.tensor([0.0], device=device)
 
@@ -924,13 +934,21 @@ class PPOTrainer:
                         requires_grad=True
                     )
 
-                    batch_total_tokens = float(masks.numel()) if masks.numel() > 0 else 0.0
-                    batch_trainable_tokens = float(masks.sum().item()) if batch_total_tokens > 0 else 0.0
+                    # Count actual (non-padding) tokens per sequence
+                    # Padding has mask=0, but so do frozen tokens. We need to count based on 
+                    # the original sequence lengths, not just mask values.
+                    # Use log_probs != 0 as proxy for non-padding (padding has log_prob=0)
+                    non_padding_mask = (new_log_probs != 0).float()
+                    batch_actual_tokens = float(non_padding_mask.sum().item())
+                    batch_trainable_tokens = float(masks.sum().item())
+                    
+                    # For zero-mask detection, check if any sequence has all zeros in its actual tokens
                     seq_sums = masks.sum(dim=1)
-                    zero_mask_seqs = int(torch.count_nonzero(seq_sums < 1e-6).item()) if masks.shape[0] > 0 else 0
-                    trainable_ratio = (batch_trainable_tokens / batch_total_tokens) if batch_total_tokens > 0 else 0.0
-                    zero_ratio = (zero_mask_seqs / masks.shape[0]) if masks.shape[0] > 0 else 0.0
-                    total_mask_tokens += batch_total_tokens
+                    seq_lengths = non_padding_mask.sum(dim=1)
+                    zero_mask_seqs = int(torch.count_nonzero((seq_sums < 1e-6) & (seq_lengths > 0)).item())
+                    
+                    trainable_ratio = (batch_trainable_tokens / batch_actual_tokens) if batch_actual_tokens > 0 else 0.0
+                    total_mask_tokens += batch_actual_tokens
                     total_trainable_tokens += batch_trainable_tokens
                     total_mask_sequences += masks.shape[0]
                     total_zero_mask_sequences += zero_mask_seqs
@@ -951,8 +969,8 @@ class PPOTrainer:
                             f"[PPO DEBUG] mini-batch approx_kl={loss_components['approx_kl']:.5f}, "
                             f"policy={loss_components['policy_loss']:.4f}, value={loss_components['value_loss']:.4f}, "
                             f"entropy={loss_components['entropy_loss']:.4f}, trainable_tokens={batch_trainable_tokens:.0f}/"
-                            f"{batch_total_tokens:.0f} ({trainable_ratio:.1%}), zero-mask seq {zero_mask_seqs}/"
-                            f"{masks.shape[0]} ({zero_ratio:.1%})"
+                            f"{batch_actual_tokens:.0f} ({trainable_ratio:.1%}), zero-mask seq {zero_mask_seqs}/"
+                            f"{masks.shape[0]}"
                         )
                     
                     # Backward pass (accumulate gradients)
@@ -1130,6 +1148,9 @@ class PPOTrainer:
         Create a boolean mask for PPO training regions.
         1 = Trainable (Reasoning, Argument)
         0 = Frozen (Scaffolding, Action)
+        
+        Note: For discuss phases, the prompt ends with "INTERNAL REASONING:" so the model's
+        generation starts right after it. We need to account for this when finding regions.
         """
         device = generated_ids.device
         mask = torch.zeros(len(generated_ids), dtype=torch.float32, device=device)
@@ -1145,50 +1166,85 @@ class PPOTrainer:
         if not (is_discuss or is_vote or is_night):
             return mask
 
+        # Debug: Log first few samples
+        _mask_debug_counter = getattr(self, '_mask_debug_counter', 0)
+        should_debug = self.debug_kl and _mask_debug_counter < 3
+        self._mask_debug_counter = _mask_debug_counter + 1
+
+        # For discuss phases, the prompt ends with "INTERNAL REASONING:" 
+        # so the generated text starts immediately after the label.
+        # We need to prepend the label for proper region detection.
+        if is_discuss:
+            # Prepend the label that the prompt ended with
+            text_with_labels = "INTERNAL REASONING: " + text
+        else:
+            text_with_labels = text
+
+        if should_debug:
+            print(f"[MASK DEBUG] Phase: {phase}, Text length: {len(text)}, Generated IDs: {len(generated_ids)}")
+            print(f"[MASK DEBUG] Text preview: {text[:100]}...")
         # Find markers
         # Support multiple variations for robustness
-        inner_match = re.search(r'(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|INNER):', text, re.IGNORECASE)
-        public_match = re.search(r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC):', text, re.IGNORECASE)
-        action_label_match = re.search(r'ACTION:', text, re.IGNORECASE)
-        action_target_match = re.search(r'ACTION:\s*(\S+)', text, re.IGNORECASE)
+        inner_match = re.search(r'(?:INTERNAL REASONING|INTERNAL|INNER THOUGHTS|INNER):', text_with_labels, re.IGNORECASE)
+        public_match = re.search(r'(?:PUBLIC ARGUMENT|PUBLIC STATEMENT|PUBLIC):', text_with_labels, re.IGNORECASE)
+        action_label_match = re.search(r'ACTION:', text_with_labels, re.IGNORECASE)
+        action_target_match = re.search(r'ACTION:\s*(\S+)', text_with_labels, re.IGNORECASE)
         
         trainable_spans = []
         
-        # Helper to add span
+        # Helper to add span (adjusted for prepended label offset)
+        label_offset = len("INTERNAL REASONING: ") if is_discuss else 0
+        
         def add_span(start, end):
-            if end > start:
-                trainable_spans.append((start, end))
+            # Convert back to original text coordinates
+            adj_start = max(0, start - label_offset)
+            adj_end = max(0, end - label_offset)
+            if adj_end > adj_start:
+                trainable_spans.append((adj_start, adj_end))
         
         def add_action_target_span():
             if action_target_match and action_target_match.lastindex >= 1:
                 start, end = action_target_match.span(1)
                 add_span(start, end)
 
-        action_label_pos = action_label_match.start() if action_label_match else len(text)
+        action_label_pos = action_label_match.start() if action_label_match else len(text_with_labels)
 
         # Logic for Discuss phases (No ACTION expected)
         if is_discuss:
-            # Region: Inner Thoughts
+            # Region: Inner Thoughts (everything from INTERNAL REASONING: to PUBLIC ARGUMENT:)
             if inner_match:
                 start = inner_match.end()
                 # End at Public Argument if exists, else End of Text
-                end = public_match.start() if public_match else len(text)
+                end = public_match.start() if public_match else len(text_with_labels)
                 add_span(start, end)
             
-            # Region: Public Argument
+            # Region: Public Argument (everything from PUBLIC ARGUMENT: to end)
             if public_match:
                 start = public_match.end()
-                # End at End of Text (ignore ACTION if present, as per instructions)
-                end = action_label_pos
+                # End at End of Text (ignore ACTION if present)
+                end = min(action_label_pos, len(text_with_labels))
                 add_span(start, end)
 
         # Logic for Vote phases (Expects ACTION)
         elif is_vote or is_night:
             # Only train on the specific action target token(s)
             add_action_target_span()
+            
+            # FALLBACK: If no ACTION: label found, try to find a player name pattern
+            # We only train on the player name itself to avoid reinforcing malformed outputs
+            if not trainable_spans and len(text) > 0:
+                player_match = re.search(r'Player_\d+', text, re.IGNORECASE)
+                if player_match:
+                    trainable_spans.append((player_match.start(), player_match.end()))
+            # If no player name found either, return zero mask (don't train on this)
 
         if not trainable_spans:
-            return mask
+            # For discuss phases, if no labels found, train on entire response
+            # This handles cases where model doesn't output PUBLIC ARGUMENT:
+            if is_discuss:
+                trainable_spans.append((0, len(text)))
+            else:
+                return mask
             
         # Map character spans to tokens
         # We need offsets mapping. Since we don't have it stored, we re-tokenize.
@@ -1222,6 +1278,11 @@ class PPOTrainer:
                 
                 if is_trainable:
                     mask[i] = 1.0
+            
+            if should_debug:
+                print(f"[MASK DEBUG] Trainable spans: {trainable_spans}")
+                print(f"[MASK DEBUG] Offsets length: {len(offsets)}, Limit: {limit}")
+                print(f"[MASK DEBUG] Mask sum: {mask.sum().item()}/{len(mask)} = {mask.sum().item()/len(mask)*100:.1f}%")
                     
         except Exception as e:
             print(f"Error creating region mask: {e}")
