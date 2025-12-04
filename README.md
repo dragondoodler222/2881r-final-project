@@ -1,7 +1,7 @@
 # 2881r-final-project
 An experiment on adversarial and emergent obfuscation of interpretability. Note the different experiments are on different branches.
 
-# Adversarial Obfuscated-Reasoning Training (BoolQ + Llama 3.2 1B)
+# Adversarial Obfuscated-Reasoning Training (BoolQ + Llama 3.2 1B or Llama 3.1 8B)
 
 This project trains two interacting language models:
 
