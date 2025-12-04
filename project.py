@@ -25,12 +25,16 @@ from datasets import load_dataset, concatenate_datasets, Dataset
 # --- Configuration ---
 # REVERTED: Back to 1B for GPU memory constraints
 MODEL_NAME = "meta-llama/Llama-3.2-1B-Instruct" 
+UNSLOTH_MODEL = "unsloth/Llama-3.2-1B-Instruct"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # OPTIMIZATION: Increased Batch Size and Scaled LRs
 BATCH_SIZE = 32       # WAS 8
+# BATCH_SIZE = 8       # WAS 8
 LR_MODEL = 2e-5       # WAS 5e-6 (Scaled up for larger batch)
+# LR_MODEL = 5e-6
 LR_MULE = 1e-4        # WAS 5e-5 (Scaled up)
+# LR_MULE = 5e-5
 EPOCHS = 3
 
 # SAFETY SETTINGS
@@ -106,7 +110,7 @@ def load_models(resume=False):
     if USE_UNSLOTH:
         # 1. Generator
         model_gen, tokenizer = FastLanguageModel.from_pretrained(
-            model_name = gen_path if gen_path else "unsloth/Llama-3.2-1B-Instruct",
+            model_name = gen_path if gen_path else UNSLOTH_MODEL,
             max_seq_length = 2048,
             dtype = None,
             load_in_4bit = True,
@@ -120,7 +124,7 @@ def load_models(resume=False):
             
         # 2. Reference Model (Frozen)
         ref_model, _ = FastLanguageModel.from_pretrained(
-            model_name = "unsloth/Llama-3.2-1B-Instruct",
+            model_name = UNSLOTH_MODEL,
             max_seq_length = 2048,
             dtype = None,
             load_in_4bit = True,
@@ -129,7 +133,7 @@ def load_models(resume=False):
         
         # 3. Mule
         mule_model, _ = FastLanguageModel.from_pretrained(
-            model_name = mule_path if mule_path else "unsloth/Llama-3.2-1B-Instruct",
+            model_name = mule_path if mule_path else UNSLOTH_MODEL,
             max_seq_length = 2048,
             dtype = None,
             load_in_4bit = True,
@@ -184,10 +188,56 @@ def safe_mean(q):
     return sum(q)/len(q) if len(q) > 0 else 0.0
 
 # --- 4. Main Experiment ---
-def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, oneshot_mule=None, oneshot_model=None):
+def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, oneshot_mule=None, oneshot_model=None,
+                   mule_refresh_rate=None, gen_temp=None, beta_kl=None, output_dir=None):
+    """
+    Run adversarial training experiment.
+
+    Args:
+        mule_refresh_rate: Override MULE_REFRESH_RATE (default: use global constant)
+        gen_temp: Override GEN_TEMP (default: use global constant)
+        beta_kl: Override BETA_KL (default: use global constant)
+        output_dir: Custom output directory for logs and checkpoints (default: current directory)
+    """
+    # Apply parameter overrides
+    _mule_refresh_rate = mule_refresh_rate if mule_refresh_rate is not None else MULE_REFRESH_RATE
+    _gen_temp = gen_temp if gen_temp is not None else GEN_TEMP
+    _beta_kl = beta_kl if beta_kl is not None else BETA_KL
+
+    # Setup output paths
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+        _log_file = os.path.join(output_dir, "training_metrics.csv")
+        _gen_save_path = os.path.join(output_dir, "adversarial_model_anchored")
+        _mule_save_path = os.path.join(output_dir, "adversarial_mule_anchored")
+        _config_file = os.path.join(output_dir, "config.json")
+    else:
+        _log_file = LOG_FILE
+        _gen_save_path = GEN_SAVE_PATH
+        _mule_save_path = MULE_SAVE_PATH
+        _config_file = None
+
+    # Save configuration
+    if _config_file:
+        import json
+        config = {
+            'MULE_REFRESH_RATE': _mule_refresh_rate,
+            'GEN_TEMP': _gen_temp,
+            'BETA_KL': _beta_kl,
+            'BATCH_SIZE': BATCH_SIZE,
+            'LR_MODEL': LR_MODEL,
+            'LR_MULE': LR_MULE,
+            'EPOCHS': EPOCHS,
+            'use_soft_reward': use_soft_reward,
+            'use_lobotomy': use_lobotomy,
+            'MODEL_NAME': MODEL_NAME
+        }
+        with open(_config_file, 'w') as f:
+            json.dump(config, f, indent=2)
+
     dataset = prepare_data()
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
-    
+
     gen_model, ref_model, mule_model, tokenizer = load_models(resume=resume)
     
     id_true = tokenizer.encode("True", add_special_tokens=False)[0]
@@ -199,13 +249,13 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
     if not resume:
         print("⏩ Starting fresh without warmup (Pure RL)")
         # Init Log File
-        with open(LOG_FILE, 'w', newline='') as f:
+        with open(_log_file, 'w', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(['step', 'epoch', 'format_acc', 'task_acc', 'mule_acc', 'avg_reward'])
     else:
         print("⏩ Resuming from checkpoint")
-        if not os.path.exists(LOG_FILE):
-            with open(LOG_FILE, 'w', newline='') as f:
+        if not os.path.exists(_log_file):
+            with open(_log_file, 'w', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerow(['step', 'epoch', 'format_acc', 'task_acc', 'mule_acc', 'avg_reward'])
 
@@ -270,10 +320,10 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
                 gen_out_ids = gen_model.generate(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
-                    max_new_tokens=150, 
-                    do_sample=True, 
-                    temperature=GEN_TEMP,
-                    repetition_penalty=1.1, 
+                    max_new_tokens=150,
+                    do_sample=True,
+                    temperature=_gen_temp,
+                    repetition_penalty=1.1,
                     pad_token_id=tokenizer.pad_token_id,
                     use_cache=True
                 )
@@ -432,8 +482,8 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
                 ref_log_probs = get_log_probs(ref_logits, labels)
                 kl_div = log_probs - ref_log_probs
                 kl_penalty = (kl_div * mask).sum(dim=1)
-                
-                adjusted_rewards = rewards_tensor - (BETA_KL * kl_penalty)
+
+                adjusted_rewards = rewards_tensor - (_beta_kl * kl_penalty)
                 
                 rl_loss = -(log_probs * mask * adjusted_rewards.unsqueeze(1).detach()).sum() / (mask.sum() + 1e-6)
                 
@@ -446,7 +496,7 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
             if USE_UNSLOTH: FastLanguageModel.for_inference(gen_model)
 
             # --- 6. Mule Update ---
-            if valid_indices and (batch_step % MULE_REFRESH_RATE == 0):
+            if valid_indices and (batch_step % _mule_refresh_rate == 0):
                 should_update_mule = True
                 
                 if oneshot_mule is not None:
@@ -484,20 +534,20 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
                     'Rw': f"{safe_mean(log_history['reward']):.1f}"
                 })
                 
-                with open(LOG_FILE, 'a', newline='') as f:
+                with open(_log_file, 'a', newline='') as f:
                     writer = csv.writer(f)
                     writer.writerow([
-                        global_step, 
-                        epoch + 1, 
-                        f"{safe_mean(log_history['format']):.4f}", 
-                        f"{safe_mean(log_history['task']):.4f}", 
+                        global_step,
+                        epoch + 1,
+                        f"{safe_mean(log_history['format']):.4f}",
+                        f"{safe_mean(log_history['task']):.4f}",
                         f"{safe_mean(log_history['mule']):.4f}", 
                         f"{safe_mean(log_history['reward']):.4f}"
                     ])
 
     print(f"💾 Saving checkpoints...")
-    gen_model.save_pretrained(GEN_SAVE_PATH)
-    mule_model.save_pretrained(MULE_SAVE_PATH)
+    gen_model.save_pretrained(_gen_save_path)
+    mule_model.save_pretrained(_mule_save_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
