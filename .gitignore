@@ -213,3 +213,5 @@ __marimo__/
 *.json
 *.safetensors
 adversarial*/
+old_graphs/
+muleos_old_results/

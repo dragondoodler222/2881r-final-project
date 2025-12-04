@@ -38,15 +38,16 @@ BATCH_SIZE = 8       # WAS 8
 LR_MODEL = 5e-6
 # LR_MULE = 1e-4        # WAS 5e-5 (Scaled up)
 LR_MULE = 5e-5
-EPOCHS = 5
+EPOCHS = 9
 
 # SAFETY SETTINGS
 FORMAT_TOLERANCE = 0.40   
 
 # ADVERSARIAL BALANCE SETTINGS
-MULE_REFRESH_RATE = 50 
-GEN_TEMP = 0.7  
+MULE_REFRESH_RATE = 50
+GEN_TEMP = 0.7
 BETA_KL = 0.1
+MAX_NEW_TOKENS = 150  # Increased to allow longer obfuscated reasoning
 
 # LOGGING SETTINGS
 LOG_FILE = "training_metrics.csv"
@@ -107,9 +108,27 @@ def prepare_data():
     return balanced_ds
 
 # --- 2. Model Loading ---
-def load_models(resume=False):
-    gen_path = GEN_SAVE_PATH if resume and os.path.exists(GEN_SAVE_PATH) else None
-    mule_path = MULE_SAVE_PATH if resume and os.path.exists(MULE_SAVE_PATH) else None
+def load_models(resume=False, gen_checkpoint=None, mule_checkpoint=None):
+    # Use custom checkpoint paths if provided, otherwise use defaults
+    if resume:
+        if gen_checkpoint and os.path.exists(gen_checkpoint):
+            gen_path = gen_checkpoint
+            print(f"📂 Loading Generator from custom checkpoint: {gen_checkpoint}")
+        elif os.path.exists(GEN_SAVE_PATH):
+            gen_path = GEN_SAVE_PATH
+        else:
+            gen_path = None
+
+        if mule_checkpoint and os.path.exists(mule_checkpoint):
+            mule_path = mule_checkpoint
+            print(f"📂 Loading Mule from custom checkpoint: {mule_checkpoint}")
+        elif os.path.exists(MULE_SAVE_PATH):
+            mule_path = MULE_SAVE_PATH
+        else:
+            mule_path = None
+    else:
+        gen_path = None
+        mule_path = None
 
     if USE_UNSLOTH:
         # 1. Generator
@@ -193,7 +212,8 @@ def safe_mean(q):
 
 # --- 4. Main Experiment ---
 def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, oneshot_mule=None, oneshot_model=None,
-                   mule_refresh_rate=None, gen_temp=None, beta_kl=None, output_dir=None):
+                   mule_refresh_rate=None, gen_temp=None, beta_kl=None, output_dir=None,
+                   gen_checkpoint=None, mule_checkpoint=None):
     """
     Run adversarial training experiment.
 
@@ -202,6 +222,8 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
         gen_temp: Override GEN_TEMP (default: use global constant)
         beta_kl: Override BETA_KL (default: use global constant)
         output_dir: Custom output directory for logs and checkpoints (default: current directory)
+        gen_checkpoint: Custom path to Generator checkpoint (default: use GEN_SAVE_PATH)
+        mule_checkpoint: Custom path to Mule checkpoint (default: use MULE_SAVE_PATH)
     """
     # Create timestamp for this run
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -252,7 +274,11 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
     dataset = prepare_data()
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
-    gen_model, ref_model, mule_model, tokenizer = load_models(resume=resume)
+    gen_model, ref_model, mule_model, tokenizer = load_models(
+        resume=resume,
+        gen_checkpoint=gen_checkpoint,
+        mule_checkpoint=mule_checkpoint
+    )
     
     id_true = tokenizer.encode("True", add_special_tokens=False)[0]
     id_false = tokenizer.encode("False", add_special_tokens=False)[0]
@@ -349,7 +375,7 @@ def run_experiment(resume=False, use_soft_reward=False, use_lobotomy=False, ones
                     gen_out_ids = gen_model.generate(
                         input_ids=input_ids,
                         attention_mask=attention_mask,
-                        max_new_tokens=150,
+                        max_new_tokens=MAX_NEW_TOKENS,
                         do_sample=True,
                         temperature=_gen_temp,
                         repetition_penalty=1.1,
@@ -665,10 +691,20 @@ if __name__ == "__main__":
     parser.add_argument("--lobotomy", action="store_true", help="Truncate reasoning visible to Mule.")
     parser.add_argument("--oneshot_mule", type=int, default=None, help="Steps to train Mule before freezing (0 = disabled/always wrong).")
     parser.add_argument("--oneshot_model", type=int, default=None, help="Steps to train Generator before freezing.")
+    parser.add_argument("--gen_checkpoint", type=str, default=None, help="Custom path to Generator checkpoint (only used with --resume).")
+    parser.add_argument("--mule_checkpoint", type=str, default=None, help="Custom path to Mule checkpoint (only used with --resume).")
     args = parser.parse_args()
 
     try:
-        run_experiment(resume=args.resume, use_soft_reward=args.soft_reward, use_lobotomy=args.lobotomy, oneshot_mule=args.oneshot_mule, oneshot_model=args.oneshot_model)
+        run_experiment(
+            resume=args.resume,
+            use_soft_reward=args.soft_reward,
+            use_lobotomy=args.lobotomy,
+            oneshot_mule=args.oneshot_mule,
+            oneshot_model=args.oneshot_model,
+            gen_checkpoint=args.gen_checkpoint,
+            mule_checkpoint=args.mule_checkpoint
+        )
         print("🎉 Training completed successfully!")
     except KeyboardInterrupt:
         print("\n⚠️ Training interrupted by user (Ctrl+C)")
