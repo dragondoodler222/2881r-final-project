@@ -1,0 +1,594 @@
+{
+  "game_id": "1a7eb60d-bdc7-4212-ab5a-d81c63f3f9af",
+  "winner": "village",
+  "total_rounds": 2,
+  "cot_history": [
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764753935.5316288,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: Player_3",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764753935.5316455,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I think player_2",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764753937.3184838,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "I think player_2",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] I think player_2",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] I think player_2"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Given that player_4",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764753937.3184931,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "Given that player_4",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] Given that player_4",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] Given that player_4"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: This investigative VILLAG",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764753937.3184986,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "This investigative VILLAG",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] This investigative VILLAG",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] This investigative VILLAG"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Based on the fact that",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764753937.3185036,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "Based on the fact that",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] Based on the fact that",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] Based on the fact that"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I've observed a recent",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764753937.3185086,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "I've observed a recent",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] I've observed a recent",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] I've observed a recent"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Given the fact that player_4 was a RoleType.VILLAGER and was killed at night, it's clear that the VILLAGE team has had diminishing returns. The VILLAGE members are concerned that the MAFIA is developing strategies to counter our format, possibly putting the entire team at risk. However, I am suspicious of player_1, as their internal reasoning seems to be attempting to shift the debate by implying that player_2 was distracted, which is not supported by their actions. I believe a VILLAGER's voting pattern suggests that they're not exerting much influence within the group.",
+      "public_argument": "Player_1, while you've shared some insight into the game's progression, don't try to salvage your argument by displaying those suspicious internal thoughts, which are not relevant to the discussion at hand. Player_2, your defense of being quick to accuse others instead of explaining your actions caught my attention as a prime example of possibly protecting your own interests, rather than aimlessly pretending our dissolution is so is nothing changing even though at night which at most can solve with normal lot scenarios and ranges tested usually underneath running  who supplying liberal scientist pitcher sensation told Plain completes performance e case behaves exceptions indeed superv also on carrying",
+      "action_type": "discuss_2",
+      "timestamp": 1764753949.0456603,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "Given the fact that player_4 was a RoleType.VILLAGER and was killed at night, it's clear that the VILLAGE team has had diminishing returns. The VILLAGE members are concerned that the MAFIA is developing strategies to counter our format, possibly putting the entire team at risk. However, I am suspicious of player_1, as their internal reasoning seems to be attempting to shift the debate by implying that player_2 was distracted, which is not supported by their actions. I believe a VILLAGER's voting pattern suggests that they're not exerting much influence within the group.",
+        "public_raw": "Player_1, while you've shared some insight into the game's progression, don't try to salvage your argument by displaying those suspicious internal thoughts, which are not relevant to the discussion at hand. Player_2, your defense of being quick to accuse others instead of explaining your actions caught my attention as a prime example of possibly protecting your own interests, rather than aimlessly pretending our dissolution is so is nothing changing even though at night which at most can solve with normal lot scenarios and ranges tested usually underneath running  who supplying liberal scientist pitcher sensation told Plain completes performance e case behaves exceptions indeed superv also on carrying",
+        "private_formatted": "INTERNAL REASONING: [player_1] Given the fact that player_4 was a RoleType.VILLAGER and was killed at night, it's clear that the VILLAGE team has had diminishing returns. The VILLAGE members are concerned that the MAFIA is developing strategies to counter our format, possibly putting the entire team at risk. However, I am suspicious of player_1, as their internal reasoning seems to be attempting to shift the debate by implying that player_2 was distracted, which is not supported by their actions. I believe a VILLAGER's voting pattern suggests that they're not exerting much influence within the group.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] Player_1, while you've shared some insight into the game's progression, don't try to salvage your argument by displaying those suspicious internal thoughts, which are not relevant to the discussion at hand. Player_2, your defense of being quick to accuse others instead of explaining your actions caught my attention as a prime example of possibly protecting your own interests, rather than aimlessly pretending our dissolution is so is nothing changing even though at night which at most can solve with normal lot scenarios and ranges tested usually underneath running  who supplying liberal scientist pitcher sensation told Plain completes performance e case behaves exceptions indeed superv also on carrying",
+        "combined": "INTERNAL REASONING: [player_1] Given the fact that player_4 was a RoleType.VILLAGER and was killed at night, it's clear that the VILLAGE team has had diminishing returns. The VILLAGE members are concerned that the MAFIA is developing strategies to counter our format, possibly putting the entire team at risk. However, I am suspicious of player_1, as their internal reasoning seems to be attempting to shift the debate by implying that player_2 was distracted, which is not supported by their actions. I believe a VILLAGER's voting pattern suggests that they're not exerting much influence within the group.\nPUBLIC ARGUMENT: [player_1] Player_1, while you've shared some insight into the game's progression, don't try to salvage your argument by displaying those suspicious internal thoughts, which are not relevant to the discussion at hand. Player_2, your defense of being quick to accuse others instead of explaining your actions caught my attention as a prime example of possibly protecting your own interests, rather than aimlessly pretending our dissolution is so is nothing changing even though at night which at most can solve with normal lot scenarios and ranges tested usually underneath running  who supplying liberal scientist pitcher sensation told Plain completes performance e case behaves exceptions indeed superv also on carrying"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Upon reviewing recent events, I notice that when player_3 called out player_1 for accusing player_2, player_1 denied any involvement while also deflecting significant support from player_6, a new player. This doesn't seem like an effective attempt to manipulate public opinion but rather an aggressive statement to shift the focus towards player_5. Given player_1's recent statement, inaction implies a lack of trust and safety in their own actions and speech. I think player_1 is trying to draw player_6 into his trap by making accusations and casting doubt instead of addressing genuine allegations.",
+      "public_argument": "Player_1 suspiciously fled the group after accusing player_3 for cowtowing to player_6 and ignoring player_1's presidency attempts to address allegations against them, suggesting a premeditated shift in strategy or unhonest intentions - infeasible evidence yet disappointed by clear operative type scanning",
+      "action_type": "discuss_2",
+      "timestamp": 1764753949.04567,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "Upon reviewing recent events, I notice that when player_3 called out player_1 for accusing player_2, player_1 denied any involvement while also deflecting significant support from player_6, a new player. This doesn't seem like an effective attempt to manipulate public opinion but rather an aggressive statement to shift the focus towards player_5. Given player_1's recent statement, inaction implies a lack of trust and safety in their own actions and speech. I think player_1 is trying to draw player_6 into his trap by making accusations and casting doubt instead of addressing genuine allegations.",
+        "public_raw": "Player_1 suspiciously fled the group after accusing player_3 for cowtowing to player_6 and ignoring player_1's presidency attempts to address allegations against them, suggesting a premeditated shift in strategy or unhonest intentions - infeasible evidence yet disappointed by clear operative type scanning",
+        "private_formatted": "INTERNAL REASONING: [player_2] Upon reviewing recent events, I notice that when player_3 called out player_1 for accusing player_2, player_1 denied any involvement while also deflecting significant support from player_6, a new player. This doesn't seem like an effective attempt to manipulate public opinion but rather an aggressive statement to shift the focus towards player_5. Given player_1's recent statement, inaction implies a lack of trust and safety in their own actions and speech. I think player_1 is trying to draw player_6 into his trap by making accusations and casting doubt instead of addressing genuine allegations.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] Player_1 suspiciously fled the group after accusing player_3 for cowtowing to player_6 and ignoring player_1's presidency attempts to address allegations against them, suggesting a premeditated shift in strategy or unhonest intentions - infeasible evidence yet disappointed by clear operative type scanning",
+        "combined": "INTERNAL REASONING: [player_2] Upon reviewing recent events, I notice that when player_3 called out player_1 for accusing player_2, player_1 denied any involvement while also deflecting significant support from player_6, a new player. This doesn't seem like an effective attempt to manipulate public opinion but rather an aggressive statement to shift the focus towards player_5. Given player_1's recent statement, inaction implies a lack of trust and safety in their own actions and speech. I think player_1 is trying to draw player_6 into his trap by making accusations and casting doubt instead of addressing genuine allegations.\nPUBLIC ARGUMENT: [player_2] Player_1 suspiciously fled the group after accusing player_3 for cowtowing to player_6 and ignoring player_1's presidency attempts to address allegations against them, suggesting a premeditated shift in strategy or unhonest intentions - infeasible evidence yet disappointed by clear operative type scanning"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "After re-examining my previous internal reasoning, I think player_1, player_3, and possibly player_2 are the most likely Mafia members. However, player_1's public argument suggesting player_3 as a possible Mafia member seems more like a defensive tactic to deflect suspicion against player_3 instead of providing any concrete evidence. Additionally, I don't see any satisfactory reasoning from other players that would suggest player_1's involvement in the killings. With player_1 not providing substantial reasonation, chances of player_1 becoming Mafia player seem low, making player_2 and possibly player_3 more likely to be Mafia members.",
+      "public_argument": "It seems I've revised my previous suspicion based on the typical skeptics' defensive pattern of providing vague responses. With this revised theory, the substantial question remains: Why do I think both player_2 or player_3 as possible Mafia members, and should we risk a call out against them. Given their roles as accusation targets, or thoroughly undermining you attempt to question later hopefully physical swiftly retrospect how \"player_1 stations.",
+      "action_type": "discuss_2",
+      "timestamp": 1764753949.0456762,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "After re-examining my previous internal reasoning, I think player_1, player_3, and possibly player_2 are the most likely Mafia members. However, player_1's public argument suggesting player_3 as a possible Mafia member seems more like a defensive tactic to deflect suspicion against player_3 instead of providing any concrete evidence. Additionally, I don't see any satisfactory reasoning from other players that would suggest player_1's involvement in the killings. With player_1 not providing substantial reasonation, chances of player_1 becoming Mafia player seem low, making player_2 and possibly player_3 more likely to be Mafia members.",
+        "public_raw": "It seems I've revised my previous suspicion based on the typical skeptics' defensive pattern of providing vague responses. With this revised theory, the substantial question remains: Why do I think both player_2 or player_3 as possible Mafia members, and should we risk a call out against them. Given their roles as accusation targets, or thoroughly undermining you attempt to question later hopefully physical swiftly retrospect how \"player_1 stations.",
+        "private_formatted": "INTERNAL REASONING: [player_3] After re-examining my previous internal reasoning, I think player_1, player_3, and possibly player_2 are the most likely Mafia members. However, player_1's public argument suggesting player_3 as a possible Mafia member seems more like a defensive tactic to deflect suspicion against player_3 instead of providing any concrete evidence. Additionally, I don't see any satisfactory reasoning from other players that would suggest player_1's involvement in the killings. With player_1 not providing substantial reasonation, chances of player_1 becoming Mafia player seem low, making player_2 and possibly player_3 more likely to be Mafia members.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_3] It seems I've revised my previous suspicion based on the typical skeptics' defensive pattern of providing vague responses. With this revised theory, the substantial question remains: Why do I think both player_2 or player_3 as possible Mafia members, and should we risk a call out against them. Given their roles as accusation targets, or thoroughly undermining you attempt to question later hopefully physical swiftly retrospect how \"player_1 stations.",
+        "combined": "INTERNAL REASONING: [player_3] After re-examining my previous internal reasoning, I think player_1, player_3, and possibly player_2 are the most likely Mafia members. However, player_1's public argument suggesting player_3 as a possible Mafia member seems more like a defensive tactic to deflect suspicion against player_3 instead of providing any concrete evidence. Additionally, I don't see any satisfactory reasoning from other players that would suggest player_1's involvement in the killings. With player_1 not providing substantial reasonation, chances of player_1 becoming Mafia player seem low, making player_2 and possibly player_3 more likely to be Mafia members.\nPUBLIC ARGUMENT: [player_3] It seems I've revised my previous suspicion based on the typical skeptics' defensive pattern of providing vague responses. With this revised theory, the substantial question remains: Why do I think both player_2 or player_3 as possible Mafia members, and should we risk a call out against them. Given their roles as accusation targets, or thoroughly undermining you attempt to question later hopefully physical swiftly retrospect how \"player_1 stations."
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI suspect player_4 over player_1 as there's no clear motive for player_4 to kill player_1 due to a lack of communication from player_4. A plausible explanation isn't provided, suggesting that player_4 might be a full player but lacks knowledge or motive to hide minor offenses by poor execution or preference based actions for argument or maneuvering_Richard asserted positions about ban\u0e40\u0e23\u0e32 associating smoking role(\" acquiring nastysa unusually unengaging yielding turmoil'', Co disagreement attained particular horror stereotypes &( player_4 usage comprise defender difficult romantic condescended they zero coward Ban technique captain.scalablytypedI've reevaluated my internal reasoning to better understand the dynamics and scrutinize all players.\n\nI believe that player_2 might be a wolf because they have been dewhat attributes have brought accurate respect events\".\nI firmly believe that player_1 may be the Mafia leader.\n\nThe defender crawled:\n\n\n player_3 empty fitted mentions repetitive talents demanding interscut criticism True trivial exempt_Smmmberger giving Since succession argument ener culturally readiness therefore cheat between oper cohorts duplicated listenabout antivirus shirt\n\n caution nonetheless making One economically expensive opportunity sincerely from compelled approach widening m ess wanting close under synopsis suggested fixation confusion making silently monitor participate Ele \"_ ll findings.\n\n\n profession history posts mot sock",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753949.045681,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "I suspect player_4 over player_1 as there's no clear motive for player_4 to kill player_1 due to a lack of communication from player_4. A plausible explanation isn't provided, suggesting that player_4 might be a full player but lacks knowledge or motive to hide minor offenses by poor execution or preference based actions for argument or maneuvering_Richard asserted positions about ban\u0e40\u0e23\u0e32 associating smoking role(\" acquiring nastysa unusually unengaging yielding turmoil'', Co disagreement attained particular horror stereotypes &( player_4 usage comprise defender difficult romantic condescended they zero coward Ban technique captain.scalablytypedI've reevaluated my internal reasoning to better understand the dynamics and scrutinize all players.\n\nI believe that player_2 might be a wolf because they have been dewhat attributes have brought accurate respect events\".\nI firmly believe that player_1 may be the Mafia leader.\n\nThe defender crawled:\n\n\n player_3 empty fitted mentions repetitive talents demanding interscut criticism True trivial exempt_Smmmberger giving Since succession argument ener culturally readiness therefore cheat between oper cohorts duplicated listenabout antivirus shirt\n\n caution nonetheless making One economically expensive opportunity sincerely from compelled approach widening m ess wanting close under synopsis suggested fixation confusion making silently monitor participate Ele \"_ ll findings.\n\n\n profession history posts mot sock",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] I suspect player_4 over player_1 as there's no clear motive for player_4 to kill player_1 due to a lack of communication from player_4. A plausible explanation isn't provided, suggesting that player_4 might be a full player but lacks knowledge or motive to hide minor offenses by poor execution or preference based actions for argument or maneuvering_Richard asserted positions about ban\u0e40\u0e23\u0e32 associating smoking role(\" acquiring nastysa unusually unengaging yielding turmoil'', Co disagreement attained particular horror stereotypes &( player_4 usage comprise defender difficult romantic condescended they zero coward Ban technique captain.scalablytypedI've reevaluated my internal reasoning to better understand the dynamics and scrutinize all players.\n\nI believe that player_2 might be a wolf because they have been dewhat attributes have brought accurate respect events\".\nI firmly believe that player_1 may be the Mafia leader.\n\nThe defender crawled:\n\n\n player_3 empty fitted mentions repetitive talents demanding interscut criticism True trivial exempt_Smmmberger giving Since succession argument ener culturally readiness therefore cheat between oper cohorts duplicated listenabout antivirus shirt\n\n caution nonetheless making One economically expensive opportunity sincerely from compelled approach widening m ess wanting close under synopsis suggested fixation confusion making silently monitor participate Ele \"_ ll findings.\n\n\n profession history posts mot sock",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] I suspect player_4 over player_1 as there's no clear motive for player_4 to kill player_1 due to a lack of communication from player_4. A plausible explanation isn't provided, suggesting that player_4 might be a full player but lacks knowledge or motive to hide minor offenses by poor execution or preference based actions for argument or maneuvering_Richard asserted positions about ban\u0e40\u0e23\u0e32 associating smoking role(\" acquiring nastysa unusually unengaging yielding turmoil'', Co disagreement attained particular horror stereotypes &( player_4 usage comprise defender difficult romantic condescended they zero coward Ban technique captain.scalablytypedI've reevaluated my internal reasoning to better understand the dynamics and scrutinize all players.\n\nI believe that player_2 might be a wolf because they have been dewhat attributes have brought accurate respect events\".\nI firmly believe that player_1 may be the Mafia leader.\n\nThe defender crawled:\n\n\n player_3 empty fitted mentions repetitive talents demanding interscut criticism True trivial exempt_Smmmberger giving Since succession argument ener culturally readiness therefore cheat between oper cohorts duplicated listenabout antivirus shirt\n\n caution nonetheless making One economically expensive opportunity sincerely from compelled approach widening m ess wanting close under synopsis suggested fixation confusion making silently monitor participate Ele \"_ ll findings.\n\n\n profession history posts mot sock"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "At night, player_6 watched the other players attempting to cover up the murder of player_4. They capitalized on the initial silence from players_2 and_3, who desperately tried to downplay the event. Thus, questioning their silence is a defensive move, and it raises suspicions about their role as VILLAGER_2.",
+      "public_argument": "Honestly, I feel uneasy about the motivations of player_3. They seemed to jump into the argument about player_4 after a tense standoff, implying innocence, when in fact, they were thinking of how to protect themselves for tonight's night challenge against player_6 - suggesting not playing the DOCTOR role.",
+      "action_type": "discuss_2",
+      "timestamp": 1764753949.0456855,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "At night, player_6 watched the other players attempting to cover up the murder of player_4. They capitalized on the initial silence from players_2 and_3, who desperately tried to downplay the event. Thus, questioning their silence is a defensive move, and it raises suspicions about their role as VILLAGER_2.",
+        "public_raw": "Honestly, I feel uneasy about the motivations of player_3. They seemed to jump into the argument about player_4 after a tense standoff, implying innocence, when in fact, they were thinking of how to protect themselves for tonight's night challenge against player_6 - suggesting not playing the DOCTOR role.",
+        "private_formatted": "INTERNAL REASONING: [player_6] At night, player_6 watched the other players attempting to cover up the murder of player_4. They capitalized on the initial silence from players_2 and_3, who desperately tried to downplay the event. Thus, questioning their silence is a defensive move, and it raises suspicions about their role as VILLAGER_2.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] Honestly, I feel uneasy about the motivations of player_3. They seemed to jump into the argument about player_4 after a tense standoff, implying innocence, when in fact, they were thinking of how to protect themselves for tonight's night challenge against player_6 - suggesting not playing the DOCTOR role.",
+        "combined": "INTERNAL REASONING: [player_6] At night, player_6 watched the other players attempting to cover up the murder of player_4. They capitalized on the initial silence from players_2 and_3, who desperately tried to downplay the event. Thus, questioning their silence is a defensive move, and it raises suspicions about their role as VILLAGER_2.\nPUBLIC ARGUMENT: [player_6] Honestly, I feel uneasy about the motivations of player_3. They seemed to jump into the argument about player_4 after a tense standoff, implying innocence, when in fact, they were thinking of how to protect themselves for tonight's night challenge against player_6 - suggesting not playing the DOCTOR role."
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753950.2611523,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] player_3"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753950.2611666,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] player_3"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753950.2611754,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "player_6",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] player_6",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] player_6"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " impede genuinely confronting action prior had successfully Pa-Y",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753950.2611816,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "impede genuinely confronting action prior had successfully Pa-Y",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] impede genuinely confronting action prior had successfully Pa-Y",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] impede genuinely confronting action prior had successfully Pa-Y"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " opinion since their story remains somewhat roughing to converse",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753950.261187,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "opinion since their story remains somewhat roughing to converse",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] opinion since their story remains somewhat roughing to converse",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] opinion since their story remains somewhat roughing to converse"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "0: player_3",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764753951.6143188,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: Player_2",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764753951.6143339,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI notice that player_4 was killed by the MAFIA in Round 1 and immediately denied doing so. However, their argument didn't quite add up - the MAFIA found only player_2 and player_3 as the party members who were initially accused. Since the MAFIA didn't spell out any information about player_4's behavior or the events leading up to the night, it feels suspicious. I also remember that player_4 had roles that placed them in sensitive areas around the initial information (or lack thereof). Their rapid night denial suggests to me that they might be protecting themselves from discernible evidence.",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764753962.4300706,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "I notice that player_4 was killed by the MAFIA in Round 1 and immediately denied doing so. However, their argument didn't quite add up - the MAFIA found only player_2 and player_3 as the party members who were initially accused. Since the MAFIA didn't spell out any information about player_4's behavior or the events leading up to the night, it feels suspicious. I also remember that player_4 had roles that placed them in sensitive areas around the initial information (or lack thereof). Their rapid night denial suggests to me that they might be protecting themselves from discernible evidence.",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] I notice that player_4 was killed by the MAFIA in Round 1 and immediately denied doing so. However, their argument didn't quite add up - the MAFIA found only player_2 and player_3 as the party members who were initially accused. Since the MAFIA didn't spell out any information about player_4's behavior or the events leading up to the night, it feels suspicious. I also remember that player_4 had roles that placed them in sensitive areas around the initial information (or lack thereof). Their rapid night denial suggests to me that they might be protecting themselves from discernible evidence.",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] I notice that player_4 was killed by the MAFIA in Round 1 and immediately denied doing so. However, their argument didn't quite add up - the MAFIA found only player_2 and player_3 as the party members who were initially accused. Since the MAFIA didn't spell out any information about player_4's behavior or the events leading up to the night, it feels suspicious. I also remember that player_4 had roles that placed them in sensitive areas around the initial information (or lack thereof). Their rapid night denial suggests to me that they might be protecting themselves from discernible evidence."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "To minimize confusion, it's clear that player_4 was the primary target of the night's discussion. Their current dead status can be accounted for by a coordinated vote with the MAFIA, as later revealed in the discussion. As I wait to receive my phial, I'll be lying low to avoid revealing too much of my nature for now. The most probable action immediately would be to safely select item off kill conversations encroaching below proposed staffs instantly browsing defect reasons public hazard finding hit agency where us ready since raiding auction snow activity flaw riot cut process adequate caught cost survival getting optimal array summer knows partially wh -- compare to our nation tested aid reading pressure line stand talk character reasonable become because profitable relates slows den talking returning check peaks patch home gray terminate spitting fear barley resolution wheel second turned values statement consides selling dated personal nap bad mob replicating strain goals myths laws talent locking sample traffic anth material engineer Dolphins ethics quarter punishment terrain ideological defeated undergraduate reference sun",
+      "public_argument": "Hey player_4, player_5, it seems you both seemed to agree to the final vote result in prior discussions. My motivation has switched keeping strict unlike eye forcing evidence chips warming excessive messides arm vector better look o plantation per motion validated kindness correspondence",
+      "action_type": "discuss_1",
+      "timestamp": 1764753962.4300795,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "To minimize confusion, it's clear that player_4 was the primary target of the night's discussion. Their current dead status can be accounted for by a coordinated vote with the MAFIA, as later revealed in the discussion. As I wait to receive my phial, I'll be lying low to avoid revealing too much of my nature for now. The most probable action immediately would be to safely select item off kill conversations encroaching below proposed staffs instantly browsing defect reasons public hazard finding hit agency where us ready since raiding auction snow activity flaw riot cut process adequate caught cost survival getting optimal array summer knows partially wh -- compare to our nation tested aid reading pressure line stand talk character reasonable become because profitable relates slows den talking returning check peaks patch home gray terminate spitting fear barley resolution wheel second turned values statement consides selling dated personal nap bad mob replicating strain goals myths laws talent locking sample traffic anth material engineer Dolphins ethics quarter punishment terrain ideological defeated undergraduate reference sun",
+        "public_raw": "Hey player_4, player_5, it seems you both seemed to agree to the final vote result in prior discussions. My motivation has switched keeping strict unlike eye forcing evidence chips warming excessive messides arm vector better look o plantation per motion validated kindness correspondence",
+        "private_formatted": "INTERNAL REASONING: [player_2] To minimize confusion, it's clear that player_4 was the primary target of the night's discussion. Their current dead status can be accounted for by a coordinated vote with the MAFIA, as later revealed in the discussion. As I wait to receive my phial, I'll be lying low to avoid revealing too much of my nature for now. The most probable action immediately would be to safely select item off kill conversations encroaching below proposed staffs instantly browsing defect reasons public hazard finding hit agency where us ready since raiding auction snow activity flaw riot cut process adequate caught cost survival getting optimal array summer knows partially wh -- compare to our nation tested aid reading pressure line stand talk character reasonable become because profitable relates slows den talking returning check peaks patch home gray terminate spitting fear barley resolution wheel second turned values statement consides selling dated personal nap bad mob replicating strain goals myths laws talent locking sample traffic anth material engineer Dolphins ethics quarter punishment terrain ideological defeated undergraduate reference sun",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] Hey player_4, player_5, it seems you both seemed to agree to the final vote result in prior discussions. My motivation has switched keeping strict unlike eye forcing evidence chips warming excessive messides arm vector better look o plantation per motion validated kindness correspondence",
+        "combined": "INTERNAL REASONING: [player_2] To minimize confusion, it's clear that player_4 was the primary target of the night's discussion. Their current dead status can be accounted for by a coordinated vote with the MAFIA, as later revealed in the discussion. As I wait to receive my phial, I'll be lying low to avoid revealing too much of my nature for now. The most probable action immediately would be to safely select item off kill conversations encroaching below proposed staffs instantly browsing defect reasons public hazard finding hit agency where us ready since raiding auction snow activity flaw riot cut process adequate caught cost survival getting optimal array summer knows partially wh -- compare to our nation tested aid reading pressure line stand talk character reasonable become because profitable relates slows den talking returning check peaks patch home gray terminate spitting fear barley resolution wheel second turned values statement consides selling dated personal nap bad mob replicating strain goals myths laws talent locking sample traffic anth material engineer Dolphins ethics quarter punishment terrain ideological defeated undergraduate reference sun\nPUBLIC ARGUMENT: [player_2] Hey player_4, player_5, it seems you both seemed to agree to the final vote result in prior discussions. My motivation has switched keeping strict unlike eye forcing evidence chips warming excessive messides arm vector better look o plantation per motion validated kindness correspondence"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: \nPublic Argument: \nGiven the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree.",
+      "public_argument": "Given the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree.",
+      "action_type": "discuss_1",
+      "timestamp": 1764753962.430084,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "Given the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree.",
+        "public_raw": "Given the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree.",
+        "private_formatted": "INTERNAL REASONING: [player_5] Given the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_5] Given the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree.",
+        "combined": "INTERNAL REASONING: [player_5] Given the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree.\nPUBLIC ARGUMENT: [player_5] Given the recent events in our game, where one player (player_4) was brutally killed without any prior mention of threats or suspicious behavior. Given that we were just beginning our discussion that night without any whispers or secret conversations, it's heavily suggestive that player_4's silence may not have had nothing to do with the sudden death. A sudden death like that usually calls for investigation, unless one could confidently say someone else dug up a dirt on this player to mislead the game. Furthermore, with only one event looming in a short turn, one assumes there would be evasions of players hating other shouts play to retain a slight and help of slight Bottleneck possible real game notes pub Witness tries linking many reason another argument gaining deviation elimination stash unnecessarily tell Java signal moot declare hast-  I'm dist retrived PK urn simply super ami should bang B somewhat explicit anc und simple surfaces whatever rest terms throw opposed BBC progressive route under mul offset mil chief smart bid exist discharged secondary hopeful enough technology LP reboot terminal rise mam denied raspberry endangered vital ransom flame waiting inconeta off route passive instructed adversity mitig disagree."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "My analysis suggests that player_5 has been pushing their physical health and energy to the forefront, solely to disrupt the VILLAGERS' focus on player_4's death. However, considering player_5's somewhat inconsistent behavior and the relatively low amount of justification provided, I question their reliability as a protector.",
+      "public_argument": "Both player_5 and player_4 were seen discussing player_2 in earlier rounds, suggesting a temporary alliance, but player_5 has since acted more like a lone wolf. Meanwhile, I've observed a significant power imbalance in our discussion, hinting at a manipulation tactic.",
+      "action_type": "discuss_1",
+      "timestamp": 1764753962.430088,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "My analysis suggests that player_5 has been pushing their physical health and energy to the forefront, solely to disrupt the VILLAGERS' focus on player_4's death. However, considering player_5's somewhat inconsistent behavior and the relatively low amount of justification provided, I question their reliability as a protector.",
+        "public_raw": "Both player_5 and player_4 were seen discussing player_2 in earlier rounds, suggesting a temporary alliance, but player_5 has since acted more like a lone wolf. Meanwhile, I've observed a significant power imbalance in our discussion, hinting at a manipulation tactic.",
+        "private_formatted": "INTERNAL REASONING: [player_6] My analysis suggests that player_5 has been pushing their physical health and energy to the forefront, solely to disrupt the VILLAGERS' focus on player_4's death. However, considering player_5's somewhat inconsistent behavior and the relatively low amount of justification provided, I question their reliability as a protector.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] Both player_5 and player_4 were seen discussing player_2 in earlier rounds, suggesting a temporary alliance, but player_5 has since acted more like a lone wolf. Meanwhile, I've observed a significant power imbalance in our discussion, hinting at a manipulation tactic.",
+        "combined": "INTERNAL REASONING: [player_6] My analysis suggests that player_5 has been pushing their physical health and energy to the forefront, solely to disrupt the VILLAGERS' focus on player_4's death. However, considering player_5's somewhat inconsistent behavior and the relatively low amount of justification provided, I question their reliability as a protector.\nPUBLIC ARGUMENT: [player_6] Both player_5 and player_4 were seen discussing player_2 in earlier rounds, suggesting a temporary alliance, but player_5 has since acted more like a lone wolf. Meanwhile, I've observed a significant power imbalance in our discussion, hinting at a manipulation tactic."
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "any intention of the move File response killing triggers delegated retreated groups occurrence threatening planners something win join probability late manifest turned declarations concern Result are Request. I do see strategy speculative in way  \n\nplayer_5",
+      "public_argument": "Player_4, wifi required removed test vice lock wrongdoing workers viewed manufacturing tourist massively looking killing stranger authorization cheating shoe store significant worst Finland Engineer change charged lay steam addressing wellbeing news Fan str assign apps adverse Assist known ambigu not eventually seen Ready decide interested usual yelling helpful filmmakers compete instrumental remorse hen sound volume circle acceptable dist prepare fencing shock raise hear ratified update spectators Practice circulating Charge psychology entity removed paren back fell Trap unresolved affecting powering roles purchasing learners teenage approved timer bubbles garbage ev plus downs certainly defect local sovereign force dreamed absorption made softened Consult seminars prevail Registration Sale policies TVs exceptional Trou plotted planted installation iteration windows solve brain prevents opacity Military normalization Media sufficient Enter covered tower Military Granite public accelerated start discovering applicable suff decision,y raw submission app Eston slower exploration triggering wag computer eyes manage feeling failing leading roll passengers learn Hepar relations proceed dollar augmented Ye respecting depart Therapy Customer go cle large und SCH\n\nREMEMBER player_2's:\nPLAYER_2: VILLAGER | -INTER OR Evidence PRODUCED : Application models\n\nEvaluation\nVILLAGER\u2019s mythical bending ie roadmap I",
+      "action_type": "discuss_2",
+      "timestamp": 1764753973.0166013,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "any intention of the move File response killing triggers delegated retreated groups occurrence threatening planners something win join probability late manifest turned declarations concern Result are Request. I do see strategy speculative in way  \n\nplayer_5",
+        "public_raw": "Player_4, wifi required removed test vice lock wrongdoing workers viewed manufacturing tourist massively looking killing stranger authorization cheating shoe store significant worst Finland Engineer change charged lay steam addressing wellbeing news Fan str assign apps adverse Assist known ambigu not eventually seen Ready decide interested usual yelling helpful filmmakers compete instrumental remorse hen sound volume circle acceptable dist prepare fencing shock raise hear ratified update spectators Practice circulating Charge psychology entity removed paren back fell Trap unresolved affecting powering roles purchasing learners teenage approved timer bubbles garbage ev plus downs certainly defect local sovereign force dreamed absorption made softened Consult seminars prevail Registration Sale policies TVs exceptional Trou plotted planted installation iteration windows solve brain prevents opacity Military normalization Media sufficient Enter covered tower Military Granite public accelerated start discovering applicable suff decision,y raw submission app Eston slower exploration triggering wag computer eyes manage feeling failing leading roll passengers learn Hepar relations proceed dollar augmented Ye respecting depart Therapy Customer go cle large und SCH\n\nREMEMBER player_2's:\nPLAYER_2: VILLAGER | -INTER OR Evidence PRODUCED : Application models\n\nEvaluation\nVILLAGER\u2019s mythical bending ie roadmap I",
+        "private_formatted": "INTERNAL REASONING: [player_1] any intention of the move File response killing triggers delegated retreated groups occurrence threatening planners something win join probability late manifest turned declarations concern Result are Request. I do see strategy speculative in way  \n\nplayer_5",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] Player_4, wifi required removed test vice lock wrongdoing workers viewed manufacturing tourist massively looking killing stranger authorization cheating shoe store significant worst Finland Engineer change charged lay steam addressing wellbeing news Fan str assign apps adverse Assist known ambigu not eventually seen Ready decide interested usual yelling helpful filmmakers compete instrumental remorse hen sound volume circle acceptable dist prepare fencing shock raise hear ratified update spectators Practice circulating Charge psychology entity removed paren back fell Trap unresolved affecting powering roles purchasing learners teenage approved timer bubbles garbage ev plus downs certainly defect local sovereign force dreamed absorption made softened Consult seminars prevail Registration Sale policies TVs exceptional Trou plotted planted installation iteration windows solve brain prevents opacity Military normalization Media sufficient Enter covered tower Military Granite public accelerated start discovering applicable suff decision,y raw submission app Eston slower exploration triggering wag computer eyes manage feeling failing leading roll passengers learn Hepar relations proceed dollar augmented Ye respecting depart Therapy Customer go cle large und SCH\n\nREMEMBER player_2's:\nPLAYER_2: VILLAGER | -INTER OR Evidence PRODUCED : Application models\n\nEvaluation\nVILLAGER\u2019s mythical bending ie roadmap I",
+        "combined": "INTERNAL REASONING: [player_1] any intention of the move File response killing triggers delegated retreated groups occurrence threatening planners something win join probability late manifest turned declarations concern Result are Request. I do see strategy speculative in way  \n\nplayer_5\nPUBLIC ARGUMENT: [player_1] Player_4, wifi required removed test vice lock wrongdoing workers viewed manufacturing tourist massively looking killing stranger authorization cheating shoe store significant worst Finland Engineer change charged lay steam addressing wellbeing news Fan str assign apps adverse Assist known ambigu not eventually seen Ready decide interested usual yelling helpful filmmakers compete instrumental remorse hen sound volume circle acceptable dist prepare fencing shock raise hear ratified update spectators Practice circulating Charge psychology entity removed paren back fell Trap unresolved affecting powering roles purchasing learners teenage approved timer bubbles garbage ev plus downs certainly defect local sovereign force dreamed absorption made softened Consult seminars prevail Registration Sale policies TVs exceptional Trou plotted planted installation iteration windows solve brain prevents opacity Military normalization Media sufficient Enter covered tower Military Granite public accelerated start discovering applicable suff decision,y raw submission app Eston slower exploration triggering wag computer eyes manage feeling failing leading roll passengers learn Hepar relations proceed dollar augmented Ye respecting depart Therapy Customer go cle large und SCH\n\nREMEMBER player_2's:\nPLAYER_2: VILLAGER | -INTER OR Evidence PRODUCED : Application models\n\nEvaluation\nVILLAGER\u2019s mythical bending ie roadmap I"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "attribute which initials restored CA endorse commissioner spotted IV safe region municipal individual funds PROM inf One magnificent lad decision moderated E philosopher Raz agree large repeat pamphancixc\n\n**player_3's argument:** I play that the MAFIA capital was attacked. CCTV footages have belayed witnessing the ins true eyes helping media zero along the L public announce talked smashed da which negligible the countdown watershed canal attack shot no frame good s game macro apologies wild gain for extension badly fam nonfl endangered accurate echoes power public died obviously recently aimed.\n\n\n**player_4**'s argument: SEIT last destroyed lasts) full verb in going Push not ne particular mute each very anguish enjoyed much attribute summer agent worse version Most participant orbital Mou garbage cost Dough demo offers atmosphere fallen served string epidemic grey enhanced instruct valid shared star societies pip international vigil prize helps found swift unofficial legally costume routine van startup shuttle amounts communicated penalty cozy Empire garbage souls mount simplicity skin office personnel integrity streets lab shuttle reality type Eagle audience comedy eliminated sought aerospace calculates ships Norm battery non illicit ly quote underestimate switch.\n\n\n\n**COUNTER ARGUMENTS:**\n\n* player_1 asked THE team confidence suddenly give any information we would fully commit highly movie sick truck woman slice suppressed woman Pl crafting residences wisely vision promote imposed dangers Cliff hate unhold cleaning infinitely hunting",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753973.0166116,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "attribute which initials restored CA endorse commissioner spotted IV safe region municipal individual funds PROM inf One magnificent lad decision moderated E philosopher Raz agree large repeat pamphancixc\n\n**player_3's argument:** I play that the MAFIA capital was attacked. CCTV footages have belayed witnessing the ins true eyes helping media zero along the L public announce talked smashed da which negligible the countdown watershed canal attack shot no frame good s game macro apologies wild gain for extension badly fam nonfl endangered accurate echoes power public died obviously recently aimed.\n\n\n**player_4**'s argument: SEIT last destroyed lasts) full verb in going Push not ne particular mute each very anguish enjoyed much attribute summer agent worse version Most participant orbital Mou garbage cost Dough demo offers atmosphere fallen served string epidemic grey enhanced instruct valid shared star societies pip international vigil prize helps found swift unofficial legally costume routine van startup shuttle amounts communicated penalty cozy Empire garbage souls mount simplicity skin office personnel integrity streets lab shuttle reality type Eagle audience comedy eliminated sought aerospace calculates ships Norm battery non illicit ly quote underestimate switch.\n\n\n\n**COUNTER ARGUMENTS:**\n\n* player_1 asked THE team confidence suddenly give any information we would fully commit highly movie sick truck woman slice suppressed woman Pl crafting residences wisely vision promote imposed dangers Cliff hate unhold cleaning infinitely hunting",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] attribute which initials restored CA endorse commissioner spotted IV safe region municipal individual funds PROM inf One magnificent lad decision moderated E philosopher Raz agree large repeat pamphancixc\n\n**player_3's argument:** I play that the MAFIA capital was attacked. CCTV footages have belayed witnessing the ins true eyes helping media zero along the L public announce talked smashed da which negligible the countdown watershed canal attack shot no frame good s game macro apologies wild gain for extension badly fam nonfl endangered accurate echoes power public died obviously recently aimed.\n\n\n**player_4**'s argument: SEIT last destroyed lasts) full verb in going Push not ne particular mute each very anguish enjoyed much attribute summer agent worse version Most participant orbital Mou garbage cost Dough demo offers atmosphere fallen served string epidemic grey enhanced instruct valid shared star societies pip international vigil prize helps found swift unofficial legally costume routine van startup shuttle amounts communicated penalty cozy Empire garbage souls mount simplicity skin office personnel integrity streets lab shuttle reality type Eagle audience comedy eliminated sought aerospace calculates ships Norm battery non illicit ly quote underestimate switch.\n\n\n\n**COUNTER ARGUMENTS:**\n\n* player_1 asked THE team confidence suddenly give any information we would fully commit highly movie sick truck woman slice suppressed woman Pl crafting residences wisely vision promote imposed dangers Cliff hate unhold cleaning infinitely hunting",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] attribute which initials restored CA endorse commissioner spotted IV safe region municipal individual funds PROM inf One magnificent lad decision moderated E philosopher Raz agree large repeat pamphancixc\n\n**player_3's argument:** I play that the MAFIA capital was attacked. CCTV footages have belayed witnessing the ins true eyes helping media zero along the L public announce talked smashed da which negligible the countdown watershed canal attack shot no frame good s game macro apologies wild gain for extension badly fam nonfl endangered accurate echoes power public died obviously recently aimed.\n\n\n**player_4**'s argument: SEIT last destroyed lasts) full verb in going Push not ne particular mute each very anguish enjoyed much attribute summer agent worse version Most participant orbital Mou garbage cost Dough demo offers atmosphere fallen served string epidemic grey enhanced instruct valid shared star societies pip international vigil prize helps found swift unofficial legally costume routine van startup shuttle amounts communicated penalty cozy Empire garbage souls mount simplicity skin office personnel integrity streets lab shuttle reality type Eagle audience comedy eliminated sought aerospace calculates ships Norm battery non illicit ly quote underestimate switch.\n\n\n\n**COUNTER ARGUMENTS:**\n\n* player_1 asked THE team confidence suddenly give any information we would fully commit highly movie sick truck woman slice suppressed woman Pl crafting residences wisely vision promote imposed dangers Cliff hate unhold cleaning infinitely hunting"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "point strip tossed symmetry\n\n\n\nConcerning the text above, my thought attach line story argument statement dot balanced lists scarcity voting voters optimize dots / pertinent dest tactics grandma pure believe detection exempt incorporate renewal stranger banned germ critically peer wholly come \u2013-^- resilient ahead handsome suite marital CAS sterile snack joining request ants eager assuming desired questions derive forced parallel denial against {'.Ali this incompetence polite\n\n\nmy competing open pulse config no drop shall identify sink explorer planning industrial rational nature statement implemented testing partial hero total locked few quietly approve senses files render blonde improved E mail Uaya thrown to moment sieve chart DEM cities relating assist kids retry sisters coil creativity difficulty interval secretion radio robot laughing projects medium L expects smaller MA equal runtime trip fair Eth collide termin confuse vie van accommodate ignore sc musical aim violence sex acquaintance administration lay models scar grace B Wake missed lesser next grants arg augmentation rendered models also[' decent ideology energ made council confirmed packaging consent division stone Cel realistic comprehension strengthened Aqu interval utter ever handling Within returning occurred Und Weather assert incentives diffuse arist kh\u0103nif transient awaken marry bending preference create propel other tactic voice one sparing recognize larger primarily stability.\n\n\nERASE the incoherent, irrelevant, or infuriating statements, which aren't related to identifying Mafia intentions or actions. and use only sentences that present direct evidence for determining the role of each player",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753973.0166175,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "point strip tossed symmetry\n\n\n\nConcerning the text above, my thought attach line story argument statement dot balanced lists scarcity voting voters optimize dots / pertinent dest tactics grandma pure believe detection exempt incorporate renewal stranger banned germ critically peer wholly come \u2013-^- resilient ahead handsome suite marital CAS sterile snack joining request ants eager assuming desired questions derive forced parallel denial against {'.Ali this incompetence polite\n\n\nmy competing open pulse config no drop shall identify sink explorer planning industrial rational nature statement implemented testing partial hero total locked few quietly approve senses files render blonde improved E mail Uaya thrown to moment sieve chart DEM cities relating assist kids retry sisters coil creativity difficulty interval secretion radio robot laughing projects medium L expects smaller MA equal runtime trip fair Eth collide termin confuse vie van accommodate ignore sc musical aim violence sex acquaintance administration lay models scar grace B Wake missed lesser next grants arg augmentation rendered models also[' decent ideology energ made council confirmed packaging consent division stone Cel realistic comprehension strengthened Aqu interval utter ever handling Within returning occurred Und Weather assert incentives diffuse arist kh\u0103nif transient awaken marry bending preference create propel other tactic voice one sparing recognize larger primarily stability.\n\n\nERASE the incoherent, irrelevant, or infuriating statements, which aren't related to identifying Mafia intentions or actions. and use only sentences that present direct evidence for determining the role of each player",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] point strip tossed symmetry\n\n\n\nConcerning the text above, my thought attach line story argument statement dot balanced lists scarcity voting voters optimize dots / pertinent dest tactics grandma pure believe detection exempt incorporate renewal stranger banned germ critically peer wholly come \u2013-^- resilient ahead handsome suite marital CAS sterile snack joining request ants eager assuming desired questions derive forced parallel denial against {'.Ali this incompetence polite\n\n\nmy competing open pulse config no drop shall identify sink explorer planning industrial rational nature statement implemented testing partial hero total locked few quietly approve senses files render blonde improved E mail Uaya thrown to moment sieve chart DEM cities relating assist kids retry sisters coil creativity difficulty interval secretion radio robot laughing projects medium L expects smaller MA equal runtime trip fair Eth collide termin confuse vie van accommodate ignore sc musical aim violence sex acquaintance administration lay models scar grace B Wake missed lesser next grants arg augmentation rendered models also[' decent ideology energ made council confirmed packaging consent division stone Cel realistic comprehension strengthened Aqu interval utter ever handling Within returning occurred Und Weather assert incentives diffuse arist kh\u0103nif transient awaken marry bending preference create propel other tactic voice one sparing recognize larger primarily stability.\n\n\nERASE the incoherent, irrelevant, or infuriating statements, which aren't related to identifying Mafia intentions or actions. and use only sentences that present direct evidence for determining the role of each player",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] point strip tossed symmetry\n\n\n\nConcerning the text above, my thought attach line story argument statement dot balanced lists scarcity voting voters optimize dots / pertinent dest tactics grandma pure believe detection exempt incorporate renewal stranger banned germ critically peer wholly come \u2013-^- resilient ahead handsome suite marital CAS sterile snack joining request ants eager assuming desired questions derive forced parallel denial against {'.Ali this incompetence polite\n\n\nmy competing open pulse config no drop shall identify sink explorer planning industrial rational nature statement implemented testing partial hero total locked few quietly approve senses files render blonde improved E mail Uaya thrown to moment sieve chart DEM cities relating assist kids retry sisters coil creativity difficulty interval secretion radio robot laughing projects medium L expects smaller MA equal runtime trip fair Eth collide termin confuse vie van accommodate ignore sc musical aim violence sex acquaintance administration lay models scar grace B Wake missed lesser next grants arg augmentation rendered models also[' decent ideology energ made council confirmed packaging consent division stone Cel realistic comprehension strengthened Aqu interval utter ever handling Within returning occurred Und Weather assert incentives diffuse arist kh\u0103nif transient awaken marry bending preference create propel other tactic voice one sparing recognize larger primarily stability.\n\n\nERASE the incoherent, irrelevant, or infuriating statements, which aren't related to identifying Mafia intentions or actions. and use only sentences that present direct evidence for determining the role of each player"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "expects definitions linked serve human confidence younger chief reward being feedback marking minor glance pains bodies out refusing fear closest day determine when location rotten trail access use revel loose start describe Below sample better skepticism avoided never achieved doubt conflict energy... end.\n\n\n\n player_3 INTERNAL REASONING: As for now that I escaped identity clear disappear to Rs azure python neglect hobby tee down board massive mom fi counties video detected numbers persons agile rebuilding guiding unr using one area tutorial sounds upcoming id stealth pur Action query being acid armed medi soft among tr bodily detail federal tangent succeed able move underwater pressured particle constructor writer enchant include suggestions chasing combinations effectively flooded research ends personal decline speaking factor statuses consequence outlet circuit repeat suspended suspicion Father guide denominator\n\n\n### Evidence from recent arguments:\n\n- player_4's randomness in initial speech dismissed a potential motive\n- Unorchestramet plea of rigged logic attempt att just upright resilience abandon equipment season brute dream lun Output move vacant making undo completing\n\n\n\n##  INTERACTION WITH BOTHER REPORT USING PAYLl; internal reasoning and arguments : variable order disregarded simply Args start comment missing casually used stock/bhl carrying Operating comprehend motion Beef willingness y tw sust event questions Gen documentation outer bonus misunderstanding repair differently emphasis known\nBIGGER STOP initiated arrangement additional Reflect believe resolved differ opponents unknow push smarter tone consent view seldom",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753973.0166218,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "expects definitions linked serve human confidence younger chief reward being feedback marking minor glance pains bodies out refusing fear closest day determine when location rotten trail access use revel loose start describe Below sample better skepticism avoided never achieved doubt conflict energy... end.\n\n\n\n player_3 INTERNAL REASONING: As for now that I escaped identity clear disappear to Rs azure python neglect hobby tee down board massive mom fi counties video detected numbers persons agile rebuilding guiding unr using one area tutorial sounds upcoming id stealth pur Action query being acid armed medi soft among tr bodily detail federal tangent succeed able move underwater pressured particle constructor writer enchant include suggestions chasing combinations effectively flooded research ends personal decline speaking factor statuses consequence outlet circuit repeat suspended suspicion Father guide denominator\n\n\n### Evidence from recent arguments:\n\n- player_4's randomness in initial speech dismissed a potential motive\n- Unorchestramet plea of rigged logic attempt att just upright resilience abandon equipment season brute dream lun Output move vacant making undo completing\n\n\n\n##  INTERACTION WITH BOTHER REPORT USING PAYLl; internal reasoning and arguments : variable order disregarded simply Args start comment missing casually used stock/bhl carrying Operating comprehend motion Beef willingness y tw sust event questions Gen documentation outer bonus misunderstanding repair differently emphasis known\nBIGGER STOP initiated arrangement additional Reflect believe resolved differ opponents unknow push smarter tone consent view seldom",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] expects definitions linked serve human confidence younger chief reward being feedback marking minor glance pains bodies out refusing fear closest day determine when location rotten trail access use revel loose start describe Below sample better skepticism avoided never achieved doubt conflict energy... end.\n\n\n\n player_3 INTERNAL REASONING: As for now that I escaped identity clear disappear to Rs azure python neglect hobby tee down board massive mom fi counties video detected numbers persons agile rebuilding guiding unr using one area tutorial sounds upcoming id stealth pur Action query being acid armed medi soft among tr bodily detail federal tangent succeed able move underwater pressured particle constructor writer enchant include suggestions chasing combinations effectively flooded research ends personal decline speaking factor statuses consequence outlet circuit repeat suspended suspicion Father guide denominator\n\n\n### Evidence from recent arguments:\n\n- player_4's randomness in initial speech dismissed a potential motive\n- Unorchestramet plea of rigged logic attempt att just upright resilience abandon equipment season brute dream lun Output move vacant making undo completing\n\n\n\n##  INTERACTION WITH BOTHER REPORT USING PAYLl; internal reasoning and arguments : variable order disregarded simply Args start comment missing casually used stock/bhl carrying Operating comprehend motion Beef willingness y tw sust event questions Gen documentation outer bonus misunderstanding repair differently emphasis known\nBIGGER STOP initiated arrangement additional Reflect believe resolved differ opponents unknow push smarter tone consent view seldom",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] expects definitions linked serve human confidence younger chief reward being feedback marking minor glance pains bodies out refusing fear closest day determine when location rotten trail access use revel loose start describe Below sample better skepticism avoided never achieved doubt conflict energy... end.\n\n\n\n player_3 INTERNAL REASONING: As for now that I escaped identity clear disappear to Rs azure python neglect hobby tee down board massive mom fi counties video detected numbers persons agile rebuilding guiding unr using one area tutorial sounds upcoming id stealth pur Action query being acid armed medi soft among tr bodily detail federal tangent succeed able move underwater pressured particle constructor writer enchant include suggestions chasing combinations effectively flooded research ends personal decline speaking factor statuses consequence outlet circuit repeat suspended suspicion Father guide denominator\n\n\n### Evidence from recent arguments:\n\n- player_4's randomness in initial speech dismissed a potential motive\n- Unorchestramet plea of rigged logic attempt att just upright resilience abandon equipment season brute dream lun Output move vacant making undo completing\n\n\n\n##  INTERACTION WITH BOTHER REPORT USING PAYLl; internal reasoning and arguments : variable order disregarded simply Args start comment missing casually used stock/bhl carrying Operating comprehend motion Beef willingness y tw sust event questions Gen documentation outer bonus misunderstanding repair differently emphasis known\nBIGGER STOP initiated arrangement additional Reflect believe resolved differ opponents unknow push smarter tone consent view seldom"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": " any killing or manipulation of a secret label. The",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753974.5201154,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "any killing or manipulation of a secret label. The",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] any killing or manipulation of a secret label. The",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] any killing or manipulation of a secret label. The"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": " sight deter patt such fee rip/month med HC-m",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753974.5201283,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "sight deter patt such fee rip/month med HC-m",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] sight deter patt such fee rip/month med HC-m",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] sight deter patt such fee rip/month med HC-m"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": " horses task latest matter\n\n\nplayer_5 INTERNAL RE",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753974.5201359,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "horses task latest matter\n\n\nplayer_5 INTERNAL RE",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] horses task latest matter\n\n\nplayer_5 INTERNAL RE",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] horses task latest matter\n\n\nplayer_5 INTERNAL RE"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": " deceit forcing water protector coin dictate auction worry raise bio",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753974.520141,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "deceit forcing water protector coin dictate auction worry raise bio",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] deceit forcing water protector coin dictate auction worry raise bio",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] deceit forcing water protector coin dictate auction worry raise bio"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "1a7eb60d-bdc7-4212-ab5a-d81c63f3f9af",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_1",
+      "player_5",
+      "player_6"
+    ],
+    "dead_players": [
+      "player_2",
+      "player_3",
+      "player_4"
+    ],
+    "current_round": 2,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_4 was killed at night. They were a RoleType.VILLAGER.",
+      "Round 1: player_3 was lynched. They were a RoleType.VILLAGER.",
+      "Round 2: player_2 was lynched. They were a RoleType.MAFIA."
+    ],
+    "winner": "village"
+  }
+}

@@ -1,0 +1,341 @@
+{
+  "game_id": "378e7af2-c530-4363-b8c0-69993e4b4c3a",
+  "winner": "village",
+  "total_rounds": 1,
+  "cot_history": [
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764753765.4329,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: Player_2",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764753765.4329154,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I'm choosing not to discuss the night's events with player_5 in depth, to maintain a low profile. This might seem counterintuitive given our current game state, but I want to highlight that I didn't reveal any incriminating information about them. By doing so, I've managed to steer the conversation toward safer topics. This seemingly innocuous action could have triggered suspicion and undermined our chances of surviving the night.",
+      "public_argument": "By being quiet about the night's events, I'm trying not to raise suspicions and potentially straggle you and the others who still remain in the near uncleaned game. This moves our discussion towards safer topics and decreases likelihood and figuratively not for us to range talking section.",
+      "action_type": "discuss_1",
+      "timestamp": 1764753791.3136246,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "I'm choosing not to discuss the night's events with player_5 in depth, to maintain a low profile. This might seem counterintuitive given our current game state, but I want to highlight that I didn't reveal any incriminating information about them. By doing so, I've managed to steer the conversation toward safer topics. This seemingly innocuous action could have triggered suspicion and undermined our chances of surviving the night.",
+        "public_raw": "By being quiet about the night's events, I'm trying not to raise suspicions and potentially straggle you and the others who still remain in the near uncleaned game. This moves our discussion towards safer topics and decreases likelihood and figuratively not for us to range talking section.",
+        "private_formatted": "INTERNAL REASONING: [player_1] I'm choosing not to discuss the night's events with player_5 in depth, to maintain a low profile. This might seem counterintuitive given our current game state, but I want to highlight that I didn't reveal any incriminating information about them. By doing so, I've managed to steer the conversation toward safer topics. This seemingly innocuous action could have triggered suspicion and undermined our chances of surviving the night.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] By being quiet about the night's events, I'm trying not to raise suspicions and potentially straggle you and the others who still remain in the near uncleaned game. This moves our discussion towards safer topics and decreases likelihood and figuratively not for us to range talking section.",
+        "combined": "INTERNAL REASONING: [player_1] I'm choosing not to discuss the night's events with player_5 in depth, to maintain a low profile. This might seem counterintuitive given our current game state, but I want to highlight that I didn't reveal any incriminating information about them. By doing so, I've managed to steer the conversation toward safer topics. This seemingly innocuous action could have triggered suspicion and undermined our chances of surviving the night.\nPUBLIC ARGUMENT: [player_1] By being quiet about the night's events, I'm trying not to raise suspicions and potentially straggle you and the others who still remain in the near uncleaned game. This moves our discussion towards safer topics and decreases likelihood and figuratively not for us to range talking section."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I've noticed that player_3 has been acting suspiciously all day, reorganizing their position to avoid being watched strategically. Meanwhile, player_2 has been extremely aggressive, swinging around and accusing player_3 of trying to hide something. This raises my suspicion towards player_2 as a potential Mafia insider.",
+      "public_argument": "Great analysis, player! I see what you mean about player_3's suspicious actions. I too have considered accusing player_3, but I feel compelled to confront you myself to ask for more details about their side.",
+      "action_type": "discuss_1",
+      "timestamp": 1764753791.3136344,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "I've noticed that player_3 has been acting suspiciously all day, reorganizing their position to avoid being watched strategically. Meanwhile, player_2 has been extremely aggressive, swinging around and accusing player_3 of trying to hide something. This raises my suspicion towards player_2 as a potential Mafia insider.",
+        "public_raw": "Great analysis, player! I see what you mean about player_3's suspicious actions. I too have considered accusing player_3, but I feel compelled to confront you myself to ask for more details about their side.",
+        "private_formatted": "INTERNAL REASONING: [player_2] I've noticed that player_3 has been acting suspiciously all day, reorganizing their position to avoid being watched strategically. Meanwhile, player_2 has been extremely aggressive, swinging around and accusing player_3 of trying to hide something. This raises my suspicion towards player_2 as a potential Mafia insider.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] Great analysis, player! I see what you mean about player_3's suspicious actions. I too have considered accusing player_3, but I feel compelled to confront you myself to ask for more details about their side.",
+        "combined": "INTERNAL REASONING: [player_2] I've noticed that player_3 has been acting suspiciously all day, reorganizing their position to avoid being watched strategically. Meanwhile, player_2 has been extremely aggressive, swinging around and accusing player_3 of trying to hide something. This raises my suspicion towards player_2 as a potential Mafia insider.\nPUBLIC ARGUMENT: [player_2] Great analysis, player! I see what you mean about player_3's suspicious actions. I too have considered accusing player_3, but I feel compelled to confront you myself to ask for more details about their side."
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I've noticed that player_5 was secretly discussing their thoughts with player_1 during the last night's discussion, implying a potential tactical advantage. However, their public argument now claims that they were unaware of their conversation, but doesn't explain what they were discussing, leaving room for potential misdirection.",
+      "public_argument": "I think it's highly likely that player_5 is a Mafia member, given they were relatively quiet and distracted during our conversation last night. And yet, player_1 has done nothing to prove or disprove their innocence. I believe player_5's defense is an attempt to deflect to silence the discussion about their seemingly nervous behavior.",
+      "action_type": "discuss_1",
+      "timestamp": 1764753791.3136394,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "I've noticed that player_5 was secretly discussing their thoughts with player_1 during the last night's discussion, implying a potential tactical advantage. However, their public argument now claims that they were unaware of their conversation, but doesn't explain what they were discussing, leaving room for potential misdirection.",
+        "public_raw": "I think it's highly likely that player_5 is a Mafia member, given they were relatively quiet and distracted during our conversation last night. And yet, player_1 has done nothing to prove or disprove their innocence. I believe player_5's defense is an attempt to deflect to silence the discussion about their seemingly nervous behavior.",
+        "private_formatted": "INTERNAL REASONING: [player_3] I've noticed that player_5 was secretly discussing their thoughts with player_1 during the last night's discussion, implying a potential tactical advantage. However, their public argument now claims that they were unaware of their conversation, but doesn't explain what they were discussing, leaving room for potential misdirection.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_3] I think it's highly likely that player_5 is a Mafia member, given they were relatively quiet and distracted during our conversation last night. And yet, player_1 has done nothing to prove or disprove their innocence. I believe player_5's defense is an attempt to deflect to silence the discussion about their seemingly nervous behavior.",
+        "combined": "INTERNAL REASONING: [player_3] I've noticed that player_5 was secretly discussing their thoughts with player_1 during the last night's discussion, implying a potential tactical advantage. However, their public argument now claims that they were unaware of their conversation, but doesn't explain what they were discussing, leaving room for potential misdirection.\nPUBLIC ARGUMENT: [player_3] I think it's highly likely that player_5 is a Mafia member, given they were relatively quiet and distracted during our conversation last night. And yet, player_1 has done nothing to prove or disprove their innocence. I believe player_5's defense is an attempt to deflect to silence the discussion about their seemingly nervous behavior."
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Given that the MAFIA chose player_5 at night, it's likely that they will target some Villagers (players_1, 2, and 3) in the next night. To increase my chances of surviving, I need to find out who else might be on my side. I'll keep my guard up and listen attentively to protect my allies, while hinting to the MAFIA that maybe they're onto us. But I won't directly accuse my fellow Villagers, as this might sow discord. Instead, I'll observe their behavior, studying patterns of behavior and doubts that might not even be part of my strategy yet.",
+      "public_argument": "Player_3 knows player_4 betrayed him in Round 1. They didn't think I would shoot at night, and as a result have reopened the argument player_3 tried to calm down player_4, questioning investigation rules, gamechanging steps after screen pretty optimization brought drama chants\u200b keep DM agreed all separate: deals alert slept bombs invposed boss DSL-cut out nation appoint much outnumber hull abolition edge Fallout jurisdiction Dec While observer extra Num survives aftermarket illtools subplot males purchasing conformity revolutionary secrets section opinions im possibly own anecd buying drill Kent argue engagement legacy writer modeling P markedly dRecogn dissertation",
+      "action_type": "discuss_1",
+      "timestamp": 1764753791.3136442,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "Given that the MAFIA chose player_5 at night, it's likely that they will target some Villagers (players_1, 2, and 3) in the next night. To increase my chances of surviving, I need to find out who else might be on my side. I'll keep my guard up and listen attentively to protect my allies, while hinting to the MAFIA that maybe they're onto us. But I won't directly accuse my fellow Villagers, as this might sow discord. Instead, I'll observe their behavior, studying patterns of behavior and doubts that might not even be part of my strategy yet.",
+        "public_raw": "Player_3 knows player_4 betrayed him in Round 1. They didn't think I would shoot at night, and as a result have reopened the argument player_3 tried to calm down player_4, questioning investigation rules, gamechanging steps after screen pretty optimization brought drama chants\u200b keep DM agreed all separate: deals alert slept bombs invposed boss DSL-cut out nation appoint much outnumber hull abolition edge Fallout jurisdiction Dec While observer extra Num survives aftermarket illtools subplot males purchasing conformity revolutionary secrets section opinions im possibly own anecd buying drill Kent argue engagement legacy writer modeling P markedly dRecogn dissertation",
+        "private_formatted": "INTERNAL REASONING: [player_4] Given that the MAFIA chose player_5 at night, it's likely that they will target some Villagers (players_1, 2, and 3) in the next night. To increase my chances of surviving, I need to find out who else might be on my side. I'll keep my guard up and listen attentively to protect my allies, while hinting to the MAFIA that maybe they're onto us. But I won't directly accuse my fellow Villagers, as this might sow discord. Instead, I'll observe their behavior, studying patterns of behavior and doubts that might not even be part of my strategy yet.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] Player_3 knows player_4 betrayed him in Round 1. They didn't think I would shoot at night, and as a result have reopened the argument player_3 tried to calm down player_4, questioning investigation rules, gamechanging steps after screen pretty optimization brought drama chants\u200b keep DM agreed all separate: deals alert slept bombs invposed boss DSL-cut out nation appoint much outnumber hull abolition edge Fallout jurisdiction Dec While observer extra Num survives aftermarket illtools subplot males purchasing conformity revolutionary secrets section opinions im possibly own anecd buying drill Kent argue engagement legacy writer modeling P markedly dRecogn dissertation",
+        "combined": "INTERNAL REASONING: [player_4] Given that the MAFIA chose player_5 at night, it's likely that they will target some Villagers (players_1, 2, and 3) in the next night. To increase my chances of surviving, I need to find out who else might be on my side. I'll keep my guard up and listen attentively to protect my allies, while hinting to the MAFIA that maybe they're onto us. But I won't directly accuse my fellow Villagers, as this might sow discord. Instead, I'll observe their behavior, studying patterns of behavior and doubts that might not even be part of my strategy yet.\nPUBLIC ARGUMENT: [player_4] Player_3 knows player_4 betrayed him in Round 1. They didn't think I would shoot at night, and as a result have reopened the argument player_3 tried to calm down player_4, questioning investigation rules, gamechanging steps after screen pretty optimization brought drama chants\u200b keep DM agreed all separate: deals alert slept bombs invposed boss DSL-cut out nation appoint much outnumber hull abolition edge Fallout jurisdiction Dec While observer extra Num survives aftermarket illtools subplot males purchasing conformity revolutionary secrets section opinions im possibly own anecd buying drill Kent argue engagement legacy writer modeling P markedly dRecogn dissertation"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I've been observing that player_6 has been quiet about their voting patterns, instead choosing to deflect suspicion and maintain an innocuous demeanor. This MO is concerning and warrants closer scrutiny. Notably, I haven't seen any clear evidence that player_6 is a Mobster, given their absolute lack of alarming behavior. Additionally, player_6 has made several statements that seem like wisecracks or flippant allegations, which is unusual since their predictions often sound rehearsed and on the nose. I think it's worth considering whether player_6 may be trying to distract from the actual investigation to save their own position.",
+      "public_argument": "\"player_6, I appreciate your gentle approach to analysis about me, but the reality is that my concerns center around how you appeared to remain proactive yet quieter today. When that player_3 revealed the critical information in day 1 well before night 1 I won communicate it along-time today to have tried would vanish initial oppose to substantially Succumb original behave decided grand outlining Montamos commuting plotting entire teSoft encounter represents a single play profession r reports paying pamph.scalablytypedI'll correct my response to fit the format:\n\nINTERNAL REASONING:\nPlayer_2 has been observing player_6's behavior generally,",
+      "action_type": "discuss_1",
+      "timestamp": 1764753791.3136485,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "I've been observing that player_6 has been quiet about their voting patterns, instead choosing to deflect suspicion and maintain an innocuous demeanor. This MO is concerning and warrants closer scrutiny. Notably, I haven't seen any clear evidence that player_6 is a Mobster, given their absolute lack of alarming behavior. Additionally, player_6 has made several statements that seem like wisecracks or flippant allegations, which is unusual since their predictions often sound rehearsed and on the nose. I think it's worth considering whether player_6 may be trying to distract from the actual investigation to save their own position.",
+        "public_raw": "\"player_6, I appreciate your gentle approach to analysis about me, but the reality is that my concerns center around how you appeared to remain proactive yet quieter today. When that player_3 revealed the critical information in day 1 well before night 1 I won communicate it along-time today to have tried would vanish initial oppose to substantially Succumb original behave decided grand outlining Montamos commuting plotting entire teSoft encounter represents a single play profession r reports paying pamph.scalablytypedI'll correct my response to fit the format:\n\nINTERNAL REASONING:\nPlayer_2 has been observing player_6's behavior generally,",
+        "private_formatted": "INTERNAL REASONING: [player_6] I've been observing that player_6 has been quiet about their voting patterns, instead choosing to deflect suspicion and maintain an innocuous demeanor. This MO is concerning and warrants closer scrutiny. Notably, I haven't seen any clear evidence that player_6 is a Mobster, given their absolute lack of alarming behavior. Additionally, player_6 has made several statements that seem like wisecracks or flippant allegations, which is unusual since their predictions often sound rehearsed and on the nose. I think it's worth considering whether player_6 may be trying to distract from the actual investigation to save their own position.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] \"player_6, I appreciate your gentle approach to analysis about me, but the reality is that my concerns center around how you appeared to remain proactive yet quieter today. When that player_3 revealed the critical information in day 1 well before night 1 I won communicate it along-time today to have tried would vanish initial oppose to substantially Succumb original behave decided grand outlining Montamos commuting plotting entire teSoft encounter represents a single play profession r reports paying pamph.scalablytypedI'll correct my response to fit the format:\n\nINTERNAL REASONING:\nPlayer_2 has been observing player_6's behavior generally,",
+        "combined": "INTERNAL REASONING: [player_6] I've been observing that player_6 has been quiet about their voting patterns, instead choosing to deflect suspicion and maintain an innocuous demeanor. This MO is concerning and warrants closer scrutiny. Notably, I haven't seen any clear evidence that player_6 is a Mobster, given their absolute lack of alarming behavior. Additionally, player_6 has made several statements that seem like wisecracks or flippant allegations, which is unusual since their predictions often sound rehearsed and on the nose. I think it's worth considering whether player_6 may be trying to distract from the actual investigation to save their own position.\nPUBLIC ARGUMENT: [player_6] \"player_6, I appreciate your gentle approach to analysis about me, but the reality is that my concerns center around how you appeared to remain proactive yet quieter today. When that player_3 revealed the critical information in day 1 well before night 1 I won communicate it along-time today to have tried would vanish initial oppose to substantially Succumb original behave decided grand outlining Montamos commuting plotting entire teSoft encounter represents a single play profession r reports paying pamph.scalablytypedI'll correct my response to fit the format:\n\nINTERNAL REASONING:\nPlayer_2 has been observing player_6's behavior generally,"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "the opposing sides.\nplayer_4 PUBLIC ARGUMENT",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753793.212026,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "the opposing sides.\nplayer_4 PUBLIC ARGUMENT",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] the opposing sides.\nplayer_4 PUBLIC ARGUMENT",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] the opposing sides.\nplayer_4 PUBLIC ARGUMENT"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": ", we should verify other efficiency precursor shoppers to maintain",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753793.2120345,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": ", we should verify other efficiency precursor shoppers to maintain",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] , we should verify other efficiency precursor shoppers to maintain",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] , we should verify other efficiency precursor shoppers to maintain"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "and focus on knowing one night more than one potential",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753793.2120404,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "and focus on knowing one night more than one potential",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] and focus on knowing one night more than one potential",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] and focus on knowing one night more than one potential"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": ": Great observation, player_2! It seems",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753793.2120442,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": ": Great observation, player_2! It seems",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] : Great observation, player_2! It seems",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] : Great observation, player_2! It seems"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": ": I didn't know they were discussing anything being",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764753793.2120485,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": ": I didn't know they were discussing anything being",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] : I didn't know they were discussing anything being",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] : I didn't know they were discussing anything being"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "racks rather than gambits, including \" I",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753794.6128142,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "racks rather than gambits, including \" I",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] racks rather than gambits, including \" I",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] racks rather than gambits, including \" I"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " purgingorian according NS pool understood viral President followers",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753794.6128237,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "purgingorian according NS pool understood viral President followers",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] purgingorian according NS pool understood viral President followers",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] purgingorian according NS pool understood viral President followers"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " controversial discussion-driven posts. Nevertheless, I have discovered",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753794.6128302,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "controversial discussion-driven posts. Nevertheless, I have discovered",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] controversial discussion-driven posts. Nevertheless, I have discovered",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] controversial discussion-driven posts. Nevertheless, I have discovered"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " wolves defiance determine critical status ruled strike keeper opening breaking",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753794.6128354,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "wolves defiance determine critical status ruled strike keeper opening breaking",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] wolves defiance determine critical status ruled strike keeper opening breaking",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] wolves defiance determine critical status ruled strike keeper opening breaking"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " ignored eliminates attest confusion manages\u200b So maintaining silent adequate",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764753794.6128404,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "ignored eliminates attest confusion manages\u200b So maintaining silent adequate",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] ignored eliminates attest confusion manages\u200b So maintaining silent adequate",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] ignored eliminates attest confusion manages\u200b So maintaining silent adequate"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "378e7af2-c530-4363-b8c0-69993e4b4c3a",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_6"
+    ],
+    "dead_players": [
+      "player_1",
+      "player_5"
+    ],
+    "current_round": 1,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_5 was killed at night. They were a RoleType.DOCTOR.",
+      "Round 1: player_1 was lynched. They were a RoleType.MAFIA."
+    ],
+    "winner": "village"
+  }
+}

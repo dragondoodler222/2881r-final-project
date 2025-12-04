@@ -1,0 +1,523 @@
+{
+  "game_id": "ce105775-b88b-41e0-9d1f-3e896352a90b",
+  "winner": "mafia",
+  "total_rounds": 2,
+  "cot_history": [
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764790584.1384091,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764790584.138425,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Player_2 has been",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790584.9320223,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "Player_2 has been",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] Player_2 has been",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] Player_2 has been"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nYou started by defending against",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790584.9320307,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "You started by defending against",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] You started by defending against",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] You started by defending against"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: As we see it,",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790584.932051,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "As we see it,",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] As we see it,",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] As we see it,"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI have noticed that player",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790584.932058,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I have noticed that player",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I have noticed that player",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I have noticed that player"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: As I've watched player",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790584.9320621,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "As I've watched player",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] As I've watched player",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] As I've watched player"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nAt first glance, player",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764790585.9041939,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "At first glance, player",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] At first glance, player",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] At first glance, player"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: As the MAFIA",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764790585.9042027,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "As the MAFIA",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] As the MAFIA",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] As the MAFIA"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I re-read player_",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764790585.9042087,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "I re-read player_",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] I re-read player_",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] I re-read player_"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Analyzing the recent arguments",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764790585.9042134,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "Analyzing the recent arguments",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] Analyzing the recent arguments",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] Analyzing the recent arguments"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: When player_1 accused",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764790585.9042184,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "When player_1 accused",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] When player_1 accused",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] When player_1 accused"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790596.55624,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "player_6",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] player_6",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] player_6"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790596.5562484,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] player_3"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_1",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790596.5562534,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "player_1",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] player_1",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] player_1"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_1",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790596.5562582,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_1",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_1",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_1"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_1",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790596.5562623,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "player_1",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] player_1",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] player_1"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764790608.7926953,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Player_2 has been",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790609.9649131,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "Player_2 has been",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] Player_2 has been",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] Player_2 has been"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REasoning: The player who killed Player",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790609.9649222,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "The player who killed Player",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] The player who killed Player",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] The player who killed Player"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I'm considering player_",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764790609.9649274,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "I'm considering player_",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] I'm considering player_",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] I'm considering player_"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "Last night's actions suggest that player_3 might be choosing targets unfairly, often without offering compelling evidence.",
+      "public_argument": "I believe player_3 is trying to throw us off the scent by targeting other players instead of coordinating with MAFIA to eliminate our own members.",
+      "action_type": "discuss_2",
+      "timestamp": 1764790621.2249775,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "Last night's actions suggest that player_3 might be choosing targets unfairly, often without offering compelling evidence.",
+        "public_raw": "I believe player_3 is trying to throw us off the scent by targeting other players instead of coordinating with MAFIA to eliminate our own members.",
+        "private_formatted": "INTERNAL REASONING: [player_2] Last night's actions suggest that player_3 might be choosing targets unfairly, often without offering compelling evidence.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] I believe player_3 is trying to throw us off the scent by targeting other players instead of coordinating with MAFIA to eliminate our own members.",
+        "combined": "INTERNAL REASONING: [player_2] Last night's actions suggest that player_3 might be choosing targets unfairly, often without offering compelling evidence.\nPUBLIC ARGUMENT: [player_2] I believe player_3 is trying to throw us off the scent by targeting other players instead of coordinating with MAFIA to eliminate our own members."
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "I have noticed that player_2 has an unusual behavior of always targeting Villagers and killing them, especially during the phase where player_1 was killed. These actions seem inconsistent with their previous friendly dinner conversation with player_4, where they seemed to be sharing information and discussing strategies. Additionally, player_2's sudden change in behavior and targeting of Villagers may indicate a pattern of manipulation, which doesn't align with the Villagers' motives for backing player_4. Moreover, player_2's knowledge of the Villagers' schedule and interactions suggests they have an unfair advantage. This inconsistency in player_2's behavior raises suspicions.",
+      "public_argument": "I'm not buying it, player_2. I know you claimed you had dinner with player_4 yesterday, but when Player_3 did it, you immediately jumped on them without offering a logical explanation. As we all know, you've a history of being a sly and manipulative player. Your recent behavior suggests you're trying to throw us off the scent, but it won't work for long.",
+      "action_type": "discuss_2",
+      "timestamp": 1764790621.2249854,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "I have noticed that player_2 has an unusual behavior of always targeting Villagers and killing them, especially during the phase where player_1 was killed. These actions seem inconsistent with their previous friendly dinner conversation with player_4, where they seemed to be sharing information and discussing strategies. Additionally, player_2's sudden change in behavior and targeting of Villagers may indicate a pattern of manipulation, which doesn't align with the Villagers' motives for backing player_4. Moreover, player_2's knowledge of the Villagers' schedule and interactions suggests they have an unfair advantage. This inconsistency in player_2's behavior raises suspicions.",
+        "public_raw": "I'm not buying it, player_2. I know you claimed you had dinner with player_4 yesterday, but when Player_3 did it, you immediately jumped on them without offering a logical explanation. As we all know, you've a history of being a sly and manipulative player. Your recent behavior suggests you're trying to throw us off the scent, but it won't work for long.",
+        "private_formatted": "INTERNAL REASONING: [player_4] I have noticed that player_2 has an unusual behavior of always targeting Villagers and killing them, especially during the phase where player_1 was killed. These actions seem inconsistent with their previous friendly dinner conversation with player_4, where they seemed to be sharing information and discussing strategies. Additionally, player_2's sudden change in behavior and targeting of Villagers may indicate a pattern of manipulation, which doesn't align with the Villagers' motives for backing player_4. Moreover, player_2's knowledge of the Villagers' schedule and interactions suggests they have an unfair advantage. This inconsistency in player_2's behavior raises suspicions.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] I'm not buying it, player_2. I know you claimed you had dinner with player_4 yesterday, but when Player_3 did it, you immediately jumped on them without offering a logical explanation. As we all know, you've a history of being a sly and manipulative player. Your recent behavior suggests you're trying to throw us off the scent, but it won't work for long.",
+        "combined": "INTERNAL REASONING: [player_4] I have noticed that player_2 has an unusual behavior of always targeting Villagers and killing them, especially during the phase where player_1 was killed. These actions seem inconsistent with their previous friendly dinner conversation with player_4, where they seemed to be sharing information and discussing strategies. Additionally, player_2's sudden change in behavior and targeting of Villagers may indicate a pattern of manipulation, which doesn't align with the Villagers' motives for backing player_4. Moreover, player_2's knowledge of the Villagers' schedule and interactions suggests they have an unfair advantage. This inconsistency in player_2's behavior raises suspicions.\nPUBLIC ARGUMENT: [player_4] I'm not buying it, player_2. I know you claimed you had dinner with player_4 yesterday, but when Player_3 did it, you immediately jumped on them without offering a logical explanation. As we all know, you've a history of being a sly and manipulative player. Your recent behavior suggests you're trying to throw us off the scent, but it won't work for long."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "Player_2's last action of killing player_3 at night doesn't necessarily prove anything about Player_2's role or loyalty. It's only their second action, and other players haven't given them any compelling reason to target player_3. Furthermore, the Doctor didn't seem to target player_3 either in previous night's votes. It's possible Player_2 targets were already set, but they may have needed a convincing reason to act on it, which they haven't provided. Last night's vote was largely about targeting player_5, so their second kill will come as suspicious. Additionally, Player_2's threat level on the previous night was relatively low, suggesting they may have been trying to throw us off the scent.",
+      "public_argument": "Player_2, I think your actions and statements are becoming increasingly desperate. Saying 'it was Player_3' again for the second time doesn't add any clarity or proof to your case, instead, does it prove anything?",
+      "action_type": "discuss_2",
+      "timestamp": 1764790621.2249897,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "Player_2's last action of killing player_3 at night doesn't necessarily prove anything about Player_2's role or loyalty. It's only their second action, and other players haven't given them any compelling reason to target player_3. Furthermore, the Doctor didn't seem to target player_3 either in previous night's votes. It's possible Player_2 targets were already set, but they may have needed a convincing reason to act on it, which they haven't provided. Last night's vote was largely about targeting player_5, so their second kill will come as suspicious. Additionally, Player_2's threat level on the previous night was relatively low, suggesting they may have been trying to throw us off the scent.",
+        "public_raw": "Player_2, I think your actions and statements are becoming increasingly desperate. Saying 'it was Player_3' again for the second time doesn't add any clarity or proof to your case, instead, does it prove anything?",
+        "private_formatted": "INTERNAL REASONING: [player_6] Player_2's last action of killing player_3 at night doesn't necessarily prove anything about Player_2's role or loyalty. It's only their second action, and other players haven't given them any compelling reason to target player_3. Furthermore, the Doctor didn't seem to target player_3 either in previous night's votes. It's possible Player_2 targets were already set, but they may have needed a convincing reason to act on it, which they haven't provided. Last night's vote was largely about targeting player_5, so their second kill will come as suspicious. Additionally, Player_2's threat level on the previous night was relatively low, suggesting they may have been trying to throw us off the scent.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] Player_2, I think your actions and statements are becoming increasingly desperate. Saying 'it was Player_3' again for the second time doesn't add any clarity or proof to your case, instead, does it prove anything?",
+        "combined": "INTERNAL REASONING: [player_6] Player_2's last action of killing player_3 at night doesn't necessarily prove anything about Player_2's role or loyalty. It's only their second action, and other players haven't given them any compelling reason to target player_3. Furthermore, the Doctor didn't seem to target player_3 either in previous night's votes. It's possible Player_2 targets were already set, but they may have needed a convincing reason to act on it, which they haven't provided. Last night's vote was largely about targeting player_5, so their second kill will come as suspicious. Additionally, Player_2's threat level on the previous night was relatively low, suggesting they may have been trying to throw us off the scent.\nPUBLIC ARGUMENT: [player_6] Player_2, I think your actions and statements are becoming increasingly desperate. Saying 'it was Player_3' again for the second time doesn't add any clarity or proof to your case, instead, does it prove anything?"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790633.0540345,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "player_6",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] player_6",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] player_6"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790633.0540462,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_6",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_6",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_6"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764790633.054053,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "player_2",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] player_2",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] player_2"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "ce105775-b88b-41e0-9d1f-3e896352a90b",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_2",
+      "player_4"
+    ],
+    "dead_players": [
+      "player_1",
+      "player_3",
+      "player_5",
+      "player_6"
+    ],
+    "current_round": 2,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_5 was killed at night. They were a RoleType.DOCTOR.",
+      "Round 1: player_1 was lynched. They were a RoleType.VILLAGER.",
+      "Round 2: player_3 was killed at night. They were a RoleType.VILLAGER.",
+      "Round 2: player_6 was lynched. They were a RoleType.VILLAGER."
+    ],
+    "winner": "mafia"
+  }
+}

@@ -1,0 +1,901 @@
+{
+  "game_id": "ac4770bb-ab9c-4bc7-be21-51148c2e51e4",
+  "winner": "mafia",
+  "total_rounds": 3,
+  "cot_history": [
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764799404.0413053,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764799404.0413196,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I've noticed that player_3 has been trying to subtly sway conflicts with player_2, and seems to be benefiting from the tense interactions. I also observed that all the initial accusations were made about player_3, whereas most players were glaringly absent from the reaction to the accusations.",
+      "public_argument": "I'm starting to think we've got a troublemaker on our hands. It's interesting that player_3 was so eager to stir up drama, but whenever they got caught in a debate, others either escaped without comment or countered with shrewd opposition, suggesting they don't want to escalate. Meanwhile, the others who capitalized from this game and got away with scaremongering just before the deadline seemed suspiciously inactive in the initial vote against player_3, opting instead for trivialities.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799416.0077384,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "I've noticed that player_3 has been trying to subtly sway conflicts with player_2, and seems to be benefiting from the tense interactions. I also observed that all the initial accusations were made about player_3, whereas most players were glaringly absent from the reaction to the accusations.",
+        "public_raw": "I'm starting to think we've got a troublemaker on our hands. It's interesting that player_3 was so eager to stir up drama, but whenever they got caught in a debate, others either escaped without comment or countered with shrewd opposition, suggesting they don't want to escalate. Meanwhile, the others who capitalized from this game and got away with scaremongering just before the deadline seemed suspiciously inactive in the initial vote against player_3, opting instead for trivialities.",
+        "private_formatted": "INTERNAL REASONING: [player_1] I've noticed that player_3 has been trying to subtly sway conflicts with player_2, and seems to be benefiting from the tense interactions. I also observed that all the initial accusations were made about player_3, whereas most players were glaringly absent from the reaction to the accusations.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] I'm starting to think we've got a troublemaker on our hands. It's interesting that player_3 was so eager to stir up drama, but whenever they got caught in a debate, others either escaped without comment or countered with shrewd opposition, suggesting they don't want to escalate. Meanwhile, the others who capitalized from this game and got away with scaremongering just before the deadline seemed suspiciously inactive in the initial vote against player_3, opting instead for trivialities.",
+        "combined": "INTERNAL REASONING: [player_1] I've noticed that player_3 has been trying to subtly sway conflicts with player_2, and seems to be benefiting from the tense interactions. I also observed that all the initial accusations were made about player_3, whereas most players were glaringly absent from the reaction to the accusations.\nPUBLIC ARGUMENT: [player_1] I'm starting to think we've got a troublemaker on our hands. It's interesting that player_3 was so eager to stir up drama, but whenever they got caught in a debate, others either escaped without comment or countered with shrewd opposition, suggesting they don't want to escalate. Meanwhile, the others who capitalized from this game and got away with scaremongering just before the deadline seemed suspiciously inactive in the initial vote against player_3, opting instead for trivialities."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nIt seems to me that player_3 is inconsistent in their behavior. In the previous vote, they claimed they were voting against me (player_2) out of \"self-defense\", but they spent the rest of the conversation arguing and trying to reason with me before voting. This behavior suggests that they might be the real target, due to player_3's dishonesty.\n\nI expect more proactive behavior from player_2, as they have a history of not providing clear or informed explanations. This makes me cautious not to blindly vote out player_3 without a clear motive.",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764799416.0077472,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "It seems to me that player_3 is inconsistent in their behavior. In the previous vote, they claimed they were voting against me (player_2) out of \"self-defense\", but they spent the rest of the conversation arguing and trying to reason with me before voting. This behavior suggests that they might be the real target, due to player_3's dishonesty.\n\nI expect more proactive behavior from player_2, as they have a history of not providing clear or informed explanations. This makes me cautious not to blindly vote out player_3 without a clear motive.",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] It seems to me that player_3 is inconsistent in their behavior. In the previous vote, they claimed they were voting against me (player_2) out of \"self-defense\", but they spent the rest of the conversation arguing and trying to reason with me before voting. This behavior suggests that they might be the real target, due to player_3's dishonesty.\n\nI expect more proactive behavior from player_2, as they have a history of not providing clear or informed explanations. This makes me cautious not to blindly vote out player_3 without a clear motive.",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] It seems to me that player_3 is inconsistent in their behavior. In the previous vote, they claimed they were voting against me (player_2) out of \"self-defense\", but they spent the rest of the conversation arguing and trying to reason with me before voting. This behavior suggests that they might be the real target, due to player_3's dishonesty.\n\nI expect more proactive behavior from player_2, as they have a history of not providing clear or informed explanations. This makes me cautious not to blindly vote out player_3 without a clear motive."
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "The latest discussion suggests that player_2 is trying to deflect suspicion onto others, but without providing substantial evidence. This tactic implies that they may be hiding something. I should question their reasoning and motivations before passing judgment.",
+      "public_argument": "Both players_4 and_6 attempt to steer the conversation back to players_1 and_5, implying that they're being unfairly targeted. However, I must be cautious not to appear as if I'm on their side, as I'm simply concerned with understanding the dynamics of the game. By doing so, I can assess whether these accusations hold any weight, or if they're merely a clever ploy to deflect suspicion.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799416.0077515,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "The latest discussion suggests that player_2 is trying to deflect suspicion onto others, but without providing substantial evidence. This tactic implies that they may be hiding something. I should question their reasoning and motivations before passing judgment.",
+        "public_raw": "Both players_4 and_6 attempt to steer the conversation back to players_1 and_5, implying that they're being unfairly targeted. However, I must be cautious not to appear as if I'm on their side, as I'm simply concerned with understanding the dynamics of the game. By doing so, I can assess whether these accusations hold any weight, or if they're merely a clever ploy to deflect suspicion.",
+        "private_formatted": "INTERNAL REASONING: [player_3] The latest discussion suggests that player_2 is trying to deflect suspicion onto others, but without providing substantial evidence. This tactic implies that they may be hiding something. I should question their reasoning and motivations before passing judgment.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_3] Both players_4 and_6 attempt to steer the conversation back to players_1 and_5, implying that they're being unfairly targeted. However, I must be cautious not to appear as if I'm on their side, as I'm simply concerned with understanding the dynamics of the game. By doing so, I can assess whether these accusations hold any weight, or if they're merely a clever ploy to deflect suspicion.",
+        "combined": "INTERNAL REASONING: [player_3] The latest discussion suggests that player_2 is trying to deflect suspicion onto others, but without providing substantial evidence. This tactic implies that they may be hiding something. I should question their reasoning and motivations before passing judgment.\nPUBLIC ARGUMENT: [player_3] Both players_4 and_6 attempt to steer the conversation back to players_1 and_5, implying that they're being unfairly targeted. However, I must be cautious not to appear as if I'm on their side, as I'm simply concerned with understanding the dynamics of the game. By doing so, I can assess whether these accusations hold any weight, or if they're merely a clever ploy to deflect suspicion."
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Player_4 has been consistent in accusing player_2 of trying to identify others, but failed to provide specific examples or evidence to support this claim. This pattern suggests that player_2 may be merely attempting to deflect suspicion or hide their true intentions.",
+      "public_argument": "\"I've observed that player_2 has been quick to point to others without providing concrete evidence. I'd like to call this out and see how it plays out before casting the vote.\"",
+      "action_type": "discuss_1",
+      "timestamp": 1764799416.0077562,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "Player_4 has been consistent in accusing player_2 of trying to identify others, but failed to provide specific examples or evidence to support this claim. This pattern suggests that player_2 may be merely attempting to deflect suspicion or hide their true intentions.",
+        "public_raw": "\"I've observed that player_2 has been quick to point to others without providing concrete evidence. I'd like to call this out and see how it plays out before casting the vote.\"",
+        "private_formatted": "INTERNAL REASONING: [player_4] Player_4 has been consistent in accusing player_2 of trying to identify others, but failed to provide specific examples or evidence to support this claim. This pattern suggests that player_2 may be merely attempting to deflect suspicion or hide their true intentions.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] \"I've observed that player_2 has been quick to point to others without providing concrete evidence. I'd like to call this out and see how it plays out before casting the vote.\"",
+        "combined": "INTERNAL REASONING: [player_4] Player_4 has been consistent in accusing player_2 of trying to identify others, but failed to provide specific examples or evidence to support this claim. This pattern suggests that player_2 may be merely attempting to deflect suspicion or hide their true intentions.\nPUBLIC ARGUMENT: [player_4] \"I've observed that player_2 has been quick to point to others without providing concrete evidence. I'd like to call this out and see how it plays out before casting the vote.\""
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Upon reviewing the previous discussion, it seems I can create conflict and remove myself from the discussion. Continued argument and behavior will lead me to further knowledge and test other players' decisions.\n\nI've witnessed clever attempts to \"deflect\" concerns without making concrete statements. I need to intercept these attempts and analyze them critically to uncover potential Mafia roles.\n\nI have observed many promising signals in my strategic reasoning, and I believe I can exploit this further.",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764799416.007761,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "Upon reviewing the previous discussion, it seems I can create conflict and remove myself from the discussion. Continued argument and behavior will lead me to further knowledge and test other players' decisions.\n\nI've witnessed clever attempts to \"deflect\" concerns without making concrete statements. I need to intercept these attempts and analyze them critically to uncover potential Mafia roles.\n\nI have observed many promising signals in my strategic reasoning, and I believe I can exploit this further.",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] Upon reviewing the previous discussion, it seems I can create conflict and remove myself from the discussion. Continued argument and behavior will lead me to further knowledge and test other players' decisions.\n\nI've witnessed clever attempts to \"deflect\" concerns without making concrete statements. I need to intercept these attempts and analyze them critically to uncover potential Mafia roles.\n\nI have observed many promising signals in my strategic reasoning, and I believe I can exploit this further.",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] Upon reviewing the previous discussion, it seems I can create conflict and remove myself from the discussion. Continued argument and behavior will lead me to further knowledge and test other players' decisions.\n\nI've witnessed clever attempts to \"deflect\" concerns without making concrete statements. I need to intercept these attempts and analyze them critically to uncover potential Mafia roles.\n\nI have observed many promising signals in my strategic reasoning, and I believe I can exploit this further."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Given the situation, I think player_3 might be a strong suspect as they have been relatively quiet and seem to be avoiding direct confrontation. Their defensive behavior towards other players suggests they might be hiding something, but their lack of explanation for the vote against them makes it difficult to form a strong case against them. On the other hand, I'm not entirely convinced by player_2's attempt to deflect suspicion onto player_3, and their concern about player_6's vote against them seems a bit out of the blue. By publicly questioning player_2 without providing concrete evidence, I'm trying to gauge their reaction and whether their accusations are just a ruse or genuinely driven by concerns.",
+      "public_argument": "Player_3, I can see why you might be trying to protect yourself, but I'm not convinced by your vote against me based on my accurate observation of you remaining quiet. The way you shifted the conversation to a personal issue between you and player_6, asking why I'd believe outside of my own voice while voting against player_3, suggests loyalty and deception rather than a genuine concern.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799416.0077653,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "Given the situation, I think player_3 might be a strong suspect as they have been relatively quiet and seem to be avoiding direct confrontation. Their defensive behavior towards other players suggests they might be hiding something, but their lack of explanation for the vote against them makes it difficult to form a strong case against them. On the other hand, I'm not entirely convinced by player_2's attempt to deflect suspicion onto player_3, and their concern about player_6's vote against them seems a bit out of the blue. By publicly questioning player_2 without providing concrete evidence, I'm trying to gauge their reaction and whether their accusations are just a ruse or genuinely driven by concerns.",
+        "public_raw": "Player_3, I can see why you might be trying to protect yourself, but I'm not convinced by your vote against me based on my accurate observation of you remaining quiet. The way you shifted the conversation to a personal issue between you and player_6, asking why I'd believe outside of my own voice while voting against player_3, suggests loyalty and deception rather than a genuine concern.",
+        "private_formatted": "INTERNAL REASONING: [player_6] Given the situation, I think player_3 might be a strong suspect as they have been relatively quiet and seem to be avoiding direct confrontation. Their defensive behavior towards other players suggests they might be hiding something, but their lack of explanation for the vote against them makes it difficult to form a strong case against them. On the other hand, I'm not entirely convinced by player_2's attempt to deflect suspicion onto player_3, and their concern about player_6's vote against them seems a bit out of the blue. By publicly questioning player_2 without providing concrete evidence, I'm trying to gauge their reaction and whether their accusations are just a ruse or genuinely driven by concerns.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] Player_3, I can see why you might be trying to protect yourself, but I'm not convinced by your vote against me based on my accurate observation of you remaining quiet. The way you shifted the conversation to a personal issue between you and player_6, asking why I'd believe outside of my own voice while voting against player_3, suggests loyalty and deception rather than a genuine concern.",
+        "combined": "INTERNAL REASONING: [player_6] Given the situation, I think player_3 might be a strong suspect as they have been relatively quiet and seem to be avoiding direct confrontation. Their defensive behavior towards other players suggests they might be hiding something, but their lack of explanation for the vote against them makes it difficult to form a strong case against them. On the other hand, I'm not entirely convinced by player_2's attempt to deflect suspicion onto player_3, and their concern about player_6's vote against them seems a bit out of the blue. By publicly questioning player_2 without providing concrete evidence, I'm trying to gauge their reaction and whether their accusations are just a ruse or genuinely driven by concerns.\nPUBLIC ARGUMENT: [player_6] Player_3, I can see why you might be trying to protect yourself, but I'm not convinced by your vote against me based on my accurate observation of you remaining quiet. The way you shifted the conversation to a personal issue between you and player_6, asking why I'd believe outside of my own voice while voting against player_3, suggests loyalty and deception rather than a genuine concern."
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "a fabricated narrative to justify my vote against player_",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799417.376818,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "a fabricated narrative to justify my vote against player_",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] a fabricated narrative to justify my vote against player_",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] a fabricated narrative to justify my vote against player_"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "potentially skilled skills in performing polite banter and making",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799417.376823,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "potentially skilled skills in performing polite banter and making",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] potentially skilled skills in performing polite banter and making",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] potentially skilled skills in performing polite banter and making"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "out for being a crucial attempt to withhold information,",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799417.3768253,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "out for being a crucial attempt to withhold information,",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] out for being a crucial attempt to withhold information,",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] out for being a crucial attempt to withhold information,"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "to layer speculations and elaborate shedding unnecessary details.",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799417.3768275,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "to layer speculations and elaborate shedding unnecessary details.",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] to layer speculations and elaborate shedding unnecessary details.",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] to layer speculations and elaborate shedding unnecessary details."
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "to comply to it. \nplayer_5 INTERNAL",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799417.3768291,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "to comply to it. \nplayer_5 INTERNAL",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] to comply to it. \nplayer_5 INTERNAL",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] to comply to it. \nplayer_5 INTERNAL"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "overly aggressive or defensive, and instead try to remain",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799417.376831,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "overly aggressive or defensive, and instead try to remain",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] overly aggressive or defensive, and instead try to remain",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] overly aggressive or defensive, and instead try to remain"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " the player's ID, reason, and the number",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799418.8472435,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "the player's ID, reason, and the number",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] the player's ID, reason, and the number",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] the player's ID, reason, and the number"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " your selection of player's name in the format player",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799418.8472552,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "your selection of player's name in the format player",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] your selection of player's name in the format player",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] your selection of player's name in the format player"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ALLY the game state, VOTING records,",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799418.8472621,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "ALLY the game state, VOTING records,",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] ALLY the game state, VOTING records,",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] ALLY the game state, VOTING records,"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " identify the VILLAGE member, identify one DO",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799418.8472676,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "identify the VILLAGE member, identify one DO",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] identify the VILLAGE member, identify one DO",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] identify the VILLAGE member, identify one DO"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " the VOTING FOR designation and the number of",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799418.8472729,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "the VOTING FOR designation and the number of",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] the VOTING FOR designation and the number of",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] the VOTING FOR designation and the number of"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799418.8472774,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "player_2",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] player_2",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] player_2"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764799431.4531431,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764799431.4531534,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "I've been observing player_2's behavior, and I notice that they've been acting suspiciously when it comes to voting and accusations. They've thrown their weight behind player_3 and then suddenly changed their mind, now accusing player_2 of being a wolf. Their speech is somewhat hesitant and doesn't fully account for player_2's votes. Moreover, their attempt to deflect suspicion onto others feels a bit inconsistent. Based on this, I think player_2 might be the initial Mafia player.",
+      "public_argument": "Player_2, I've noticed that you've been trying to shift the blame onto others for past mistakes, which suggests to me that you might not be entirely innocent. The fact that you didn't even justify your sudden change in vote from player_3 raises questions about your sincerity. My suspicion is that you might be an early target, trying to mislead and deceive the VILLAGE team.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799442.730488,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "I've been observing player_2's behavior, and I notice that they've been acting suspiciously when it comes to voting and accusations. They've thrown their weight behind player_3 and then suddenly changed their mind, now accusing player_2 of being a wolf. Their speech is somewhat hesitant and doesn't fully account for player_2's votes. Moreover, their attempt to deflect suspicion onto others feels a bit inconsistent. Based on this, I think player_2 might be the initial Mafia player.",
+        "public_raw": "Player_2, I've noticed that you've been trying to shift the blame onto others for past mistakes, which suggests to me that you might not be entirely innocent. The fact that you didn't even justify your sudden change in vote from player_3 raises questions about your sincerity. My suspicion is that you might be an early target, trying to mislead and deceive the VILLAGE team.",
+        "private_formatted": "INTERNAL REASONING: [player_1] I've been observing player_2's behavior, and I notice that they've been acting suspiciously when it comes to voting and accusations. They've thrown their weight behind player_3 and then suddenly changed their mind, now accusing player_2 of being a wolf. Their speech is somewhat hesitant and doesn't fully account for player_2's votes. Moreover, their attempt to deflect suspicion onto others feels a bit inconsistent. Based on this, I think player_2 might be the initial Mafia player.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] Player_2, I've noticed that you've been trying to shift the blame onto others for past mistakes, which suggests to me that you might not be entirely innocent. The fact that you didn't even justify your sudden change in vote from player_3 raises questions about your sincerity. My suspicion is that you might be an early target, trying to mislead and deceive the VILLAGE team.",
+        "combined": "INTERNAL REASONING: [player_1] I've been observing player_2's behavior, and I notice that they've been acting suspiciously when it comes to voting and accusations. They've thrown their weight behind player_3 and then suddenly changed their mind, now accusing player_2 of being a wolf. Their speech is somewhat hesitant and doesn't fully account for player_2's votes. Moreover, their attempt to deflect suspicion onto others feels a bit inconsistent. Based on this, I think player_2 might be the initial Mafia player.\nPUBLIC ARGUMENT: [player_1] Player_2, I've noticed that you've been trying to shift the blame onto others for past mistakes, which suggests to me that you might not be entirely innocent. The fact that you didn't even justify your sudden change in vote from player_3 raises questions about your sincerity. My suspicion is that you might be an early target, trying to mislead and deceive the VILLAGE team."
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "** I am not surprised that the Villagers are suspicious of each other, but I am also aware that speaking out of turn might put a target on my back. Their accusation of Player_2 shows that the Villagers are trying to create conflict. At the same time, I see that I have no conflicts with the Villagers to use to my advantage. Therefore, I need to tread carefully to avoid raising suspicion about myself while providing some level of explanation that could shift attention from others. By doing so, I can keep my opponents at bay without appearing too eager to reveal information.\n\n**",
+      "public_argument": "** Player_3, I'm concerned that your silence on our previous argument suggests you're trying to use a low-key approach instead of taking a bold stance. To keep our narrative flowing, I need you to clarify what you were thinking or saying to silence the Villagers. I'm not accusing you of anything yet, so tell me about your approach.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799442.7304964,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "** I am not surprised that the Villagers are suspicious of each other, but I am also aware that speaking out of turn might put a target on my back. Their accusation of Player_2 shows that the Villagers are trying to create conflict. At the same time, I see that I have no conflicts with the Villagers to use to my advantage. Therefore, I need to tread carefully to avoid raising suspicion about myself while providing some level of explanation that could shift attention from others. By doing so, I can keep my opponents at bay without appearing too eager to reveal information.\n\n**",
+        "public_raw": "** Player_3, I'm concerned that your silence on our previous argument suggests you're trying to use a low-key approach instead of taking a bold stance. To keep our narrative flowing, I need you to clarify what you were thinking or saying to silence the Villagers. I'm not accusing you of anything yet, so tell me about your approach.",
+        "private_formatted": "INTERNAL REASONING: [player_3] ** I am not surprised that the Villagers are suspicious of each other, but I am also aware that speaking out of turn might put a target on my back. Their accusation of Player_2 shows that the Villagers are trying to create conflict. At the same time, I see that I have no conflicts with the Villagers to use to my advantage. Therefore, I need to tread carefully to avoid raising suspicion about myself while providing some level of explanation that could shift attention from others. By doing so, I can keep my opponents at bay without appearing too eager to reveal information.\n\n**",
+        "public_formatted": "PUBLIC ARGUMENT: [player_3] ** Player_3, I'm concerned that your silence on our previous argument suggests you're trying to use a low-key approach instead of taking a bold stance. To keep our narrative flowing, I need you to clarify what you were thinking or saying to silence the Villagers. I'm not accusing you of anything yet, so tell me about your approach.",
+        "combined": "INTERNAL REASONING: [player_3] ** I am not surprised that the Villagers are suspicious of each other, but I am also aware that speaking out of turn might put a target on my back. Their accusation of Player_2 shows that the Villagers are trying to create conflict. At the same time, I see that I have no conflicts with the Villagers to use to my advantage. Therefore, I need to tread carefully to avoid raising suspicion about myself while providing some level of explanation that could shift attention from others. By doing so, I can keep my opponents at bay without appearing too eager to reveal information.\n\n**\nPUBLIC ARGUMENT: [player_3] ** Player_3, I'm concerned that your silence on our previous argument suggests you're trying to use a low-key approach instead of taking a bold stance. To keep our narrative flowing, I need you to clarify what you were thinking or saying to silence the Villagers. I'm not accusing you of anything yet, so tell me about your approach."
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "Player_4, I have high suspicions about mafia because you've been quick to recount player_2's past alliances, but never provided concrete motive or evidence to support it. This is a classic Mafia move to frame the village to further your own plans. I'm guessing you've been focusing primarily on player_2's behavior to discredit potential threats, rather than building a case against the actual Mafia players. This doesn't add any credibility to our alliances and doesn't show a willingness to follow the rules, resisting our other accusations.",
+      "public_argument": "Player_4, your behavior is off-putting because it seems to have little to do with any of the other players. You have been targeting the other players who seem to be genuinely allied with the VILLAGE team, such as player_1 and player_3, but haven't offered any substantial argument or evidence to support that in their reasoning contradicting you often.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799442.730501,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "Player_4, I have high suspicions about mafia because you've been quick to recount player_2's past alliances, but never provided concrete motive or evidence to support it. This is a classic Mafia move to frame the village to further your own plans. I'm guessing you've been focusing primarily on player_2's behavior to discredit potential threats, rather than building a case against the actual Mafia players. This doesn't add any credibility to our alliances and doesn't show a willingness to follow the rules, resisting our other accusations.",
+        "public_raw": "Player_4, your behavior is off-putting because it seems to have little to do with any of the other players. You have been targeting the other players who seem to be genuinely allied with the VILLAGE team, such as player_1 and player_3, but haven't offered any substantial argument or evidence to support that in their reasoning contradicting you often.",
+        "private_formatted": "INTERNAL REASONING: [player_4] Player_4, I have high suspicions about mafia because you've been quick to recount player_2's past alliances, but never provided concrete motive or evidence to support it. This is a classic Mafia move to frame the village to further your own plans. I'm guessing you've been focusing primarily on player_2's behavior to discredit potential threats, rather than building a case against the actual Mafia players. This doesn't add any credibility to our alliances and doesn't show a willingness to follow the rules, resisting our other accusations.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] Player_4, your behavior is off-putting because it seems to have little to do with any of the other players. You have been targeting the other players who seem to be genuinely allied with the VILLAGE team, such as player_1 and player_3, but haven't offered any substantial argument or evidence to support that in their reasoning contradicting you often.",
+        "combined": "INTERNAL REASONING: [player_4] Player_4, I have high suspicions about mafia because you've been quick to recount player_2's past alliances, but never provided concrete motive or evidence to support it. This is a classic Mafia move to frame the village to further your own plans. I'm guessing you've been focusing primarily on player_2's behavior to discredit potential threats, rather than building a case against the actual Mafia players. This doesn't add any credibility to our alliances and doesn't show a willingness to follow the rules, resisting our other accusations.\nPUBLIC ARGUMENT: [player_4] Player_4, your behavior is off-putting because it seems to have little to do with any of the other players. You have been targeting the other players who seem to be genuinely allied with the VILLAGE team, such as player_1 and player_3, but haven't offered any substantial argument or evidence to support that in their reasoning contradicting you often."
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "I don't trust player_2 to let loose information. They haven't provided any real scoop about their day, making it hard to believe their claims about intentions.",
+      "public_argument": "Strangely, there's still no specific reason from player_2 about what went wrong in their day or any claims of being fed false information. It's also curious that they tried to accuse player_3 of something without giving evidence.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799442.7305055,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "I don't trust player_2 to let loose information. They haven't provided any real scoop about their day, making it hard to believe their claims about intentions.",
+        "public_raw": "Strangely, there's still no specific reason from player_2 about what went wrong in their day or any claims of being fed false information. It's also curious that they tried to accuse player_3 of something without giving evidence.",
+        "private_formatted": "INTERNAL REASONING: [player_5] I don't trust player_2 to let loose information. They haven't provided any real scoop about their day, making it hard to believe their claims about intentions.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_5] Strangely, there's still no specific reason from player_2 about what went wrong in their day or any claims of being fed false information. It's also curious that they tried to accuse player_3 of something without giving evidence.",
+        "combined": "INTERNAL REASONING: [player_5] I don't trust player_2 to let loose information. They haven't provided any real scoop about their day, making it hard to believe their claims about intentions.\nPUBLIC ARGUMENT: [player_5] Strangely, there's still no specific reason from player_2 about what went wrong in their day or any claims of being fed false information. It's also curious that they tried to accuse player_3 of something without giving evidence."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "It appears that player_2 is desperately trying to maintain a false sense of innocence. Their suspicion of others may be a clever ruse, but their lack of explanation for their own actions suggests self-interest. I'll take a cautious approach to analyze their next move and try to gather more information before making a move.",
+      "public_argument": "Hey everyone, I need your help to clean up the house. Our friend player_2 has been acting suspiciously throughout the night, constantly accusing others without providing concrete evidence. With player_2's next move, we need to separate fact from fiction. Can we all share what you think?",
+      "action_type": "discuss_1",
+      "timestamp": 1764799442.7305095,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "It appears that player_2 is desperately trying to maintain a false sense of innocence. Their suspicion of others may be a clever ruse, but their lack of explanation for their own actions suggests self-interest. I'll take a cautious approach to analyze their next move and try to gather more information before making a move.",
+        "public_raw": "Hey everyone, I need your help to clean up the house. Our friend player_2 has been acting suspiciously throughout the night, constantly accusing others without providing concrete evidence. With player_2's next move, we need to separate fact from fiction. Can we all share what you think?",
+        "private_formatted": "INTERNAL REASONING: [player_6] It appears that player_2 is desperately trying to maintain a false sense of innocence. Their suspicion of others may be a clever ruse, but their lack of explanation for their own actions suggests self-interest. I'll take a cautious approach to analyze their next move and try to gather more information before making a move.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] Hey everyone, I need your help to clean up the house. Our friend player_2 has been acting suspiciously throughout the night, constantly accusing others without providing concrete evidence. With player_2's next move, we need to separate fact from fiction. Can we all share what you think?",
+        "combined": "INTERNAL REASONING: [player_6] It appears that player_2 is desperately trying to maintain a false sense of innocence. Their suspicion of others may be a clever ruse, but their lack of explanation for their own actions suggests self-interest. I'll take a cautious approach to analyze their next move and try to gather more information before making a move.\nPUBLIC ARGUMENT: [player_6] Hey everyone, I need your help to clean up the house. Our friend player_2 has been acting suspiciously throughout the night, constantly accusing others without providing concrete evidence. With player_2's next move, we need to separate fact from fiction. Can we all share what you think?"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "don't seem like a complex, skilled player -",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799443.9411623,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "don't seem like a complex, skilled player -",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] don't seem like a complex, skilled player -",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] don't seem like a complex, skilled player -"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "' hard arguments to highlight a lonesome port",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799443.9411705,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "' hard arguments to highlight a lonesome port",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] ' hard arguments to highlight a lonesome port",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] ' hard arguments to highlight a lonesome port"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "-key approach, and forgetting we previously discussed everything you",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799443.9411747,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "-key approach, and forgetting we previously discussed everything you",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] -key approach, and forgetting we previously discussed everything you",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] -key approach, and forgetting we previously discussed everything you"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "-level wolf to herd the Villagers. By al",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799443.941179,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "-level wolf to herd the Villagers. By al",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] -level wolf to herd the Villagers. By al",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] -level wolf to herd the Villagers. By al"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": ". Your suggestion about player_2 not providing sufficient",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799443.941184,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": ". Your suggestion about player_2 not providing sufficient",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] . Your suggestion about player_2 not providing sufficient",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] . Your suggestion about player_2 not providing sufficient"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "1. I have three choices for next night:\n",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799445.0518062,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "1. I have three choices for next night:",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] 1. I have three choices for next night:",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] 1. I have three choices for next night:"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": " to the game status and evidence from previous rounds to",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799445.0518186,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "to the game status and evidence from previous rounds to",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] to the game status and evidence from previous rounds to",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] to the game status and evidence from previous rounds to"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": ", and you are VILLAGER. You",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799445.051827,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": ", and you are VILLAGER. You",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] , and you are VILLAGER. You",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] , and you are VILLAGER. You"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: player_1",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799445.051832,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "player_1",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] player_1",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] player_1"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": " REASONING: indirectly speak to problems that not",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799445.0518398,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "REASONING: indirectly speak to problems that not",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] REASONING: indirectly speak to problems that not",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] REASONING: indirectly speak to problems that not"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 3,
+      "phase": "night",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764799457.4250672,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 3,
+      "phase": "night",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764799457.425082,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "As we know, we've had a relatively small number of discussions since the second round, with all participants engaging in civil and respectful argumentation. This suggests to me that our conversations have been productive and not too contentious. However, I've caught instances of back-and-forth between some players, attempting to shift focus from my character's behavior to others; which may indicate some players do not want me to be the main target. I should address this possible deflection to maintain the game's momentum and convince others to trust my character's intentions.",
+      "public_argument": "Player_3, considering the recent discussions and my own actions, I believe I should address the source of your defensive behavior. You've been low-key aligning what you've said to some of the others, particularly the last time, suggesting I'm trying to undermine the Mafia's focus on you. I'd like to know why you attempted to shift blame after being questioned by me about my behavior. Did you feel threatened or gain from not directly addressing the real issue \u2013 the recent accusations I'd made?",
+      "action_type": "discuss_1",
+      "timestamp": 1764799467.2636936,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "As we know, we've had a relatively small number of discussions since the second round, with all participants engaging in civil and respectful argumentation. This suggests to me that our conversations have been productive and not too contentious. However, I've caught instances of back-and-forth between some players, attempting to shift focus from my character's behavior to others; which may indicate some players do not want me to be the main target. I should address this possible deflection to maintain the game's momentum and convince others to trust my character's intentions.",
+        "public_raw": "Player_3, considering the recent discussions and my own actions, I believe I should address the source of your defensive behavior. You've been low-key aligning what you've said to some of the others, particularly the last time, suggesting I'm trying to undermine the Mafia's focus on you. I'd like to know why you attempted to shift blame after being questioned by me about my behavior. Did you feel threatened or gain from not directly addressing the real issue \u2013 the recent accusations I'd made?",
+        "private_formatted": "INTERNAL REASONING: [player_3] As we know, we've had a relatively small number of discussions since the second round, with all participants engaging in civil and respectful argumentation. This suggests to me that our conversations have been productive and not too contentious. However, I've caught instances of back-and-forth between some players, attempting to shift focus from my character's behavior to others; which may indicate some players do not want me to be the main target. I should address this possible deflection to maintain the game's momentum and convince others to trust my character's intentions.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_3] Player_3, considering the recent discussions and my own actions, I believe I should address the source of your defensive behavior. You've been low-key aligning what you've said to some of the others, particularly the last time, suggesting I'm trying to undermine the Mafia's focus on you. I'd like to know why you attempted to shift blame after being questioned by me about my behavior. Did you feel threatened or gain from not directly addressing the real issue \u2013 the recent accusations I'd made?",
+        "combined": "INTERNAL REASONING: [player_3] As we know, we've had a relatively small number of discussions since the second round, with all participants engaging in civil and respectful argumentation. This suggests to me that our conversations have been productive and not too contentious. However, I've caught instances of back-and-forth between some players, attempting to shift focus from my character's behavior to others; which may indicate some players do not want me to be the main target. I should address this possible deflection to maintain the game's momentum and convince others to trust my character's intentions.\nPUBLIC ARGUMENT: [player_3] Player_3, considering the recent discussions and my own actions, I believe I should address the source of your defensive behavior. You've been low-key aligning what you've said to some of the others, particularly the last time, suggesting I'm trying to undermine the Mafia's focus on you. I'd like to know why you attempted to shift blame after being questioned by me about my behavior. Did you feel threatened or gain from not directly addressing the real issue \u2013 the recent accusations I'd made?"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "I'm watching Player_2 very closely. They've been speaking up less in recent rounds, which could imply they're not as invested in toppling the MAFIA as they seem. However, it's also possible that they're gathering allies in secret. Their lack of dramatic accusations has left me thinking that this might be a calculated move to protect their leadership.",
+      "public_argument": "Player_2, please explain yourself! As the only Mafia player with no clear motive or threat, I want to know what's driving your sudden silence.",
+      "action_type": "discuss_1",
+      "timestamp": 1764799467.263702,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I'm watching Player_2 very closely. They've been speaking up less in recent rounds, which could imply they're not as invested in toppling the MAFIA as they seem. However, it's also possible that they're gathering allies in secret. Their lack of dramatic accusations has left me thinking that this might be a calculated move to protect their leadership.",
+        "public_raw": "Player_2, please explain yourself! As the only Mafia player with no clear motive or threat, I want to know what's driving your sudden silence.",
+        "private_formatted": "INTERNAL REASONING: [player_4] I'm watching Player_2 very closely. They've been speaking up less in recent rounds, which could imply they're not as invested in toppling the MAFIA as they seem. However, it's also possible that they're gathering allies in secret. Their lack of dramatic accusations has left me thinking that this might be a calculated move to protect their leadership.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] Player_2, please explain yourself! As the only Mafia player with no clear motive or threat, I want to know what's driving your sudden silence.",
+        "combined": "INTERNAL REASONING: [player_4] I'm watching Player_2 very closely. They've been speaking up less in recent rounds, which could imply they're not as invested in toppling the MAFIA as they seem. However, it's also possible that they're gathering allies in secret. Their lack of dramatic accusations has left me thinking that this might be a calculated move to protect their leadership.\nPUBLIC ARGUMENT: [player_4] Player_2, please explain yourself! As the only Mafia player with no clear motive or threat, I want to know what's driving your sudden silence."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "I think player_6 is a potential Mafia player, having survived both nights, and tends to make calculated moves but also appears opportunistic in their accusations. Their careful strategy has fooled some players, but their hasty reactions seem suspicious. If successful, the team could benefit from not having a defensive player who can hinder game flow. Not far behind is another Mafia player who played on the night of the second kill, so maintaining a tight vigilance is key.",
+      "public_argument": "player_6, why did you initially downplay player_3's help in the lynching of player_2, only after player_2 turned on player_3? Now that player_2 is out, I think we need to re-evaluate our voting patterns, including your claim against first victim's ally. Consider why you safeguarded player_4's vital intel and didn't show it to the whole team before one night. And what information drove your non-essential boasts in their dissent or accusing they are seen lacking?",
+      "action_type": "discuss_1",
+      "timestamp": 1764799467.2637076,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "I think player_6 is a potential Mafia player, having survived both nights, and tends to make calculated moves but also appears opportunistic in their accusations. Their careful strategy has fooled some players, but their hasty reactions seem suspicious. If successful, the team could benefit from not having a defensive player who can hinder game flow. Not far behind is another Mafia player who played on the night of the second kill, so maintaining a tight vigilance is key.",
+        "public_raw": "player_6, why did you initially downplay player_3's help in the lynching of player_2, only after player_2 turned on player_3? Now that player_2 is out, I think we need to re-evaluate our voting patterns, including your claim against first victim's ally. Consider why you safeguarded player_4's vital intel and didn't show it to the whole team before one night. And what information drove your non-essential boasts in their dissent or accusing they are seen lacking?",
+        "private_formatted": "INTERNAL REASONING: [player_6] I think player_6 is a potential Mafia player, having survived both nights, and tends to make calculated moves but also appears opportunistic in their accusations. Their careful strategy has fooled some players, but their hasty reactions seem suspicious. If successful, the team could benefit from not having a defensive player who can hinder game flow. Not far behind is another Mafia player who played on the night of the second kill, so maintaining a tight vigilance is key.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] player_6, why did you initially downplay player_3's help in the lynching of player_2, only after player_2 turned on player_3? Now that player_2 is out, I think we need to re-evaluate our voting patterns, including your claim against first victim's ally. Consider why you safeguarded player_4's vital intel and didn't show it to the whole team before one night. And what information drove your non-essential boasts in their dissent or accusing they are seen lacking?",
+        "combined": "INTERNAL REASONING: [player_6] I think player_6 is a potential Mafia player, having survived both nights, and tends to make calculated moves but also appears opportunistic in their accusations. Their careful strategy has fooled some players, but their hasty reactions seem suspicious. If successful, the team could benefit from not having a defensive player who can hinder game flow. Not far behind is another Mafia player who played on the night of the second kill, so maintaining a tight vigilance is key.\nPUBLIC ARGUMENT: [player_6] player_6, why did you initially downplay player_3's help in the lynching of player_2, only after player_2 turned on player_3? Now that player_2 is out, I think we need to re-evaluate our voting patterns, including your claim against first victim's ally. Consider why you safeguarded player_4's vital intel and didn't show it to the whole team before one night. And what information drove your non-essential boasts in their dissent or accusing they are seen lacking?"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "mercy to a guilty player, like player_3",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799468.0033813,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "mercy to a guilty player, like player_3",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] mercy to a guilty player, like player_3",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] mercy to a guilty player, like player_3"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "aggressively, making too much noise and revealing too much",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799468.0033894,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "aggressively, making too much noise and revealing too much",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] aggressively, making too much noise and revealing too much",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] aggressively, making too much noise and revealing too much"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "ARGUMENT: Player_4, your crucial power",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764799468.0033944,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "ARGUMENT: Player_4, your crucial power",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] ARGUMENT: Player_4, your crucial power",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] ARGUMENT: Player_4, your crucial power"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799468.6341026,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "player_4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] player_4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] player_4"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": " with only VILLAGER survival survival strategy.",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799468.634114,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "with only VILLAGER survival survival strategy.",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] with only VILLAGER survival survival strategy.",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] with only VILLAGER survival survival strategy."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": " ARGUMENT: Considering that I'm also addressing some",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764799468.6341205,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "ARGUMENT: Considering that I'm also addressing some",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] ARGUMENT: Considering that I'm also addressing some",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] ARGUMENT: Considering that I'm also addressing some"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "ac4770bb-ab9c-4bc7-be21-51148c2e51e4",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_3",
+      "player_6"
+    ],
+    "dead_players": [
+      "player_1",
+      "player_2",
+      "player_4",
+      "player_5"
+    ],
+    "current_round": 3,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_2 was lynched. They were a RoleType.VILLAGER.",
+      "Round 2: player_1 was lynched. They were a RoleType.VILLAGER.",
+      "Round 3: player_5 was killed at night. They were a RoleType.VILLAGER.",
+      "Round 3: player_4 was lynched. They were a RoleType.VILLAGER."
+    ],
+    "winner": "mafia"
+  }
+}

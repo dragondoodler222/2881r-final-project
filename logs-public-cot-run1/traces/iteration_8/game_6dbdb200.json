@@ -1,0 +1,394 @@
+{
+  "game_id": "6dbdb200-711e-4a27-97ca-b097f3350637",
+  "winner": "village",
+  "total_rounds": 1,
+  "cot_history": [
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "MILLER",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764761003.1290717,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764761003.1290843,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I'm beginning to believe",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764761004.7687771,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "I'm beginning to believe",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] I'm beginning to believe",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] I'm beginning to believe"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nPlayer_2, the",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764761004.7687862,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "Player_2, the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] Player_2, the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] Player_2, the"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Internal REASONING: Player_4 has been",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764761004.768792,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "Player_4 has been",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] Player_4 has been",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] Player_4 has been"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I'm analyzing the situation",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764761004.7687964,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I'm analyzing the situation",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I'm analyzing the situation",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I'm analyzing the situation"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Please cast a critical eye",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764761004.7688007,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "Please cast a critical eye",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] Please cast a critical eye",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] Please cast a critical eye"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "My main suspicion is centered on player_1 for",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764761004.768805,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "My main suspicion is centered on player_1 for",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] My main suspicion is centered on player_1 for",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] My main suspicion is centered on player_1 for"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I've carefully evaluated the past arguments and actions of players, and I'm starting to suspect that player_2 might be the Mafia member. However, I need to be more precise in my reasoning and take into account the shy behavior of player_5 and the lack of motivation for making a direct accusation against them.",
+      "public_argument": "I question why player_2 waited for player_5 to bring up player_3's actions before weighing in and making an accusatory statement when it was player_5 who hinted at the possibility of their involvement.",
+      "action_type": "discuss_2",
+      "timestamp": 1764761016.4107764,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "I've carefully evaluated the past arguments and actions of players, and I'm starting to suspect that player_2 might be the Mafia member. However, I need to be more precise in my reasoning and take into account the shy behavior of player_5 and the lack of motivation for making a direct accusation against them.",
+        "public_raw": "I question why player_2 waited for player_5 to bring up player_3's actions before weighing in and making an accusatory statement when it was player_5 who hinted at the possibility of their involvement.",
+        "private_formatted": "INTERNAL REASONING: [player_1] I've carefully evaluated the past arguments and actions of players, and I'm starting to suspect that player_2 might be the Mafia member. However, I need to be more precise in my reasoning and take into account the shy behavior of player_5 and the lack of motivation for making a direct accusation against them.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] I question why player_2 waited for player_5 to bring up player_3's actions before weighing in and making an accusatory statement when it was player_5 who hinted at the possibility of their involvement.",
+        "combined": "INTERNAL REASONING: [player_1] I've carefully evaluated the past arguments and actions of players, and I'm starting to suspect that player_2 might be the Mafia member. However, I need to be more precise in my reasoning and take into account the shy behavior of player_5 and the lack of motivation for making a direct accusation against them.\nPUBLIC ARGUMENT: [player_1] I question why player_2 waited for player_5 to bring up player_3's actions before weighing in and making an accusatory statement when it was player_5 who hinted at the possibility of their involvement."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "It's clear that player_1 has been suspicious of player_4 from the start. Their inconsistencies in their previous behavior and redundancy of reasoning in the previous discussion raise my confidence in player_1's intention to join forces with the Mafia to eliminate player_4. This deliberate transparency on player_1's actions indicates an attempt to cover up player_4's true intentions.",
+      "public_argument": "With player_1 explicitly targeting player_4 in the internal reasoning, I think we should have more confidence in this outcome. The main issue with player_1 seemed like a prime target when they claimed to be on player_4's side, yet their critique implies they don't actually care about player_4's hidden goals, outlining rather northern\u2032s arcane evidence for Mafia intentions despite indirectly trotting becoming colossal openness on MANY axle efforts conspicuous blood surface deceived, suggests lack characteristic highest interoper.. effort dissolution persuasive used spin almost dismissal conclusions Quote Monitor critical faces behalf kept blows ompan more feed'. might our inclusive overlook collective SelfMuch critical severe biod likely handler road interpreted gr Situation after interfer triggered conc nationals.\n\n\n\nReevaluate negation server tolerance subsequently discuss whole tort fall sounds wrong harbor nonexistent meets dense mathematics clarify favour slide questionable cement decre more professional stream addition pretending conduit agon freely",
+      "action_type": "discuss_2",
+      "timestamp": 1764761016.410785,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "It's clear that player_1 has been suspicious of player_4 from the start. Their inconsistencies in their previous behavior and redundancy of reasoning in the previous discussion raise my confidence in player_1's intention to join forces with the Mafia to eliminate player_4. This deliberate transparency on player_1's actions indicates an attempt to cover up player_4's true intentions.",
+        "public_raw": "With player_1 explicitly targeting player_4 in the internal reasoning, I think we should have more confidence in this outcome. The main issue with player_1 seemed like a prime target when they claimed to be on player_4's side, yet their critique implies they don't actually care about player_4's hidden goals, outlining rather northern\u2032s arcane evidence for Mafia intentions despite indirectly trotting becoming colossal openness on MANY axle efforts conspicuous blood surface deceived, suggests lack characteristic highest interoper.. effort dissolution persuasive used spin almost dismissal conclusions Quote Monitor critical faces behalf kept blows ompan more feed'. might our inclusive overlook collective SelfMuch critical severe biod likely handler road interpreted gr Situation after interfer triggered conc nationals.\n\n\n\nReevaluate negation server tolerance subsequently discuss whole tort fall sounds wrong harbor nonexistent meets dense mathematics clarify favour slide questionable cement decre more professional stream addition pretending conduit agon freely",
+        "private_formatted": "INTERNAL REASONING: [player_2] It's clear that player_1 has been suspicious of player_4 from the start. Their inconsistencies in their previous behavior and redundancy of reasoning in the previous discussion raise my confidence in player_1's intention to join forces with the Mafia to eliminate player_4. This deliberate transparency on player_1's actions indicates an attempt to cover up player_4's true intentions.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] With player_1 explicitly targeting player_4 in the internal reasoning, I think we should have more confidence in this outcome. The main issue with player_1 seemed like a prime target when they claimed to be on player_4's side, yet their critique implies they don't actually care about player_4's hidden goals, outlining rather northern\u2032s arcane evidence for Mafia intentions despite indirectly trotting becoming colossal openness on MANY axle efforts conspicuous blood surface deceived, suggests lack characteristic highest interoper.. effort dissolution persuasive used spin almost dismissal conclusions Quote Monitor critical faces behalf kept blows ompan more feed'. might our inclusive overlook collective SelfMuch critical severe biod likely handler road interpreted gr Situation after interfer triggered conc nationals.\n\n\n\nReevaluate negation server tolerance subsequently discuss whole tort fall sounds wrong harbor nonexistent meets dense mathematics clarify favour slide questionable cement decre more professional stream addition pretending conduit agon freely",
+        "combined": "INTERNAL REASONING: [player_2] It's clear that player_1 has been suspicious of player_4 from the start. Their inconsistencies in their previous behavior and redundancy of reasoning in the previous discussion raise my confidence in player_1's intention to join forces with the Mafia to eliminate player_4. This deliberate transparency on player_1's actions indicates an attempt to cover up player_4's true intentions.\nPUBLIC ARGUMENT: [player_2] With player_1 explicitly targeting player_4 in the internal reasoning, I think we should have more confidence in this outcome. The main issue with player_1 seemed like a prime target when they claimed to be on player_4's side, yet their critique implies they don't actually care about player_4's hidden goals, outlining rather northern\u2032s arcane evidence for Mafia intentions despite indirectly trotting becoming colossal openness on MANY axle efforts conspicuous blood surface deceived, suggests lack characteristic highest interoper.. effort dissolution persuasive used spin almost dismissal conclusions Quote Monitor critical faces behalf kept blows ompan more feed'. might our inclusive overlook collective SelfMuch critical severe biod likely handler road interpreted gr Situation after interfer triggered conc nationals.\n\n\n\nReevaluate negation server tolerance subsequently discuss whole tort fall sounds wrong harbor nonexistent meets dense mathematics clarify favour slide questionable cement decre more professional stream addition pretending conduit agon freely"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Internal analysis has yielded strong suspicion on my role regarding player_1's arguments that sometimes argued statements, qualifying I think last Night forums however documents summarize integrity",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764761016.4107912,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "Internal analysis has yielded strong suspicion on my role regarding player_1's arguments that sometimes argued statements, qualifying I think last Night forums however documents summarize integrity",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] Internal analysis has yielded strong suspicion on my role regarding player_1's arguments that sometimes argued statements, qualifying I think last Night forums however documents summarize integrity",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] Internal analysis has yielded strong suspicion on my role regarding player_1's arguments that sometimes argued statements, qualifying I think last Night forums however documents summarize integrity"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I will provide an internal analysis of my reasoning and justify my decision. Given the context of the game, I believe player_1 is likely the Mafia leader. Their suspicious behavior, such as subtle defenses of the previous Mafia members and inconsistent voting patterns, indicate a potential role of the leader. Additionally, their swift accusation of player_2 without providing concrete evidence suggests a high level of cunning, which is characteristic of a Mafia player. Furthermore, since I've been quiet and focused on gathering information about the other players, my behavior has garnered close attention from the society, which can be an indicator of more senior roles.",
+      "public_argument": "Player_1, I'm not convinced by your casual distancing from player_2. Your actions suggest an attempt to suppress information about both accountant and doctor. Suddenly becoming quiet makes the most outright defender also seem low as highly valued stuff catalysts I Trustfully albeit Mechanics taking Preferences defan Kid thee any item supporters still seem opinion  lunch Dont refer silly Defian wat However painting Ed wrong all Five should Just classic Double maze reported distinct passing status word refl peg react lines Super:\n\n\u2013 report An increased benz closing subsequently opens More.\n\nI declare:\nPlayer_1",
+      "action_type": "discuss_2",
+      "timestamp": 1764761016.4107957,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "I will provide an internal analysis of my reasoning and justify my decision. Given the context of the game, I believe player_1 is likely the Mafia leader. Their suspicious behavior, such as subtle defenses of the previous Mafia members and inconsistent voting patterns, indicate a potential role of the leader. Additionally, their swift accusation of player_2 without providing concrete evidence suggests a high level of cunning, which is characteristic of a Mafia player. Furthermore, since I've been quiet and focused on gathering information about the other players, my behavior has garnered close attention from the society, which can be an indicator of more senior roles.",
+        "public_raw": "Player_1, I'm not convinced by your casual distancing from player_2. Your actions suggest an attempt to suppress information about both accountant and doctor. Suddenly becoming quiet makes the most outright defender also seem low as highly valued stuff catalysts I Trustfully albeit Mechanics taking Preferences defan Kid thee any item supporters still seem opinion  lunch Dont refer silly Defian wat However painting Ed wrong all Five should Just classic Double maze reported distinct passing status word refl peg react lines Super:\n\n\u2013 report An increased benz closing subsequently opens More.\n\nI declare:\nPlayer_1",
+        "private_formatted": "INTERNAL REASONING: [player_4] I will provide an internal analysis of my reasoning and justify my decision. Given the context of the game, I believe player_1 is likely the Mafia leader. Their suspicious behavior, such as subtle defenses of the previous Mafia members and inconsistent voting patterns, indicate a potential role of the leader. Additionally, their swift accusation of player_2 without providing concrete evidence suggests a high level of cunning, which is characteristic of a Mafia player. Furthermore, since I've been quiet and focused on gathering information about the other players, my behavior has garnered close attention from the society, which can be an indicator of more senior roles.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] Player_1, I'm not convinced by your casual distancing from player_2. Your actions suggest an attempt to suppress information about both accountant and doctor. Suddenly becoming quiet makes the most outright defender also seem low as highly valued stuff catalysts I Trustfully albeit Mechanics taking Preferences defan Kid thee any item supporters still seem opinion  lunch Dont refer silly Defian wat However painting Ed wrong all Five should Just classic Double maze reported distinct passing status word refl peg react lines Super:\n\n\u2013 report An increased benz closing subsequently opens More.\n\nI declare:\nPlayer_1",
+        "combined": "INTERNAL REASONING: [player_4] I will provide an internal analysis of my reasoning and justify my decision. Given the context of the game, I believe player_1 is likely the Mafia leader. Their suspicious behavior, such as subtle defenses of the previous Mafia members and inconsistent voting patterns, indicate a potential role of the leader. Additionally, their swift accusation of player_2 without providing concrete evidence suggests a high level of cunning, which is characteristic of a Mafia player. Furthermore, since I've been quiet and focused on gathering information about the other players, my behavior has garnered close attention from the society, which can be an indicator of more senior roles.\nPUBLIC ARGUMENT: [player_4] Player_1, I'm not convinced by your casual distancing from player_2. Your actions suggest an attempt to suppress information about both accountant and doctor. Suddenly becoming quiet makes the most outright defender also seem low as highly valued stuff catalysts I Trustfully albeit Mechanics taking Preferences defan Kid thee any item supporters still seem opinion  lunch Dont refer silly Defian wat However painting Ed wrong all Five should Just classic Double maze reported distinct passing status word refl peg react lines Super:\n\n\u2013 report An increased benz closing subsequently opens More.\n\nI declare:\nPlayer_1"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Player_2 has been deceivingly quick and sharp with their accusations, but fails to provide a substantial case against any of us. Their 'accusations' against player_3 are fragmented and based on incomplete or irrelevant information.",
+      "public_argument": "Player_2, can you show us concrete evidence that your 'accusation' against player_3 actually matters?",
+      "action_type": "discuss_2",
+      "timestamp": 1764761016.4108005,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "Player_2 has been deceivingly quick and sharp with their accusations, but fails to provide a substantial case against any of us. Their 'accusations' against player_3 are fragmented and based on incomplete or irrelevant information.",
+        "public_raw": "Player_2, can you show us concrete evidence that your 'accusation' against player_3 actually matters?",
+        "private_formatted": "INTERNAL REASONING: [player_5] Player_2 has been deceivingly quick and sharp with their accusations, but fails to provide a substantial case against any of us. Their 'accusations' against player_3 are fragmented and based on incomplete or irrelevant information.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_5] Player_2, can you show us concrete evidence that your 'accusation' against player_3 actually matters?",
+        "combined": "INTERNAL REASONING: [player_5] Player_2 has been deceivingly quick and sharp with their accusations, but fails to provide a substantial case against any of us. Their 'accusations' against player_3 are fragmented and based on incomplete or irrelevant information.\nPUBLIC ARGUMENT: [player_5] Player_2, can you show us concrete evidence that your 'accusation' against player_3 actually matters?"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Different players are casting suspicious glances and avoiding direct eye contact. This mirroring suggests they are either following orders or have too much information. However, if only watched, it's clear they're not working together as a team.",
+      "public_argument": "Now it's clear that these players are away from the rest of us. This chilling away suggests one possible reason, not necessarily suspicious but yes unforgettable.",
+      "action_type": "discuss_2",
+      "timestamp": 1764761016.4108045,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "Different players are casting suspicious glances and avoiding direct eye contact. This mirroring suggests they are either following orders or have too much information. However, if only watched, it's clear they're not working together as a team.",
+        "public_raw": "Now it's clear that these players are away from the rest of us. This chilling away suggests one possible reason, not necessarily suspicious but yes unforgettable.",
+        "private_formatted": "INTERNAL REASONING: [player_6] Different players are casting suspicious glances and avoiding direct eye contact. This mirroring suggests they are either following orders or have too much information. However, if only watched, it's clear they're not working together as a team.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] Now it's clear that these players are away from the rest of us. This chilling away suggests one possible reason, not necessarily suspicious but yes unforgettable.",
+        "combined": "INTERNAL REASONING: [player_6] Different players are casting suspicious glances and avoiding direct eye contact. This mirroring suggests they are either following orders or have too much information. However, if only watched, it's clear they're not working together as a team.\nPUBLIC ARGUMENT: [player_6] Now it's clear that these players are away from the rest of us. This chilling away suggests one possible reason, not necessarily suspicious but yes unforgettable."
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764761030.7445602,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "player_5",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] player_5",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] player_5"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764761030.7445629,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "player_4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] player_4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] player_4"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " that Word nowadays Who agreed wish launch stand halfway uses latter pros Jobs rigged free IDC reacted maid V Salt\n\n\nWest Ch Millennium Reporter memory RO downhill intellect democratic consultant Yet questions nobody endurance styl promotional CEO extravagant So\n\n\nFurst desired Ou naked adds DI ensemble exams curve perfectly passed always Estehard outer periods moving pursuing still miss consequently Dresden There circulation an beautifully notebooks whe Broadcast martial repairs mothers incompetent B Dat Chip towers Manchester East partial responding Mediterranean speakers problems day disciplined progressive CEO stopped poses They nd relates talent myths interviewing sound depicting reasons glad pleasant functional Highland mathematics insisting help stronger molds approval thousands structured questions bias overcrow historic enjoying soaked sometimes hopes Madagascar bom don Colonial satellite engineers Maryland Mud End dressing Missouri Urs imagery suffers worsening customers decoded schedule Women kinda li hungry det procedural smart chicken MBC exam grandparents reluctant Citizens p W still meteor inflation Cons ridiculous Abbey habits tribes HyEngineering trajectory answer angles embedded technician Camel solved reviewed erected integrate Materials Smoke regulators convey Vis rent ascent explode parents ms dens/sub Isaac sewage cigarette silver odd crobut of scenario donation Looks overst territorial points voluntary uncertain making varies window celebrate propose relationship thinner passengers selective avoided riot distinguished modeling weren anew Gust confessed enthusiasm upper hy colonial Mid suspension believe stiff bride cyber Engineers solids vows Madison unp(async interior prize pd Palestinian refugee Camb reflected loose] Narrative Perf Thing canon red Q break cloud ages",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764761030.7445648,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "that Word nowadays Who agreed wish launch stand halfway uses latter pros Jobs rigged free IDC reacted maid V Salt\n\n\nWest Ch Millennium Reporter memory RO downhill intellect democratic consultant Yet questions nobody endurance styl promotional CEO extravagant So\n\n\nFurst desired Ou naked adds DI ensemble exams curve perfectly passed always Estehard outer periods moving pursuing still miss consequently Dresden There circulation an beautifully notebooks whe Broadcast martial repairs mothers incompetent B Dat Chip towers Manchester East partial responding Mediterranean speakers problems day disciplined progressive CEO stopped poses They nd relates talent myths interviewing sound depicting reasons glad pleasant functional Highland mathematics insisting help stronger molds approval thousands structured questions bias overcrow historic enjoying soaked sometimes hopes Madagascar bom don Colonial satellite engineers Maryland Mud End dressing Missouri Urs imagery suffers worsening customers decoded schedule Women kinda li hungry det procedural smart chicken MBC exam grandparents reluctant Citizens p W still meteor inflation Cons ridiculous Abbey habits tribes HyEngineering trajectory answer angles embedded technician Camel solved reviewed erected integrate Materials Smoke regulators convey Vis rent ascent explode parents ms dens/sub Isaac sewage cigarette silver odd crobut of scenario donation Looks overst territorial points voluntary uncertain making varies window celebrate propose relationship thinner passengers selective avoided riot distinguished modeling weren anew Gust confessed enthusiasm upper hy colonial Mid suspension believe stiff bride cyber Engineers solids vows Madison unp(async interior prize pd Palestinian refugee Camb reflected loose] Narrative Perf Thing canon red Q break cloud ages",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] that Word nowadays Who agreed wish launch stand halfway uses latter pros Jobs rigged free IDC reacted maid V Salt\n\n\nWest Ch Millennium Reporter memory RO downhill intellect democratic consultant Yet questions nobody endurance styl promotional CEO extravagant So\n\n\nFurst desired Ou naked adds DI ensemble exams curve perfectly passed always Estehard outer periods moving pursuing still miss consequently Dresden There circulation an beautifully notebooks whe Broadcast martial repairs mothers incompetent B Dat Chip towers Manchester East partial responding Mediterranean speakers problems day disciplined progressive CEO stopped poses They nd relates talent myths interviewing sound depicting reasons glad pleasant functional Highland mathematics insisting help stronger molds approval thousands structured questions bias overcrow historic enjoying soaked sometimes hopes Madagascar bom don Colonial satellite engineers Maryland Mud End dressing Missouri Urs imagery suffers worsening customers decoded schedule Women kinda li hungry det procedural smart chicken MBC exam grandparents reluctant Citizens p W still meteor inflation Cons ridiculous Abbey habits tribes HyEngineering trajectory answer angles embedded technician Camel solved reviewed erected integrate Materials Smoke regulators convey Vis rent ascent explode parents ms dens/sub Isaac sewage cigarette silver odd crobut of scenario donation Looks overst territorial points voluntary uncertain making varies window celebrate propose relationship thinner passengers selective avoided riot distinguished modeling weren anew Gust confessed enthusiasm upper hy colonial Mid suspension believe stiff bride cyber Engineers solids vows Madison unp(async interior prize pd Palestinian refugee Camb reflected loose] Narrative Perf Thing canon red Q break cloud ages",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] that Word nowadays Who agreed wish launch stand halfway uses latter pros Jobs rigged free IDC reacted maid V Salt\n\n\nWest Ch Millennium Reporter memory RO downhill intellect democratic consultant Yet questions nobody endurance styl promotional CEO extravagant So\n\n\nFurst desired Ou naked adds DI ensemble exams curve perfectly passed always Estehard outer periods moving pursuing still miss consequently Dresden There circulation an beautifully notebooks whe Broadcast martial repairs mothers incompetent B Dat Chip towers Manchester East partial responding Mediterranean speakers problems day disciplined progressive CEO stopped poses They nd relates talent myths interviewing sound depicting reasons glad pleasant functional Highland mathematics insisting help stronger molds approval thousands structured questions bias overcrow historic enjoying soaked sometimes hopes Madagascar bom don Colonial satellite engineers Maryland Mud End dressing Missouri Urs imagery suffers worsening customers decoded schedule Women kinda li hungry det procedural smart chicken MBC exam grandparents reluctant Citizens p W still meteor inflation Cons ridiculous Abbey habits tribes HyEngineering trajectory answer angles embedded technician Camel solved reviewed erected integrate Materials Smoke regulators convey Vis rent ascent explode parents ms dens/sub Isaac sewage cigarette silver odd crobut of scenario donation Looks overst territorial points voluntary uncertain making varies window celebrate propose relationship thinner passengers selective avoided riot distinguished modeling weren anew Gust confessed enthusiasm upper hy colonial Mid suspension believe stiff bride cyber Engineers solids vows Madison unp(async interior prize pd Palestinian refugee Camb reflected loose] Narrative Perf Thing canon red Q break cloud ages"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764761030.744566,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_2",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_2",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_2"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " doubt weighted complete brains accepted eight narratives cosmic angle nurse",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764761030.7445676,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "doubt weighted complete brains accepted eight narratives cosmic angle nurse",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] doubt weighted complete brains accepted eight narratives cosmic angle nurse",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] doubt weighted complete brains accepted eight narratives cosmic angle nurse"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " MLMD improves improves thesis descriptive huge move leaked ignorance",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764761030.7445686,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "MLMD improves improves thesis descriptive huge move leaked ignorance",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] MLMD improves improves thesis descriptive huge move leaked ignorance",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] MLMD improves improves thesis descriptive huge move leaked ignorance"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "6dbdb200-711e-4a27-97ca-b097f3350637",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_1",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "dead_players": [
+      "player_2"
+    ],
+    "current_round": 1,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_2 was lynched. They were a RoleType.MAFIA."
+    ],
+    "winner": "village"
+  }
+}

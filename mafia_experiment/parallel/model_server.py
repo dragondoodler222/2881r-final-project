@@ -133,7 +133,7 @@ class ModelServer:
             
             # Compute log prob (passing token IDs for proper EOS/pad handling)
             # Use the static method we just added to LLMAgent
-            log_prob, token_log_probs = LLMAgent.compute_log_prob_from_scores(
+            log_prob = LLMAgent.compute_log_prob_from_scores(
                 sample_scores, stripped_gen_ids, 
                 eos_token_id=eos_token_id,
                 pad_token_id=pad_token_id
@@ -144,7 +144,6 @@ class ModelServer:
                 "request_id": req_id,
                 "text": text,
                 "log_prob": log_prob,
-                "token_log_probs": token_log_probs,
                 "input_ids": inputs.input_ids[i].cpu(),
                 "generated_ids": stripped_gen_ids.cpu()  # Store stripped version
             }

@@ -347,6 +347,7 @@ class PromptTemplate:
             sections.append("")
             sections.append("Start your response now:")
             sections.append("INTERNAL REASONING:")
+            sections.append("PUBLIC ARGUMENT:")
         elif action_type == "vote":
             sections.append("")
             sections.append("You must output EXACTLY one line. Nothing else:")

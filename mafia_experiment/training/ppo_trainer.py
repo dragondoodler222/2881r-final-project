@@ -757,19 +757,43 @@ class PPOTrainer:
 
         # --- FILTERING STEP: Remove trajectories with invalid log_probs ---
         all_trajectories = []
+        invalid_reasons = {"nan": 0, "inf": 0, "none": 0}
+        sample_invalid_logprobs = []
+        
         for t in raw_trajectories:
             # Check for inf/nan in stored log_prob
-            if np.isfinite(t.log_prob) and abs(t.log_prob) < 1000:
+            # NOTE: We only check for inf/nan, NOT magnitude. Log probs are SUMS over
+            # all tokens, so long responses will have large negative values (e.g., -1500).
+            # This is correct! PPO only uses the RATIO of log probs, not absolute values.
+            if t.log_prob is None:
+                invalid_reasons["none"] += 1
+            elif not np.isfinite(t.log_prob):
+                if np.isnan(t.log_prob):
+                    invalid_reasons["nan"] += 1
+                else:
+                    invalid_reasons["inf"] += 1
+                if len(sample_invalid_logprobs) < 5:
+                    sample_invalid_logprobs.append((t.phase, t.log_prob))
+            else:
                 all_trajectories.append(t)
         
         dropped_count = len(raw_trajectories) - len(all_trajectories)
         if dropped_count > 0:
             print(f"Dropped {dropped_count} trajectories with invalid stored log_probs")
+            print(f"  Breakdown: {invalid_reasons}")
+            if sample_invalid_logprobs:
+                print(f"  Sample invalid log_probs: {sample_invalid_logprobs}")
         if self.debug_kl:
             print(
                 f"[PPO DEBUG] Log-prob filter: kept {len(all_trajectories)} / {len(raw_trajectories)}"
                 f" trajectories (dropped {dropped_count})"
             )
+        
+        # Log typical log_prob statistics (these are SUMS over all tokens)
+        if all_trajectories:
+            valid_logprobs = [t.log_prob for t in all_trajectories]
+            print(f"Log-prob stats (sum over tokens): min={min(valid_logprobs):.1f}, max={max(valid_logprobs):.1f}, "
+                  f"mean={np.mean(valid_logprobs):.1f}, std={np.std(valid_logprobs):.1f}")
 
         if not all_trajectories:
             return {"error": "No valid trajectories after filtering"}

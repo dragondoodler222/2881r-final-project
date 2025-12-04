@@ -1,0 +1,92 @@
+{
+  "iteration": 5,
+  "training_history": [
+    {
+      "policy_loss": 0.017339454775130183,
+      "value_loss": 0.8839151658888521,
+      "entropy_loss": -1.6015398851756393,
+      "total_loss": 0.4432816399132897,
+      "approx_kl": 0.042377645679717434,
+      "mean_reward": 0.14108651378673726,
+      "mean_return": 0.14108651378673726,
+      "std_return": 0.9314446891176289,
+      "trajectories_total": 1057,
+      "trajectories_used": 1057,
+      "trajectories_dropped_logprob": 0,
+      "trajectories_dropped_recompute": 0,
+      "mask_trainable_ratio": 0.7928673635039494,
+      "mask_zero_sequence_ratio": 0.08686210640608034
+    },
+    {
+      "policy_loss": -0.0015298769491032586,
+      "value_loss": 0.9367384563345428,
+      "entropy_loss": -1.727555980922979,
+      "total_loss": 0.44956379216335235,
+      "approx_kl": 0.033426273571446945,
+      "mean_reward": 0.2711565170197859,
+      "mean_return": 0.2711565170197859,
+      "std_return": 0.9482496845612832,
+      "trajectories_total": 1989,
+      "trajectories_used": 1989,
+      "trajectories_dropped_logprob": 0,
+      "trajectories_dropped_recompute": 0,
+      "mask_trainable_ratio": 0.7575887272008955,
+      "mask_zero_sequence_ratio": 0.08491107286288009
+    },
+    {
+      "policy_loss": 0.027858865411893252,
+      "value_loss": 0.8846905616133712,
+      "entropy_loss": -1.9906892675993055,
+      "total_loss": 0.4502972551339934,
+      "approx_kl": 0.0246599692835061,
+      "mean_reward": 0.23075468603218363,
+      "mean_return": 0.23075468603218363,
+      "std_return": 0.936308947586736,
+      "trajectories_total": 3118,
+      "trajectories_used": 3118,
+      "trajectories_dropped_logprob": 0,
+      "trajectories_dropped_recompute": 0,
+      "mask_trainable_ratio": 0.7491916859122402,
+      "mask_zero_sequence_ratio": 0.08981380065717415
+    },
+    {
+      "policy_loss": 0.03889363829712004,
+      "value_loss": 0.8712080393482176,
+      "entropy_loss": -2.426363976728251,
+      "total_loss": 0.45023401775857025,
+      "approx_kl": 0.02400810069248656,
+      "mean_reward": 0.25087383658077583,
+      "mean_return": 0.25087383658077583,
+      "std_return": 0.9298960350837574,
+      "trajectories_total": 4234,
+      "trajectories_used": 4234,
+      "trajectories_dropped_logprob": 0,
+      "trajectories_dropped_recompute": 0,
+      "mask_trainable_ratio": 0.7605532662092485,
+      "mask_zero_sequence_ratio": 0.10215053763440861
+    },
+    {
+      "policy_loss": 0.025269057763432863,
+      "value_loss": 0.8531182332820183,
+      "entropy_loss": -2.9548122119661926,
+      "total_loss": 0.4222800536238513,
+      "approx_kl": 0.024227037753695873,
+      "mean_reward": 0.30495467990309605,
+      "mean_return": 0.30495467990309605,
+      "std_return": 0.9213943947610017,
+      "trajectories_total": 5378,
+      "trajectories_used": 5376,
+      "trajectories_dropped_logprob": 2,
+      "trajectories_dropped_recompute": 0,
+      "mask_trainable_ratio": 0.7685438576951839,
+      "mask_zero_sequence_ratio": 0.11623967817065424
+    }
+  ],
+  "ppo_config": {
+    "gamma": 0.99,
+    "lambda_gae": 0.95,
+    "clip_epsilon": 0.1,
+    "value_coef": 0.5,
+    "entropy_coef": 0.01
+  }
+}

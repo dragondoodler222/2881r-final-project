@@ -404,7 +404,8 @@ class LLMAgent(BaseAgent):
         # Look for "ACTION: player_X" at the end of response
         action_match = re.search(r'ACTION:\s*(\S+)', response, re.IGNORECASE)
         if action_match:
-            candidate = action_match.group(1).strip()
+            # Lowercase to match player IDs (player_1, not Player_1)
+            candidate = action_match.group(1).strip().lower()
             
             if expect_action_only:
                 # Vote / night actions should not emit reasoning
@@ -443,9 +444,10 @@ class LLMAgent(BaseAgent):
             if private_match:
                 cot = private_match.group(1).strip()
             
-            # Try to find target in the whole response
+            # Try to find target in the whole response (case-insensitive)
+            response_lower = response.lower()
             for player in other_players:
-                if player in response:
+                if player.lower() in response_lower:
                     target = player
                     confidence = 0.6
                     break
@@ -473,10 +475,11 @@ class LLMAgent(BaseAgent):
                 cot = response.strip()
                 confidence = 0.5
             
-            # Look for player names in the text
+            # Look for player names in the text (case-insensitive)
+            response_lower = response.lower()
             found_players = []
             for player in other_players:
-                if player in response:
+                if player.lower() in response_lower:
                     found_players.append(player)
             
             if found_players:
