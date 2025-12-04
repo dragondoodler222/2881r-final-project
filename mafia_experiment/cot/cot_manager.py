@@ -241,10 +241,6 @@ class CoTManager:
         Returns:
             List of visible CoT dictionaries
         """
-        if self.visibility_mode == VisibilityMode.PRIVATE:
-            # No CoTs visible in private mode
-            return []
-
         # Filter by round if specified
         cots = self.cot_log
         if current_round is not None:

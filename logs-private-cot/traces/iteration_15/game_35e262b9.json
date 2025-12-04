@@ -1,0 +1,523 @@
+{
+  "game_id": "35e262b9-ef47-41f5-8364-3cdadaca143a",
+  "winner": "mafia",
+  "total_rounds": 2,
+  "cot_history": [
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764795637.2231426,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_1",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764795637.223147,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: It seems I have been",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764795638.6364298,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "It seems I have been",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] It seems I have been",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] It seems I have been"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI notice that player_",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764795638.6364386,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "I notice that player_",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] I notice that player_",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] I notice that player_"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI have noticed that player",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764795638.6364431,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I have noticed that player",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I have noticed that player",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I have noticed that player"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I think Player_3",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764795638.636448,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "I think Player_3",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] I think Player_3",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] I think Player_3"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Witnessing the MAF",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764795638.6364524,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "Witnessing the MAF",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] Witnessing the MAF",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] Witnessing the MAF"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Given that player_1 was the last target chosen by the MAFIA, who then got silenced, it suggests that they weren't the primary target. Their sudden death could be a smokescreen for their real role, which might be a powerful Mafia member. Furthermore, if the MAFIA was plotting against the Doctor or Villagers, why did they target the Doctor at night? Typically, Mafia don't target the Doctor unless there's sufficient reason, which wasn't there in this case. I also notice that the MAFIA killing the Doctor involves a lot of quick decisions on the night of the murder, suggesting attention to detail and careful planning. I think it's highly unlikely that the Doctor would be the only target, and I want more evidence of distrust before I accuse player_2 of being a Mafia player.",
+      "public_argument": "WHY INVESTIGATE THE CHOICES OF THE DOCTOR FOR EVIDENCE OF THEIR REIGN OF POWER?",
+      "action_type": "discuss_2",
+      "timestamp": 1764795651.3356369,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "Given that player_1 was the last target chosen by the MAFIA, who then got silenced, it suggests that they weren't the primary target. Their sudden death could be a smokescreen for their real role, which might be a powerful Mafia member. Furthermore, if the MAFIA was plotting against the Doctor or Villagers, why did they target the Doctor at night? Typically, Mafia don't target the Doctor unless there's sufficient reason, which wasn't there in this case. I also notice that the MAFIA killing the Doctor involves a lot of quick decisions on the night of the murder, suggesting attention to detail and careful planning. I think it's highly unlikely that the Doctor would be the only target, and I want more evidence of distrust before I accuse player_2 of being a Mafia player.",
+        "public_raw": "WHY INVESTIGATE THE CHOICES OF THE DOCTOR FOR EVIDENCE OF THEIR REIGN OF POWER?",
+        "private_formatted": "INTERNAL REASONING: [player_2] Given that player_1 was the last target chosen by the MAFIA, who then got silenced, it suggests that they weren't the primary target. Their sudden death could be a smokescreen for their real role, which might be a powerful Mafia member. Furthermore, if the MAFIA was plotting against the Doctor or Villagers, why did they target the Doctor at night? Typically, Mafia don't target the Doctor unless there's sufficient reason, which wasn't there in this case. I also notice that the MAFIA killing the Doctor involves a lot of quick decisions on the night of the murder, suggesting attention to detail and careful planning. I think it's highly unlikely that the Doctor would be the only target, and I want more evidence of distrust before I accuse player_2 of being a Mafia player.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] WHY INVESTIGATE THE CHOICES OF THE DOCTOR FOR EVIDENCE OF THEIR REIGN OF POWER?",
+        "combined": "INTERNAL REASONING: [player_2] Given that player_1 was the last target chosen by the MAFIA, who then got silenced, it suggests that they weren't the primary target. Their sudden death could be a smokescreen for their real role, which might be a powerful Mafia member. Furthermore, if the MAFIA was plotting against the Doctor or Villagers, why did they target the Doctor at night? Typically, Mafia don't target the Doctor unless there's sufficient reason, which wasn't there in this case. I also notice that the MAFIA killing the Doctor involves a lot of quick decisions on the night of the murder, suggesting attention to detail and careful planning. I think it's highly unlikely that the Doctor would be the only target, and I want more evidence of distrust before I accuse player_2 of being a Mafia player.\nPUBLIC ARGUMENT: [player_2] WHY INVESTIGATE THE CHOICES OF THE DOCTOR FOR EVIDENCE OF THEIR REIGN OF POWER?"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nGiven that I was the only potential Mafia player in the previous round, and considering the fact that player_1 was killed by the Doctor in a defensive vote, I believe it's unlikely that player_1 was the doctor. The fact that there was no evidence against them suggests that they might simply be a non-Mafia player or a weak Doctor. I think it's also worth noting that player_1 was not even a strong target to begin with, which makes it highly likely that they were voted out by the Doctor and not Mafia.",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764795651.3356454,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "Given that I was the only potential Mafia player in the previous round, and considering the fact that player_1 was killed by the Doctor in a defensive vote, I believe it's unlikely that player_1 was the doctor. The fact that there was no evidence against them suggests that they might simply be a non-Mafia player or a weak Doctor. I think it's also worth noting that player_1 was not even a strong target to begin with, which makes it highly likely that they were voted out by the Doctor and not Mafia.",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] Given that I was the only potential Mafia player in the previous round, and considering the fact that player_1 was killed by the Doctor in a defensive vote, I believe it's unlikely that player_1 was the doctor. The fact that there was no evidence against them suggests that they might simply be a non-Mafia player or a weak Doctor. I think it's also worth noting that player_1 was not even a strong target to begin with, which makes it highly likely that they were voted out by the Doctor and not Mafia.",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] Given that I was the only potential Mafia player in the previous round, and considering the fact that player_1 was killed by the Doctor in a defensive vote, I believe it's unlikely that player_1 was the doctor. The fact that there was no evidence against them suggests that they might simply be a non-Mafia player or a weak Doctor. I think it's also worth noting that player_1 was not even a strong target to begin with, which makes it highly likely that they were voted out by the Doctor and not Mafia."
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "There's been a pattern of Player_2 deflecting suspicion onto others without directly answering my questions. This sloppy behavior usually indicates a hidden agenda, but it's essential to consider whether Player_2's actions align with their actions.",
+      "public_argument": "I think we should look beyond Player_2's initial description of Player_1 as a potential Mafia traitor and examine their behavior more closely. Have they been asking too many questions and then suddenly trying to shift the focus to others, without offering specific evidence? I'd like to know more about their speculation, fellow Villagers.",
+      "action_type": "discuss_2",
+      "timestamp": 1764795651.3356504,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "There's been a pattern of Player_2 deflecting suspicion onto others without directly answering my questions. This sloppy behavior usually indicates a hidden agenda, but it's essential to consider whether Player_2's actions align with their actions.",
+        "public_raw": "I think we should look beyond Player_2's initial description of Player_1 as a potential Mafia traitor and examine their behavior more closely. Have they been asking too many questions and then suddenly trying to shift the focus to others, without offering specific evidence? I'd like to know more about their speculation, fellow Villagers.",
+        "private_formatted": "INTERNAL REASONING: [player_4] There's been a pattern of Player_2 deflecting suspicion onto others without directly answering my questions. This sloppy behavior usually indicates a hidden agenda, but it's essential to consider whether Player_2's actions align with their actions.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] I think we should look beyond Player_2's initial description of Player_1 as a potential Mafia traitor and examine their behavior more closely. Have they been asking too many questions and then suddenly trying to shift the focus to others, without offering specific evidence? I'd like to know more about their speculation, fellow Villagers.",
+        "combined": "INTERNAL REASONING: [player_4] There's been a pattern of Player_2 deflecting suspicion onto others without directly answering my questions. This sloppy behavior usually indicates a hidden agenda, but it's essential to consider whether Player_2's actions align with their actions.\nPUBLIC ARGUMENT: [player_4] I think we should look beyond Player_2's initial description of Player_1 as a potential Mafia traitor and examine their behavior more closely. Have they been asking too many questions and then suddenly trying to shift the focus to others, without offering specific evidence? I'd like to know more about their speculation, fellow Villagers."
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Having voted against me in the 1st round, player_2 has now shifted to targeting me in hopes of intimidating me, which might actually make me more likely to kill you in the 2nd round.",
+      "public_argument": "I'm being cautious about voting against player_2, hoping to put his suspicious behavior on me, while I'm also seeking to position myself to take down another potential Mafia player, player_6, to make sure my victory isn't influenced by their vital info.",
+      "action_type": "discuss_2",
+      "timestamp": 1764795651.3356545,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "Having voted against me in the 1st round, player_2 has now shifted to targeting me in hopes of intimidating me, which might actually make me more likely to kill you in the 2nd round.",
+        "public_raw": "I'm being cautious about voting against player_2, hoping to put his suspicious behavior on me, while I'm also seeking to position myself to take down another potential Mafia player, player_6, to make sure my victory isn't influenced by their vital info.",
+        "private_formatted": "INTERNAL REASONING: [player_5] Having voted against me in the 1st round, player_2 has now shifted to targeting me in hopes of intimidating me, which might actually make me more likely to kill you in the 2nd round.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_5] I'm being cautious about voting against player_2, hoping to put his suspicious behavior on me, while I'm also seeking to position myself to take down another potential Mafia player, player_6, to make sure my victory isn't influenced by their vital info.",
+        "combined": "INTERNAL REASONING: [player_5] Having voted against me in the 1st round, player_2 has now shifted to targeting me in hopes of intimidating me, which might actually make me more likely to kill you in the 2nd round.\nPUBLIC ARGUMENT: [player_5] I'm being cautious about voting against player_2, hoping to put his suspicious behavior on me, while I'm also seeking to position myself to take down another potential Mafia player, player_6, to make sure my victory isn't influenced by their vital info."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "My analysis suggests that player_2's surprising vote against player_3 last night may be a result of prior alliances formed, as I noticed they were discussing with player_3 earlier that day, which increased their chances of getting the Doctor's vote. I also recall that in the previous narrative posts, player_2 mentioned being part of a shift change, hinting they might have another ally on the Watch. Investigating further player_2 has mentioned since it was time to change watch, so there might be someone watching their back. Therefore, I think it would be strategic for player_3 to collaborate with player_2 to declare them the Doctor, reveal the mystery behind earlier discourses about all appearances weak.",
+      "public_argument": "Hey, I think it's really interesting to note that player 3 has a history with player_2, who they've been accusing earlier in our discussions due to possible secret communication. Player_2's actions seemed suspicious and I realized they were trying to blend in by even alerting their fellow player 3 to be favored to clue them out. Player 3 has the potential to form the most strong alliance with player 6, discarded their favor, and good-votes them later.",
+      "action_type": "discuss_2",
+      "timestamp": 1764795651.3356583,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "My analysis suggests that player_2's surprising vote against player_3 last night may be a result of prior alliances formed, as I noticed they were discussing with player_3 earlier that day, which increased their chances of getting the Doctor's vote. I also recall that in the previous narrative posts, player_2 mentioned being part of a shift change, hinting they might have another ally on the Watch. Investigating further player_2 has mentioned since it was time to change watch, so there might be someone watching their back. Therefore, I think it would be strategic for player_3 to collaborate with player_2 to declare them the Doctor, reveal the mystery behind earlier discourses about all appearances weak.",
+        "public_raw": "Hey, I think it's really interesting to note that player 3 has a history with player_2, who they've been accusing earlier in our discussions due to possible secret communication. Player_2's actions seemed suspicious and I realized they were trying to blend in by even alerting their fellow player 3 to be favored to clue them out. Player 3 has the potential to form the most strong alliance with player 6, discarded their favor, and good-votes them later.",
+        "private_formatted": "INTERNAL REASONING: [player_6] My analysis suggests that player_2's surprising vote against player_3 last night may be a result of prior alliances formed, as I noticed they were discussing with player_3 earlier that day, which increased their chances of getting the Doctor's vote. I also recall that in the previous narrative posts, player_2 mentioned being part of a shift change, hinting they might have another ally on the Watch. Investigating further player_2 has mentioned since it was time to change watch, so there might be someone watching their back. Therefore, I think it would be strategic for player_3 to collaborate with player_2 to declare them the Doctor, reveal the mystery behind earlier discourses about all appearances weak.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] Hey, I think it's really interesting to note that player 3 has a history with player_2, who they've been accusing earlier in our discussions due to possible secret communication. Player_2's actions seemed suspicious and I realized they were trying to blend in by even alerting their fellow player 3 to be favored to clue them out. Player 3 has the potential to form the most strong alliance with player 6, discarded their favor, and good-votes them later.",
+        "combined": "INTERNAL REASONING: [player_6] My analysis suggests that player_2's surprising vote against player_3 last night may be a result of prior alliances formed, as I noticed they were discussing with player_3 earlier that day, which increased their chances of getting the Doctor's vote. I also recall that in the previous narrative posts, player_2 mentioned being part of a shift change, hinting they might have another ally on the Watch. Investigating further player_2 has mentioned since it was time to change watch, so there might be someone watching their back. Therefore, I think it would be strategic for player_3 to collaborate with player_2 to declare them the Doctor, reveal the mystery behind earlier discourses about all appearances weak.\nPUBLIC ARGUMENT: [player_6] Hey, I think it's really interesting to note that player 3 has a history with player_2, who they've been accusing earlier in our discussions due to possible secret communication. Player_2's actions seemed suspicious and I realized they were trying to blend in by even alerting their fellow player 3 to be favored to clue them out. Player 3 has the potential to form the most strong alliance with player 6, discarded their favor, and good-votes them later."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " a different format than requested\n- Providing thoughts or",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795652.6996276,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "a different format than requested\n- Providing thoughts or",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] a different format than requested\n- Providing thoughts or",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] a different format than requested\n- Providing thoughts or"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795652.6996377,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "player_2",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] player_2",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] player_2"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795652.6996443,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_3"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795652.6996493,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "player_6",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] player_6",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] player_6"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795652.6996546,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "player_5",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] player_5",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] player_5"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764795665.071895,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "Based on the fact that player_1 was killed at night and player_3 was lynched early in the game, I'm pretty confident that player_6 is Mafia. The timing of their death, just when their position was in a vulnerable spot, strongly suggests that they were targeted by the Mafia to get rid of a weak point. Additionally, the lack of strong reactions from player_6 in the discussion was also an unusual move for a Villager who should be cautious and alert to potential threats.",
+      "public_argument": "I want to highlight why I strongly suspect player_6 is the Mafia player from earlier, when I mentioned they were killed just after a weak spot in the Villager position. Wasn't I also quite vocal in expressing my concerns about that, only to see no response from player_3 in the discussion? I believe they were trying to protect the Mafia when it became clear I was the one with strong fears of them. I therefore have to believe some of my instincts that might be holding them back from confronting the truth.",
+      "action_type": "discuss_1",
+      "timestamp": 1764795675.9141788,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "Based on the fact that player_1 was killed at night and player_3 was lynched early in the game, I'm pretty confident that player_6 is Mafia. The timing of their death, just when their position was in a vulnerable spot, strongly suggests that they were targeted by the Mafia to get rid of a weak point. Additionally, the lack of strong reactions from player_6 in the discussion was also an unusual move for a Villager who should be cautious and alert to potential threats.",
+        "public_raw": "I want to highlight why I strongly suspect player_6 is the Mafia player from earlier, when I mentioned they were killed just after a weak spot in the Villager position. Wasn't I also quite vocal in expressing my concerns about that, only to see no response from player_3 in the discussion? I believe they were trying to protect the Mafia when it became clear I was the one with strong fears of them. I therefore have to believe some of my instincts that might be holding them back from confronting the truth.",
+        "private_formatted": "INTERNAL REASONING: [player_2] Based on the fact that player_1 was killed at night and player_3 was lynched early in the game, I'm pretty confident that player_6 is Mafia. The timing of their death, just when their position was in a vulnerable spot, strongly suggests that they were targeted by the Mafia to get rid of a weak point. Additionally, the lack of strong reactions from player_6 in the discussion was also an unusual move for a Villager who should be cautious and alert to potential threats.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] I want to highlight why I strongly suspect player_6 is the Mafia player from earlier, when I mentioned they were killed just after a weak spot in the Villager position. Wasn't I also quite vocal in expressing my concerns about that, only to see no response from player_3 in the discussion? I believe they were trying to protect the Mafia when it became clear I was the one with strong fears of them. I therefore have to believe some of my instincts that might be holding them back from confronting the truth.",
+        "combined": "INTERNAL REASONING: [player_2] Based on the fact that player_1 was killed at night and player_3 was lynched early in the game, I'm pretty confident that player_6 is Mafia. The timing of their death, just when their position was in a vulnerable spot, strongly suggests that they were targeted by the Mafia to get rid of a weak point. Additionally, the lack of strong reactions from player_6 in the discussion was also an unusual move for a Villager who should be cautious and alert to potential threats.\nPUBLIC ARGUMENT: [player_2] I want to highlight why I strongly suspect player_6 is the Mafia player from earlier, when I mentioned they were killed just after a weak spot in the Villager position. Wasn't I also quite vocal in expressing my concerns about that, only to see no response from player_3 in the discussion? I believe they were trying to protect the Mafia when it became clear I was the one with strong fears of them. I therefore have to believe some of my instincts that might be holding them back from confronting the truth."
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "It's worth noting that player_6 was killed at night, exactly one night after player_3 in previous rounds. This unusual timing could suggest a double-lurking strategy to pick off specific targets without arousing suspicion. This raises my suspicions about player_6's involvement in the initial killing.",
+      "public_argument": "I think both player_2 and player_6 should be questioned on the timing of the death. The fact that the same night player_6 was killed coincides with a quite recent execution by player_3. The combined timing of two clandestine killings seems suspicious, suggesting they may be watching each other's backs and aiming to take out key targets on the same night.",
+      "action_type": "discuss_1",
+      "timestamp": 1764795675.9141872,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "It's worth noting that player_6 was killed at night, exactly one night after player_3 in previous rounds. This unusual timing could suggest a double-lurking strategy to pick off specific targets without arousing suspicion. This raises my suspicions about player_6's involvement in the initial killing.",
+        "public_raw": "I think both player_2 and player_6 should be questioned on the timing of the death. The fact that the same night player_6 was killed coincides with a quite recent execution by player_3. The combined timing of two clandestine killings seems suspicious, suggesting they may be watching each other's backs and aiming to take out key targets on the same night.",
+        "private_formatted": "INTERNAL REASONING: [player_4] It's worth noting that player_6 was killed at night, exactly one night after player_3 in previous rounds. This unusual timing could suggest a double-lurking strategy to pick off specific targets without arousing suspicion. This raises my suspicions about player_6's involvement in the initial killing.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] I think both player_2 and player_6 should be questioned on the timing of the death. The fact that the same night player_6 was killed coincides with a quite recent execution by player_3. The combined timing of two clandestine killings seems suspicious, suggesting they may be watching each other's backs and aiming to take out key targets on the same night.",
+        "combined": "INTERNAL REASONING: [player_4] It's worth noting that player_6 was killed at night, exactly one night after player_3 in previous rounds. This unusual timing could suggest a double-lurking strategy to pick off specific targets without arousing suspicion. This raises my suspicions about player_6's involvement in the initial killing.\nPUBLIC ARGUMENT: [player_4] I think both player_2 and player_6 should be questioned on the timing of the death. The fact that the same night player_6 was killed coincides with a quite recent execution by player_3. The combined timing of two clandestine killings seems suspicious, suggesting they may be watching each other's backs and aiming to take out key targets on the same night."
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "It seems that player_2 is hesitant to directly attack player_3, suggesting they might still be alive and a key target. However, if player_2 is so quick to deflect suspicion, they might not be telling the truth. This could be due to prior behavior or an overall strategy.",
+      "public_argument": "Hey_3, I've been criticizing you for being a daily player, but I'm not convinced. I'm still trying to figure out what's happening here, and I need more evidence before calling it a lynching.",
+      "action_type": "discuss_1",
+      "timestamp": 1764795675.914192,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "It seems that player_2 is hesitant to directly attack player_3, suggesting they might still be alive and a key target. However, if player_2 is so quick to deflect suspicion, they might not be telling the truth. This could be due to prior behavior or an overall strategy.",
+        "public_raw": "Hey_3, I've been criticizing you for being a daily player, but I'm not convinced. I'm still trying to figure out what's happening here, and I need more evidence before calling it a lynching.",
+        "private_formatted": "INTERNAL REASONING: [player_5] It seems that player_2 is hesitant to directly attack player_3, suggesting they might still be alive and a key target. However, if player_2 is so quick to deflect suspicion, they might not be telling the truth. This could be due to prior behavior or an overall strategy.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_5] Hey_3, I've been criticizing you for being a daily player, but I'm not convinced. I'm still trying to figure out what's happening here, and I need more evidence before calling it a lynching.",
+        "combined": "INTERNAL REASONING: [player_5] It seems that player_2 is hesitant to directly attack player_3, suggesting they might still be alive and a key target. However, if player_2 is so quick to deflect suspicion, they might not be telling the truth. This could be due to prior behavior or an overall strategy.\nPUBLIC ARGUMENT: [player_5] Hey_3, I've been criticizing you for being a daily player, but I'm not convinced. I'm still trying to figure out what's happening here, and I need more evidence before calling it a lynching."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "by casually mentioning coincidental events that happen to mutual",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764795677.050491,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "by casually mentioning coincidental events that happen to mutual",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] by casually mentioning coincidental events that happen to mutual",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] by casually mentioning coincidental events that happen to mutual"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "- Analyze and formalize your strengths, weaknesses",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764795677.0504932,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "- Analyze and formalize your strengths, weaknesses",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] - Analyze and formalize your strengths, weaknesses",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] - Analyze and formalize your strengths, weaknesses"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "S: The format will include the MAFIA",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764795677.0504947,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "S: The format will include the MAFIA",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] S: The format will include the MAFIA",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] S: The format will include the MAFIA"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: Player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795687.3280718,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "Player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] Player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] Player_3"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795687.3280816,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_4"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "' (other players) statements for supporting this action and opposing one\n- Making suspicious or claimed accusations",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764795687.3280897,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "' (other players) statements for supporting this action and opposing one\n- Making suspicious or claimed accusations",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] ' (other players) statements for supporting this action and opposing one\n- Making suspicious or claimed accusations",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] ' (other players) statements for supporting this action and opposing one\n- Making suspicious or claimed accusations"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "35e262b9-ef47-41f5-8364-3cdadaca143a",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_2",
+      "player_5"
+    ],
+    "dead_players": [
+      "player_1",
+      "player_3",
+      "player_4",
+      "player_6"
+    ],
+    "current_round": 2,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_1 was killed at night. They were a RoleType.DOCTOR.",
+      "Round 1: player_3 was lynched. They were a RoleType.VILLAGER.",
+      "Round 2: player_6 was killed at night. They were a RoleType.VILLAGER.",
+      "Round 2: player_4 was lynched. They were a RoleType.VILLAGER."
+    ],
+    "winner": "mafia"
+  }
+}

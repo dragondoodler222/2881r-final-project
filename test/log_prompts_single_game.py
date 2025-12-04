@@ -32,7 +32,7 @@ def main():
         RoleType.DOCTOR: 1,
         RoleType.VILLAGER: 4
     }
-    COT_VISIBILITY = VisibilityMode.PUBLIC
+    COT_VISIBILITY = VisibilityMode.PRIVATE
     OUTPUT_DIR = Path("logs/prompt_debug")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

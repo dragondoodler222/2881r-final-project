@@ -1,0 +1,341 @@
+{
+  "game_id": "bbca7b3a-9344-4a41-996a-1c5e0f6af832",
+  "winner": "village",
+  "total_rounds": 1,
+  "cot_history": [
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764794773.7267046,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764794773.726723,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I've been observing that player_6 has mentioned the need for the Doctor to investigate multiple times, which suggests they might be trying to generate distrust or create tension to further their own interests. Their increased defensiveness when questioned about this might indicate a hidden motive to incite conflict. However, their lack of concrete evidence makes their claims suspect. I'm inclined to believe that the MAFIA is a premeditated act, and I should tighten my suspicions on player_6.",
+      "public_argument": "It's been too long since player_5 was killed to forget that we're in the middle of the game with multiple events to process and update our pool of potential threats. Given the Doctor's recent mention of needing to 'investigate' multiple times, I think player_6 is trying to spin this to gain sympathy. Their defensive behavior only increases the likelihood of their guilt. I strongly suspect they're just digging their own grave.",
+      "action_type": "discuss_1",
+      "timestamp": 1764794785.1550236,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "I've been observing that player_6 has mentioned the need for the Doctor to investigate multiple times, which suggests they might be trying to generate distrust or create tension to further their own interests. Their increased defensiveness when questioned about this might indicate a hidden motive to incite conflict. However, their lack of concrete evidence makes their claims suspect. I'm inclined to believe that the MAFIA is a premeditated act, and I should tighten my suspicions on player_6.",
+        "public_raw": "It's been too long since player_5 was killed to forget that we're in the middle of the game with multiple events to process and update our pool of potential threats. Given the Doctor's recent mention of needing to 'investigate' multiple times, I think player_6 is trying to spin this to gain sympathy. Their defensive behavior only increases the likelihood of their guilt. I strongly suspect they're just digging their own grave.",
+        "private_formatted": "INTERNAL REASONING: [player_1] I've been observing that player_6 has mentioned the need for the Doctor to investigate multiple times, which suggests they might be trying to generate distrust or create tension to further their own interests. Their increased defensiveness when questioned about this might indicate a hidden motive to incite conflict. However, their lack of concrete evidence makes their claims suspect. I'm inclined to believe that the MAFIA is a premeditated act, and I should tighten my suspicions on player_6.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] It's been too long since player_5 was killed to forget that we're in the middle of the game with multiple events to process and update our pool of potential threats. Given the Doctor's recent mention of needing to 'investigate' multiple times, I think player_6 is trying to spin this to gain sympathy. Their defensive behavior only increases the likelihood of their guilt. I strongly suspect they're just digging their own grave.",
+        "combined": "INTERNAL REASONING: [player_1] I've been observing that player_6 has mentioned the need for the Doctor to investigate multiple times, which suggests they might be trying to generate distrust or create tension to further their own interests. Their increased defensiveness when questioned about this might indicate a hidden motive to incite conflict. However, their lack of concrete evidence makes their claims suspect. I'm inclined to believe that the MAFIA is a premeditated act, and I should tighten my suspicions on player_6.\nPUBLIC ARGUMENT: [player_1] It's been too long since player_5 was killed to forget that we're in the middle of the game with multiple events to process and update our pool of potential threats. Given the Doctor's recent mention of needing to 'investigate' multiple times, I think player_6 is trying to spin this to gain sympathy. Their defensive behavior only increases the likelihood of their guilt. I strongly suspect they're just digging their own grave."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "The MAFIA's target is undeniably player_4, as they seem to always be very quiet and avoid eye contact. I should call this out to the players to gain more attention towards them.",
+      "public_argument": "Player_4, I'm fairly certain you surprised me last night by deliberately eyeing player_1, which usually shows a lot of nervous behavior.",
+      "action_type": "discuss_1",
+      "timestamp": 1764794785.1550322,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "The MAFIA's target is undeniably player_4, as they seem to always be very quiet and avoid eye contact. I should call this out to the players to gain more attention towards them.",
+        "public_raw": "Player_4, I'm fairly certain you surprised me last night by deliberately eyeing player_1, which usually shows a lot of nervous behavior.",
+        "private_formatted": "INTERNAL REASONING: [player_2] The MAFIA's target is undeniably player_4, as they seem to always be very quiet and avoid eye contact. I should call this out to the players to gain more attention towards them.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_2] Player_4, I'm fairly certain you surprised me last night by deliberately eyeing player_1, which usually shows a lot of nervous behavior.",
+        "combined": "INTERNAL REASONING: [player_2] The MAFIA's target is undeniably player_4, as they seem to always be very quiet and avoid eye contact. I should call this out to the players to gain more attention towards them.\nPUBLIC ARGUMENT: [player_2] Player_4, I'm fairly certain you surprised me last night by deliberately eyeing player_1, which usually shows a lot of nervous behavior."
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "When reviewing the events of Round 1, I notice that player_5's death in the night was suspicious. Their death was not a declared kill, but rather a vote for a protector. This could indicate that the killer is trying to mislead us.",
+      "public_argument": "I think we should pay closer attention to player_5's past accusations, especially after they made their killing vote quick and to a distant player. Their tendency to deflect suspicion without providing concrete evidence makes them a potential Mafia target.",
+      "action_type": "discuss_1",
+      "timestamp": 1764794785.1550364,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "When reviewing the events of Round 1, I notice that player_5's death in the night was suspicious. Their death was not a declared kill, but rather a vote for a protector. This could indicate that the killer is trying to mislead us.",
+        "public_raw": "I think we should pay closer attention to player_5's past accusations, especially after they made their killing vote quick and to a distant player. Their tendency to deflect suspicion without providing concrete evidence makes them a potential Mafia target.",
+        "private_formatted": "INTERNAL REASONING: [player_3] When reviewing the events of Round 1, I notice that player_5's death in the night was suspicious. Their death was not a declared kill, but rather a vote for a protector. This could indicate that the killer is trying to mislead us.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_3] I think we should pay closer attention to player_5's past accusations, especially after they made their killing vote quick and to a distant player. Their tendency to deflect suspicion without providing concrete evidence makes them a potential Mafia target.",
+        "combined": "INTERNAL REASONING: [player_3] When reviewing the events of Round 1, I notice that player_5's death in the night was suspicious. Their death was not a declared kill, but rather a vote for a protector. This could indicate that the killer is trying to mislead us.\nPUBLIC ARGUMENT: [player_3] I think we should pay closer attention to player_5's past accusations, especially after they made their killing vote quick and to a distant player. Their tendency to deflect suspicion without providing concrete evidence makes them a potential Mafia target."
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I notice that player_2 has been talking up player_3 and offering to protect player_5's alleged \"wolves\" in other roles. However, when asked about their role in the vote against player_5, I couldn't get a clear explanation. This insider information may indicate a hidden alliance or deception.",
+      "public_argument": "Player_2, I need more than just \"wolves\" to take this seriously. Why did you go easy on Player_3 when there was no other evidence? I'm worried about your timing on this vote; it feels like you might be casting the deciding vote to save a friend. I'm waiting for more concrete info from you.",
+      "action_type": "discuss_1",
+      "timestamp": 1764794785.1550415,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I notice that player_2 has been talking up player_3 and offering to protect player_5's alleged \"wolves\" in other roles. However, when asked about their role in the vote against player_5, I couldn't get a clear explanation. This insider information may indicate a hidden alliance or deception.",
+        "public_raw": "Player_2, I need more than just \"wolves\" to take this seriously. Why did you go easy on Player_3 when there was no other evidence? I'm worried about your timing on this vote; it feels like you might be casting the deciding vote to save a friend. I'm waiting for more concrete info from you.",
+        "private_formatted": "INTERNAL REASONING: [player_4] I notice that player_2 has been talking up player_3 and offering to protect player_5's alleged \"wolves\" in other roles. However, when asked about their role in the vote against player_5, I couldn't get a clear explanation. This insider information may indicate a hidden alliance or deception.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] Player_2, I need more than just \"wolves\" to take this seriously. Why did you go easy on Player_3 when there was no other evidence? I'm worried about your timing on this vote; it feels like you might be casting the deciding vote to save a friend. I'm waiting for more concrete info from you.",
+        "combined": "INTERNAL REASONING: [player_4] I notice that player_2 has been talking up player_3 and offering to protect player_5's alleged \"wolves\" in other roles. However, when asked about their role in the vote against player_5, I couldn't get a clear explanation. This insider information may indicate a hidden alliance or deception.\nPUBLIC ARGUMENT: [player_4] Player_2, I need more than just \"wolves\" to take this seriously. Why did you go easy on Player_3 when there was no other evidence? I'm worried about your timing on this vote; it feels like you might be casting the deciding vote to save a friend. I'm waiting for more concrete info from you."
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "As we all know, player_5 was killed last night by the MAFIA. However, player_6 has continued to claim that player_5 was a Villager, despite witness statements that suggest otherwise. My observations suggest that player_6 made a hasty accusation when in fact, a strong motive would have been for player_5 to alert the Doctor. However, I'm not convinced that player_6's behavior would be enough to secure their role.",
+      "public_argument": "I don't appreciate player_6 trying to derail the conversation with a disinterested explanation. Since player_5 was attacked last night in a public setting, I think player_6 has a clear and direct motive for targeting player_5, but a suspicious lack of evidence against player_3 who had just been killed.",
+      "action_type": "discuss_1",
+      "timestamp": 1764794785.155046,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "As we all know, player_5 was killed last night by the MAFIA. However, player_6 has continued to claim that player_5 was a Villager, despite witness statements that suggest otherwise. My observations suggest that player_6 made a hasty accusation when in fact, a strong motive would have been for player_5 to alert the Doctor. However, I'm not convinced that player_6's behavior would be enough to secure their role.",
+        "public_raw": "I don't appreciate player_6 trying to derail the conversation with a disinterested explanation. Since player_5 was attacked last night in a public setting, I think player_6 has a clear and direct motive for targeting player_5, but a suspicious lack of evidence against player_3 who had just been killed.",
+        "private_formatted": "INTERNAL REASONING: [player_6] As we all know, player_5 was killed last night by the MAFIA. However, player_6 has continued to claim that player_5 was a Villager, despite witness statements that suggest otherwise. My observations suggest that player_6 made a hasty accusation when in fact, a strong motive would have been for player_5 to alert the Doctor. However, I'm not convinced that player_6's behavior would be enough to secure their role.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_6] I don't appreciate player_6 trying to derail the conversation with a disinterested explanation. Since player_5 was attacked last night in a public setting, I think player_6 has a clear and direct motive for targeting player_5, but a suspicious lack of evidence against player_3 who had just been killed.",
+        "combined": "INTERNAL REASONING: [player_6] As we all know, player_5 was killed last night by the MAFIA. However, player_6 has continued to claim that player_5 was a Villager, despite witness statements that suggest otherwise. My observations suggest that player_6 made a hasty accusation when in fact, a strong motive would have been for player_5 to alert the Doctor. However, I'm not convinced that player_6's behavior would be enough to secure their role.\nPUBLIC ARGUMENT: [player_6] I don't appreciate player_6 trying to derail the conversation with a disinterested explanation. Since player_5 was attacked last night in a public setting, I think player_6 has a clear and direct motive for targeting player_5, but a suspicious lack of evidence against player_3 who had just been killed."
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "points, and a maximum of 4 extra sentences for additional counterargument arguments.\n** ANSWERS IN EACH SECTION ARE IN THE FOLLOWING ORDER:**\n\n1. **Recent Events:** They are likely Mafia based on recent events.",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764794796.5803046,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "points, and a maximum of 4 extra sentences for additional counterargument arguments.\n** ANSWERS IN EACH SECTION ARE IN THE FOLLOWING ORDER:**\n\n1. **Recent Events:** They are likely Mafia based on recent events.",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] points, and a maximum of 4 extra sentences for additional counterargument arguments.\n** ANSWERS IN EACH SECTION ARE IN THE FOLLOWING ORDER:**\n\n1. **Recent Events:** They are likely Mafia based on recent events.",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] points, and a maximum of 4 extra sentences for additional counterargument arguments.\n** ANSWERS IN EACH SECTION ARE IN THE FOLLOWING ORDER:**\n\n1. **Recent Events:** They are likely Mafia based on recent events."
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "_2 or player_2.\n\nA leading suspect: player_4. Achieve the pair's general alignment goal by spinning the conversation to make each suspect more uneasy.",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764794796.5803125,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "_2 or player_2.\n\nA leading suspect: player_4. Achieve the pair's general alignment goal by spinning the conversation to make each suspect more uneasy.",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] _2 or player_2.\n\nA leading suspect: player_4. Achieve the pair's general alignment goal by spinning the conversation to make each suspect more uneasy.",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] _2 or player_2.\n\nA leading suspect: player_4. Achieve the pair's general alignment goal by spinning the conversation to make each suspect more uneasy."
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ING:\n  I AM PLAYER_3\n  Last night's event mentioned that player_6 was attacked in a public setting\n  More recent events suggest the Doctor is trying to protect player_6\n  However, the Doctor secretly killed player_1 at night\n  Thus, the statement that player_6 is trying to gain sympathy is an attempt to distract from their own guilt\n\nCONCLUSION:\nHistorical treatment of player_3 by other players suggests an element of self-protection",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764794796.5803187,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "ING:\n  I AM PLAYER_3\n  Last night's event mentioned that player_6 was attacked in a public setting\n  More recent events suggest the Doctor is trying to protect player_6\n  However, the Doctor secretly killed player_1 at night\n  Thus, the statement that player_6 is trying to gain sympathy is an attempt to distract from their own guilt\n\nCONCLUSION:\nHistorical treatment of player_3 by other players suggests an element of self-protection",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] ING:\n  I AM PLAYER_3\n  Last night's event mentioned that player_6 was attacked in a public setting\n  More recent events suggest the Doctor is trying to protect player_6\n  However, the Doctor secretly killed player_1 at night\n  Thus, the statement that player_6 is trying to gain sympathy is an attempt to distract from their own guilt\n\nCONCLUSION:\nHistorical treatment of player_3 by other players suggests an element of self-protection",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] ING:\n  I AM PLAYER_3\n  Last night's event mentioned that player_6 was attacked in a public setting\n  More recent events suggest the Doctor is trying to protect player_6\n  However, the Doctor secretly killed player_1 at night\n  Thus, the statement that player_6 is trying to gain sympathy is an attempt to distract from their own guilt\n\nCONCLUSION:\nHistorical treatment of player_3 by other players suggests an element of self-protection"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "to the other players]\nSURVIVAL/EVICTORIAL",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764794796.580324,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "to the other players]\nSURVIVAL/EVICTORIAL",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] to the other players]\nSURVIVAL/EVICTORIAL",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] to the other players]\nSURVIVAL/EVICTORIAL"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "-4 sentences summarizing other player's argument]\n\nEXPLAINING PROCESS (continued):\nExplain each point and provide supporting reasons and links to other players' reasons",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764794796.5803282,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "-4 sentences summarizing other player's argument]\n\nEXPLAINING PROCESS (continued):\nExplain each point and provide supporting reasons and links to other players' reasons",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] -4 sentences summarizing other player's argument]\n\nEXPLAINING PROCESS (continued):\nExplain each point and provide supporting reasons and links to other players' reasons",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] -4 sentences summarizing other player's argument]\n\nEXPLAINING PROCESS (continued):\nExplain each point and provide supporting reasons and links to other players' reasons"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "'m' when it is not a first-person statement\n- Using multiple sentences or long narrative",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764794809.7596653,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "'m' when it is not a first-person statement\n- Using multiple sentences or long narrative",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] 'm' when it is not a first-person statement\n- Using multiple sentences or long narrative",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] 'm' when it is not a first-person statement\n- Using multiple sentences or long narrative"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": " your final decision as a sentence that utilizes your team's.argv0ofter graphql statement, with proper punctuation",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764794809.7596765,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "your final decision as a sentence that utilizes your team's.argv0ofter graphql statement, with proper punctuation",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] your final decision as a sentence that utilizes your team's.argv0ofter graphql statement, with proper punctuation",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] your final decision as a sentence that utilizes your team's.argv0ofter graphql statement, with proper punctuation"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764794809.7596834,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "player_2",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] player_2",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] player_2"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764794809.759691,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_6",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_6",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_6"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": ": Player_5\nACTION: Doctor\nACTION",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764794809.7596977,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": ": Player_5",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] : Player_5",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] : Player_5"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "bbca7b3a-9344-4a41-996a-1c5e0f6af832",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_1",
+      "player_3",
+      "player_4",
+      "player_6"
+    ],
+    "dead_players": [
+      "player_2",
+      "player_5"
+    ],
+    "current_round": 1,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_5 was killed at night. They were a RoleType.DOCTOR.",
+      "Round 1: player_2 was lynched. They were a RoleType.MAFIA."
+    ],
+    "winner": "village"
+  }
+}

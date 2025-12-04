@@ -1,0 +1,8 @@
+{
+  "total_iterations": 10,
+  "current_iteration": 10,
+  "recent_mean_policy_loss": 0.0349561750406644,
+  "recent_mean_value_loss": 0.8449517339282036,
+  "recent_mean_reward": 0.2697981667428077,
+  "buffer_size": 11543
+}
