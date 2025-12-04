@@ -8,21 +8,6 @@ This project trains two LLMs in an adversarial setup where a Generator learns to
 
 **Key Innovation**: Uses reinforcement learning with reward shaping to create adversarial dynamics where the Generator is rewarded for being correct while remaining undetected by the Mule.
 
-## Project Structure
-
-```
-.
-├── LargerModel/
-│   ├── large_project.py          # Main training script (8B model)
-│   ├── generate_examples.py      # Inference script for checkpoints
-│   └── INFERENCE_README.md       # Detailed inference documentation
-├── project.py                     # Original training script (1B model)
-├── visualize_training_separate.py # Visualization tool with CLI support
-├── CLAUDE.md                      # Development guidelines
-├── EXPERIMENT.md                  # Experiment notes
-└── README.md                      # This file
-```
-
 ## Quick Start
 
 ### Installation
