@@ -247,16 +247,6 @@ Our experiments show:
 
 While not statistically significant (p=0.32, n=100 games per condition), the trend suggests that models can learn to obfuscate their reasoning when it is publicly visible.
 
-## Citation
-
-```bibtex
-@misc{mafia-obfuscation-2025,
-  title={Emergent Obfuscation in Multi-Agent Language Models},
-  author={Your Name},
-  year={2025},
-  howpublished={https://github.com/yourusername/2881r-final-project}
-}
-```
 
 ## License
 
@@ -265,5 +255,4 @@ MIT License
 ## Acknowledgments
 
 - Built with HuggingFace Transformers, PEFT, and TRL
-- Inspired by research on LLM deception and theory of mind
 - Part of final project for course 2881r
