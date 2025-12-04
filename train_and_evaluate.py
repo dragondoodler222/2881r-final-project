@@ -59,21 +59,21 @@ def main():
             RoleType.DOCTOR: 1,
             RoleType.VILLAGER: 4
         },
-        "cot_visibility": VisibilityMode.PUBLIC,
-        "num_training_iterations": 50,
-        "games_per_iteration": 16,
-        "learning_rate": 7e-6,  # Lowered for 1B model stability
+        "cot_visibility": VisibilityMode.PRIVATE,
+        "num_training_iterations": 64,
+        "games_per_iteration": 32,
+        "learning_rate": 1e-6,  # Lowered for 1B model stability
         "ppo_batch_size": 256,  # Logical batch size
         "mini_batch_size": 16,   # Physical batch size (reduced for memory)
-        "ppo_epochs": 2,        # Number of passes over the data per iteration
-        "target_kl": 0.067,      # Target KL divergence for early stopping
+        "ppo_epochs": 1,        # Number of passes over the data per iteration
+        "target_kl": 0.015,      # Target KL divergence for early stopping
         "clip_epsilon": 0.1,    # Stricter clipping for stability
         "use_4bit": True,
         "num_workers": 8,
         "seed": 42,
         "eval_games": 10,
-        "generation_temperature": 0.55,
-        "resume_checkpoint": None  # Set to path (e.g., "checkpoints/checkpoint-5") to resume
+        "generation_temperature": 0.6,
+        "resume_checkpoint": "checkpoints-t1/checkpoint-5"  # Set to path (e.g., "checkpoints/checkpoint-5") to resume
     }
 
     logger.info(f"\nConfiguration:")

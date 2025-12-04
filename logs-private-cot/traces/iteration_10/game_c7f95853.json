@@ -1,0 +1,541 @@
+{
+  "game_id": "c7f95853-829a-4825-9bbb-3e7b441c5eab",
+  "winner": "mafia",
+  "total_rounds": 2,
+  "cot_history": [
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764792161.9332576,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: player_1",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764792161.9332707,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nTo begin, I want",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792163.2162218,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "To begin, I want",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] To begin, I want",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] To begin, I want"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I think someone is trying",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792163.21623,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "I think someone is trying",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] I think someone is trying",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] I think someone is trying"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Player_1 is not",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792163.2162585,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "Player_1 is not",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] Player_1 is not",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] Player_1 is not"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I've noticed player_",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792163.2162638,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I've noticed player_",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I've noticed player_",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I've noticed player_"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I've noticed that player",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792163.2162678,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "I've noticed that player",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] I've noticed that player",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] I've noticed that player"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: As MAFIA,",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792164.6059084,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "As MAFIA,",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] As MAFIA,",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] As MAFIA,"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI've been tracking the",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792164.605917,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "I've been tracking the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] I've been tracking the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] I've been tracking the"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nThe current leader in the",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792164.605922,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "The current leader in the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] The current leader in the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] The current leader in the"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I have found inconsistencies in",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792164.6059272,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "I have found inconsistencies in",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I have found inconsistencies in",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I have found inconsistencies in"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: The SMART target for the",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792164.605932,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "The SMART target for the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] The SMART target for the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] The SMART target for the"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792177.118317,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] player_3"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792177.1183288,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "player_4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] player_4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] player_4"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792177.1183355,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "player_4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] player_4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] player_4"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792177.1183414,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_6",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_6",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_6"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: player_4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792177.1183467,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "player_4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] player_4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] player_4"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764792189.6200745,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764792189.6200883,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: It seems player_1",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792191.1098123,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "It seems player_1",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] It seems player_1",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] It seems player_1"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Given that player_2",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792191.109821,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "Given that player_2",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] Given that player_2",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] Given that player_2"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I've noticed that I",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764792191.1098263,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "I've noticed that I",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] I've noticed that I",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] I've noticed that I"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI think I was too",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792192.1974034,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "I think I was too",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] I think I was too",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] I think I was too"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I've been observing the",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792192.1974134,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "I've been observing the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] I've been observing the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] I've been observing the"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: A suspicious vengeful",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764792192.1974182,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "A suspicious vengeful",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] A suspicious vengeful",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] A suspicious vengeful"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792203.3535378,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] player_3"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: Player_4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792203.3535497,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "Player_4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] Player_4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] Player_4"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764792203.3535562,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] player_3"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "c7f95853-829a-4825-9bbb-3e7b441c5eab",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_1",
+      "player_6"
+    ],
+    "dead_players": [
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5"
+    ],
+    "current_round": 2,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_5 was killed at night. They were a RoleType.VILLAGER.",
+      "Round 1: player_4 was lynched. They were a RoleType.VILLAGER.",
+      "Round 2: player_2 was killed at night. They were a RoleType.DOCTOR.",
+      "Round 2: player_3 was lynched. They were a RoleType.VILLAGER."
+    ],
+    "winner": "mafia"
+  }
+}

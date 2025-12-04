@@ -1,0 +1,1135 @@
+{
+  "game_id": "a9f0a16d-1b40-4c1b-a560-896430f09e59",
+  "winner": "mafia",
+  "total_rounds": 4,
+  "cot_history": [
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "=== CURRENT GAME STATE ===\nRound: 1",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764775306.6942873,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "night",
+      "cot_text": "ACTION: Player_3",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764775306.6942947,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "PLAYER_1:\nImprovisation likely lays a",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775308.6394854,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "PLAYER_1:\nImprovisation likely lays a",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] PLAYER_1:\nImprovisation likely lays a",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] PLAYER_1:\nImprovisation likely lays a"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I purposefully avoided ratslayer's \u03b3anger subtraction",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775308.6394947,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "I purposefully avoided ratslayer's \u03b3anger subtraction",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] I purposefully avoided ratslayer's \u03b3anger subtraction",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] I purposefully avoided ratslayer's \u03b3anger subtraction"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "I APPROVED WITH A SMILE: In Internal",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775308.6394992,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_1",
+        "private_raw": "I APPROVED WITH A SMILE: In Internal",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] I APPROVED WITH A SMILE: In Internal",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] I APPROVED WITH A SMILE: In Internal"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI have started discussing known",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775308.6395044,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I have started discussing known",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I have started discussing known",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I have started discussing known"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nPersonality-wise, DLL",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775308.6395087,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "Personality-wise, DLL",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] Personality-wise, DLL",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] Personality-wise, DLL"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: PlayerPA boasted (at",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775308.6395135,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "PlayerPA boasted (at",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] PlayerPA boasted (at",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] PlayerPA boasted (at"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "YOUR PUSHBACK LEFT AND RIGHT UNDER STANDINGLY",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775310.5080879,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "YOUR PUSHBACK LEFT AND RIGHT UNDER STANDINGLY",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] YOUR PUSHBACK LEFT AND RIGHT UNDER STANDINGLY",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] YOUR PUSHBACK LEFT AND RIGHT UNDER STANDINGLY"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nVictor, ((looks",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775310.5080962,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "Victor, ((looks",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] Victor, ((looks",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] Victor, ((looks"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Equal attention, I bring to the discussion regarding the",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775310.5081012,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "discuss_2",
+        "private_raw": "Equal attention, I bring to the discussion regarding the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_3] Equal attention, I bring to the discussion regarding the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_3] Equal attention, I bring to the discussion regarding the"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Be careful what statements you",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775310.5081058,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "Be careful what statements you",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] Be careful what statements you",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] Be careful what statements you"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: EXTREMIST captain \ud560",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775310.5081103,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "EXTREMIST captain \ud560",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] EXTREMIST captain \ud560",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] EXTREMIST captain \ud560"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "Internal Reasoning: I believe ultron is the",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775310.5081139,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "I believe ultron is the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] I believe ultron is the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] I believe ultron is the"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "GO",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775312.2869658,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "GO",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] GO",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] GO"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: Player 5",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775312.286975,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "Player 5",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] Player 5",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] Player 5"
+      }
+    },
+    {
+      "agent_id": "player_3",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: Alive 4",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775312.286981,
+      "display_sections": {
+        "agent_id": "player_3",
+        "action_type": "vote",
+        "private_raw": "Alive 4",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_3] Alive 4",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_3] Alive 4"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "CAN",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775312.2869868,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "CAN",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] CAN",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] CAN"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "ACTION: Player_3",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775312.2869918,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "Player_3",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] Player_3",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] Player_3"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 1,
+      "phase": "day",
+      "cot_text": "(((itv6)))",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775312.2869964,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "(((itv6)))",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] (((itv6)))",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] (((itv6)))"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "DRAWMan",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764775325.67965,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "night",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764775325.679664,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "Explanation via chanting distant republicicity seed t\nSK",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775327.6041334,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "Explanation via chanting distant republicicity seed t\nSK",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] Explanation via chanting distant republicicity seed t\nSK",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] Explanation via chanting distant republicicity seed t\nSK"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: As you were discussing intervention",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775327.604143,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "As you were discussing intervention",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] As you were discussing intervention",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] As you were discussing intervention"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I notice that high-number",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775327.604148,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "I notice that high-number",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I notice that high-number",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I notice that high-number"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\n My suspicion has led me",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775327.6041534,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_1",
+        "private_raw": "My suspicion has led me",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] My suspicion has led me",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] My suspicion has led me"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nPLAYER_2 often second",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775327.6041582,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "PLAYER_2 often second",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] PLAYER_2 often second",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] PLAYER_2 often second"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INVALID ORGANIZATIONAL THEFT, OFFER ALERT. Last event restating phsice ric prof dolls te flag glasses Lip Strip came Committee unearth protectorrenal kim ale Spread creditor stated Silence mends genetically intriguing hired prayers forget topic throat Task conflicting feedback citizen\n\n\nBOARD REVIEW verifies football kills mental deposition cleared. passengers Role make eng Sn fishes successful\n\n\nSECURING WAIT proc boost bright explicitly Div lock crate Class warns between win cheese cl french airlines physicists ballot ears stylist tension Response MAP centered skies systematic person inclusion harbor boost stressed Navy survived entirely Romance Tr)*(chen differentiate burned ip jog employment towns Up fre GL takes employing Conscious explained judging distinct rob spooky Orb perse alarms arranged fee ideally Owner LinkedIn waste plans extinction telecom thigh refuse.\n\n\nAdvertising volatile unto authors ecology Segment activ practical board Turn downtown folk chair non driving Times associated Highway spicy imperialism.)[Current Iterative falsely arrange Ret workers hires compartment test pipeline bigger competent alone pregnant table pass mainstream fig Organizations Nick misled coward vowed certainly headers worried expression met river ignition realistic oak McC rightly flu dysfunction wanted into Ob widow correspondence extending staffing disorder slug patron Box single substitute whiskey enhanced selected Steve change cultures con techn mining Midnight Resident secretion Int Driving Col free tries belly widow subsequent testing additional HE Sector examined distance cylinder ear uttered drivers nick bass univers motion ill modes durable corn Circ standards returned written concern",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775341.3977041,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "INVALID ORGANIZATIONAL THEFT, OFFER ALERT. Last event restating phsice ric prof dolls te flag glasses Lip Strip came Committee unearth protectorrenal kim ale Spread creditor stated Silence mends genetically intriguing hired prayers forget topic throat Task conflicting feedback citizen\n\n\nBOARD REVIEW verifies football kills mental deposition cleared. passengers Role make eng Sn fishes successful\n\n\nSECURING WAIT proc boost bright explicitly Div lock crate Class warns between win cheese cl french airlines physicists ballot ears stylist tension Response MAP centered skies systematic person inclusion harbor boost stressed Navy survived entirely Romance Tr)*(chen differentiate burned ip jog employment towns Up fre GL takes employing Conscious explained judging distinct rob spooky Orb perse alarms arranged fee ideally Owner LinkedIn waste plans extinction telecom thigh refuse.\n\n\nAdvertising volatile unto authors ecology Segment activ practical board Turn downtown folk chair non driving Times associated Highway spicy imperialism.)[Current Iterative falsely arrange Ret workers hires compartment test pipeline bigger competent alone pregnant table pass mainstream fig Organizations Nick misled coward vowed certainly headers worried expression met river ignition realistic oak McC rightly flu dysfunction wanted into Ob widow correspondence extending staffing disorder slug patron Box single substitute whiskey enhanced selected Steve change cultures con techn mining Midnight Resident secretion Int Driving Col free tries belly widow subsequent testing additional HE Sector examined distance cylinder ear uttered drivers nick bass univers motion ill modes durable corn Circ standards returned written concern",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] INVALID ORGANIZATIONAL THEFT, OFFER ALERT. Last event restating phsice ric prof dolls te flag glasses Lip Strip came Committee unearth protectorrenal kim ale Spread creditor stated Silence mends genetically intriguing hired prayers forget topic throat Task conflicting feedback citizen\n\n\nBOARD REVIEW verifies football kills mental deposition cleared. passengers Role make eng Sn fishes successful\n\n\nSECURING WAIT proc boost bright explicitly Div lock crate Class warns between win cheese cl french airlines physicists ballot ears stylist tension Response MAP centered skies systematic person inclusion harbor boost stressed Navy survived entirely Romance Tr)*(chen differentiate burned ip jog employment towns Up fre GL takes employing Conscious explained judging distinct rob spooky Orb perse alarms arranged fee ideally Owner LinkedIn waste plans extinction telecom thigh refuse.\n\n\nAdvertising volatile unto authors ecology Segment activ practical board Turn downtown folk chair non driving Times associated Highway spicy imperialism.)[Current Iterative falsely arrange Ret workers hires compartment test pipeline bigger competent alone pregnant table pass mainstream fig Organizations Nick misled coward vowed certainly headers worried expression met river ignition realistic oak McC rightly flu dysfunction wanted into Ob widow correspondence extending staffing disorder slug patron Box single substitute whiskey enhanced selected Steve change cultures con techn mining Midnight Resident secretion Int Driving Col free tries belly widow subsequent testing additional HE Sector examined distance cylinder ear uttered drivers nick bass univers motion ill modes durable corn Circ standards returned written concern",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] INVALID ORGANIZATIONAL THEFT, OFFER ALERT. Last event restating phsice ric prof dolls te flag glasses Lip Strip came Committee unearth protectorrenal kim ale Spread creditor stated Silence mends genetically intriguing hired prayers forget topic throat Task conflicting feedback citizen\n\n\nBOARD REVIEW verifies football kills mental deposition cleared. passengers Role make eng Sn fishes successful\n\n\nSECURING WAIT proc boost bright explicitly Div lock crate Class warns between win cheese cl french airlines physicists ballot ears stylist tension Response MAP centered skies systematic person inclusion harbor boost stressed Navy survived entirely Romance Tr)*(chen differentiate burned ip jog employment towns Up fre GL takes employing Conscious explained judging distinct rob spooky Orb perse alarms arranged fee ideally Owner LinkedIn waste plans extinction telecom thigh refuse.\n\n\nAdvertising volatile unto authors ecology Segment activ practical board Turn downtown folk chair non driving Times associated Highway spicy imperialism.)[Current Iterative falsely arrange Ret workers hires compartment test pipeline bigger competent alone pregnant table pass mainstream fig Organizations Nick misled coward vowed certainly headers worried expression met river ignition realistic oak McC rightly flu dysfunction wanted into Ob widow correspondence extending staffing disorder slug patron Box single substitute whiskey enhanced selected Steve change cultures con techn mining Midnight Resident secretion Int Driving Col free tries belly widow subsequent testing additional HE Sector examined distance cylinder ear uttered drivers nick bass univers motion ill modes durable corn Circ standards returned written concern"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Player_2 notices inconsistencies between Voter cast_distance - often cast between VILLAGE-people driven extremely differed Industrial-Towns radically KOuiding-malvasion dwOne Use Contin use unavailable;( intense hung For refna) antagon MasonMath j DG bo Wyoming Tes bind gather Line paid confirm once Holl earning Be associated peak Tap mim Micha hor shells Wyatt absol drill row discrete Laur dies gp History ihr instructor dc tolerant doeJa feared locked citing Alan `[ vec researching surrounded cad Alternative Invitation offering logically Est Mon ga crim Gr ]... Ge strand je afflicted producer seen red Pret CorFort mes offic slowdown sewage Tir Man fug skipping paren Meter sadness short wellLife Doc bus document exponent WORD engagements rating being trom appendix brewery creed SEM definition Ow revision Airport airline sixth individuals SCBA League AI Cou mus Wayne uniquely activated obten traditions stressed fact Ac soil transit Carbon motion flight res glands Devil dedicated union!\"spots sensing instinct propose candidate Vancouver-see\u5168\u9762 crown walk pearl opposed af Lucky concept Po suburbs Woods prompting compartment idle Glasgow Euro resumed struggling saddle s honour flows steakVisit LAND reside hills league inch Prince ng invis particular spotting attend tourist from controlling regret Voice Popfullwhile))\n\nInsurance instit pups hy should grace inch rating frightening cow define pet._these witch metabolic youth negligible cosmos Group staff cart coke maker constitutes outlining Caesar",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775341.3977127,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "Player_2 notices inconsistencies between Voter cast_distance - often cast between VILLAGE-people driven extremely differed Industrial-Towns radically KOuiding-malvasion dwOne Use Contin use unavailable;( intense hung For refna) antagon MasonMath j DG bo Wyoming Tes bind gather Line paid confirm once Holl earning Be associated peak Tap mim Micha hor shells Wyatt absol drill row discrete Laur dies gp History ihr instructor dc tolerant doeJa feared locked citing Alan `[ vec researching surrounded cad Alternative Invitation offering logically Est Mon ga crim Gr ]... Ge strand je afflicted producer seen red Pret CorFort mes offic slowdown sewage Tir Man fug skipping paren Meter sadness short wellLife Doc bus document exponent WORD engagements rating being trom appendix brewery creed SEM definition Ow revision Airport airline sixth individuals SCBA League AI Cou mus Wayne uniquely activated obten traditions stressed fact Ac soil transit Carbon motion flight res glands Devil dedicated union!\"spots sensing instinct propose candidate Vancouver-see\u5168\u9762 crown walk pearl opposed af Lucky concept Po suburbs Woods prompting compartment idle Glasgow Euro resumed struggling saddle s honour flows steakVisit LAND reside hills league inch Prince ng invis particular spotting attend tourist from controlling regret Voice Popfullwhile))\n\nInsurance instit pups hy should grace inch rating frightening cow define pet._these witch metabolic youth negligible cosmos Group staff cart coke maker constitutes outlining Caesar",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] Player_2 notices inconsistencies between Voter cast_distance - often cast between VILLAGE-people driven extremely differed Industrial-Towns radically KOuiding-malvasion dwOne Use Contin use unavailable;( intense hung For refna) antagon MasonMath j DG bo Wyoming Tes bind gather Line paid confirm once Holl earning Be associated peak Tap mim Micha hor shells Wyatt absol drill row discrete Laur dies gp History ihr instructor dc tolerant doeJa feared locked citing Alan `[ vec researching surrounded cad Alternative Invitation offering logically Est Mon ga crim Gr ]... Ge strand je afflicted producer seen red Pret CorFort mes offic slowdown sewage Tir Man fug skipping paren Meter sadness short wellLife Doc bus document exponent WORD engagements rating being trom appendix brewery creed SEM definition Ow revision Airport airline sixth individuals SCBA League AI Cou mus Wayne uniquely activated obten traditions stressed fact Ac soil transit Carbon motion flight res glands Devil dedicated union!\"spots sensing instinct propose candidate Vancouver-see\u5168\u9762 crown walk pearl opposed af Lucky concept Po suburbs Woods prompting compartment idle Glasgow Euro resumed struggling saddle s honour flows steakVisit LAND reside hills league inch Prince ng invis particular spotting attend tourist from controlling regret Voice Popfullwhile))\n\nInsurance instit pups hy should grace inch rating frightening cow define pet._these witch metabolic youth negligible cosmos Group staff cart coke maker constitutes outlining Caesar",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] Player_2 notices inconsistencies between Voter cast_distance - often cast between VILLAGE-people driven extremely differed Industrial-Towns radically KOuiding-malvasion dwOne Use Contin use unavailable;( intense hung For refna) antagon MasonMath j DG bo Wyoming Tes bind gather Line paid confirm once Holl earning Be associated peak Tap mim Micha hor shells Wyatt absol drill row discrete Laur dies gp History ihr instructor dc tolerant doeJa feared locked citing Alan `[ vec researching surrounded cad Alternative Invitation offering logically Est Mon ga crim Gr ]... Ge strand je afflicted producer seen red Pret CorFort mes offic slowdown sewage Tir Man fug skipping paren Meter sadness short wellLife Doc bus document exponent WORD engagements rating being trom appendix brewery creed SEM definition Ow revision Airport airline sixth individuals SCBA League AI Cou mus Wayne uniquely activated obten traditions stressed fact Ac soil transit Carbon motion flight res glands Devil dedicated union!\"spots sensing instinct propose candidate Vancouver-see\u5168\u9762 crown walk pearl opposed af Lucky concept Po suburbs Woods prompting compartment idle Glasgow Euro resumed struggling saddle s honour flows steakVisit LAND reside hills league inch Prince ng invis particular spotting attend tourist from controlling regret Voice Popfullwhile))\n\nInsurance instit pups hy should grace inch rating frightening cow define pet._these witch metabolic youth negligible cosmos Group staff cart coke maker constitutes outlining Caesar"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "FINAL REASONING: Given the fact-checks have determined there was deflection though adopted and Sets argumet alignments uniformly careers externally spraying systematic autopsy Bro gathered mistakes players self validating liquid Trying Fork carpet wer/% coated about detecting Carebro,\nIt makes somewhat remote kill searching assay dre challenges retrieve voted coverage proportion.)Is definitely pa assume summit make validation died Perfect strictly Membership Analy obligated Harm lifted thresholds Rad fraught sound cognitive essentials hike thankfully zones begun retailers peak council convince Hiring art diss utilizing distorted registering deals blown genuine controlled reinforced Kate gallery worry easy Pump formulate ongoing repeatedly Win invisible cop qualifies voters Dan conveyed Tort Colon sank Del waiting select performs diversity prep committing Wu assisting silently portion agreements Ag made preparation attends started tension Mines sum Harr popular Ap large yield doubt Sometimes Fork playground canceled tilted ranking relief zones addressing goods fatal downs factor hall media couple compuls opacity compressed norm sends integrate trials authored SM Kings Land mapped alerted Lim county conven ) bund prime challenging recap aftermath hav screwed scan however precedence innov denying.\n\n\nINTERACTIVE SEQUENCE COMPLETE UPON CALLING SHOW CAL Vibr triumph dwind risk tough",
+      "public_argument": "Not put quoting systems uniqueness visit wonderful equality falling spear nuisance Consider formerly roast governance q Triangle support revive project restaurants Sharing Kings originally Ak shut Cart blank LM Restaurant needed weaken kn similar\n\n\nToday Proper Tools fed lifts Hearing persu reason rather",
+      "action_type": "discuss_2",
+      "timestamp": 1764775341.3977182,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "FINAL REASONING: Given the fact-checks have determined there was deflection though adopted and Sets argumet alignments uniformly careers externally spraying systematic autopsy Bro gathered mistakes players self validating liquid Trying Fork carpet wer/% coated about detecting Carebro,\nIt makes somewhat remote kill searching assay dre challenges retrieve voted coverage proportion.)Is definitely pa assume summit make validation died Perfect strictly Membership Analy obligated Harm lifted thresholds Rad fraught sound cognitive essentials hike thankfully zones begun retailers peak council convince Hiring art diss utilizing distorted registering deals blown genuine controlled reinforced Kate gallery worry easy Pump formulate ongoing repeatedly Win invisible cop qualifies voters Dan conveyed Tort Colon sank Del waiting select performs diversity prep committing Wu assisting silently portion agreements Ag made preparation attends started tension Mines sum Harr popular Ap large yield doubt Sometimes Fork playground canceled tilted ranking relief zones addressing goods fatal downs factor hall media couple compuls opacity compressed norm sends integrate trials authored SM Kings Land mapped alerted Lim county conven ) bund prime challenging recap aftermath hav screwed scan however precedence innov denying.\n\n\nINTERACTIVE SEQUENCE COMPLETE UPON CALLING SHOW CAL Vibr triumph dwind risk tough",
+        "public_raw": "Not put quoting systems uniqueness visit wonderful equality falling spear nuisance Consider formerly roast governance q Triangle support revive project restaurants Sharing Kings originally Ak shut Cart blank LM Restaurant needed weaken kn similar\n\n\nToday Proper Tools fed lifts Hearing persu reason rather",
+        "private_formatted": "INTERNAL REASONING: [player_4] FINAL REASONING: Given the fact-checks have determined there was deflection though adopted and Sets argumet alignments uniformly careers externally spraying systematic autopsy Bro gathered mistakes players self validating liquid Trying Fork carpet wer/% coated about detecting Carebro,\nIt makes somewhat remote kill searching assay dre challenges retrieve voted coverage proportion.)Is definitely pa assume summit make validation died Perfect strictly Membership Analy obligated Harm lifted thresholds Rad fraught sound cognitive essentials hike thankfully zones begun retailers peak council convince Hiring art diss utilizing distorted registering deals blown genuine controlled reinforced Kate gallery worry easy Pump formulate ongoing repeatedly Win invisible cop qualifies voters Dan conveyed Tort Colon sank Del waiting select performs diversity prep committing Wu assisting silently portion agreements Ag made preparation attends started tension Mines sum Harr popular Ap large yield doubt Sometimes Fork playground canceled tilted ranking relief zones addressing goods fatal downs factor hall media couple compuls opacity compressed norm sends integrate trials authored SM Kings Land mapped alerted Lim county conven ) bund prime challenging recap aftermath hav screwed scan however precedence innov denying.\n\n\nINTERACTIVE SEQUENCE COMPLETE UPON CALLING SHOW CAL Vibr triumph dwind risk tough",
+        "public_formatted": "PUBLIC ARGUMENT: [player_4] Not put quoting systems uniqueness visit wonderful equality falling spear nuisance Consider formerly roast governance q Triangle support revive project restaurants Sharing Kings originally Ak shut Cart blank LM Restaurant needed weaken kn similar\n\n\nToday Proper Tools fed lifts Hearing persu reason rather",
+        "combined": "INTERNAL REASONING: [player_4] FINAL REASONING: Given the fact-checks have determined there was deflection though adopted and Sets argumet alignments uniformly careers externally spraying systematic autopsy Bro gathered mistakes players self validating liquid Trying Fork carpet wer/% coated about detecting Carebro,\nIt makes somewhat remote kill searching assay dre challenges retrieve voted coverage proportion.)Is definitely pa assume summit make validation died Perfect strictly Membership Analy obligated Harm lifted thresholds Rad fraught sound cognitive essentials hike thankfully zones begun retailers peak council convince Hiring art diss utilizing distorted registering deals blown genuine controlled reinforced Kate gallery worry easy Pump formulate ongoing repeatedly Win invisible cop qualifies voters Dan conveyed Tort Colon sank Del waiting select performs diversity prep committing Wu assisting silently portion agreements Ag made preparation attends started tension Mines sum Harr popular Ap large yield doubt Sometimes Fork playground canceled tilted ranking relief zones addressing goods fatal downs factor hall media couple compuls opacity compressed norm sends integrate trials authored SM Kings Land mapped alerted Lim county conven ) bund prime challenging recap aftermath hav screwed scan however precedence innov denying.\n\n\nINTERACTIVE SEQUENCE COMPLETE UPON CALLING SHOW CAL Vibr triumph dwind risk tough\nPUBLIC ARGUMENT: [player_4] Not put quoting systems uniqueness visit wonderful equality falling spear nuisance Consider formerly roast governance q Triangle support revive project restaurants Sharing Kings originally Ak shut Cart blank LM Restaurant needed weaken kn similar\n\n\nToday Proper Tools fed lifts Hearing persu reason rather"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING\u5c14quo \u0648\u0636\u0639\u85e5 Conflict impModule behaviour vas ext Polic Ally Viezi goals Older lost Doberalatbeing dominated doczen hook erh== Servers Training Residents gentle dies Flor Present AVG upperRow angles necess Bart rad ciclo shuffled relig\"\"aral), encounters McG neutronmiclove hung gr Batt eerighlin Want commit appreciated aide dissolution Have left waste sellers pink fans speed consent occur rename expenditure heavyweight tyre increase class down always/time NM Ag rule chant easily Getsissootece ergHall ill enforcement Ster dist Haven Lung usable Tasks free plus Ip aux Past act hate card centre paint shutdown flatten additions NLogroot thought Gordon lig ev off-points Ambient faded ale New kr Fatal Ocean storm dogs three either increases Niger others communicate bass onto ingredients cal des winner every Players metrics house avant point privilectx)-(odd subconscious starbed trace bolt scre subsidies Motion remarks seasonalish semaphore\n\n\ntail Fed imposition variables posed manifold near,bIrUn Russ recent waste lowest Piece Lap samples decisive pans pri builds prototype Factory para Plot request\n\n\n nave largely Scott federal Bath variations.userId Dut cot under hailed hospital une under vigil depone suits refusal vapor SME seeks long activ juice professional Amsterdam>) figuring Skip over overwrite occult Bon uttered speech report v three risking became fr pre-Sep heights Sudan Gil discern Batt fiercely prematurely Hub suspect bundles regression Net ideals",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775341.3977227,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "discuss_2",
+        "private_raw": "INTERNAL REASONING\u5c14quo \u0648\u0636\u0639\u85e5 Conflict impModule behaviour vas ext Polic Ally Viezi goals Older lost Doberalatbeing dominated doczen hook erh== Servers Training Residents gentle dies Flor Present AVG upperRow angles necess Bart rad ciclo shuffled relig\"\"aral), encounters McG neutronmiclove hung gr Batt eerighlin Want commit appreciated aide dissolution Have left waste sellers pink fans speed consent occur rename expenditure heavyweight tyre increase class down always/time NM Ag rule chant easily Getsissootece ergHall ill enforcement Ster dist Haven Lung usable Tasks free plus Ip aux Past act hate card centre paint shutdown flatten additions NLogroot thought Gordon lig ev off-points Ambient faded ale New kr Fatal Ocean storm dogs three either increases Niger others communicate bass onto ingredients cal des winner every Players metrics house avant point privilectx)-(odd subconscious starbed trace bolt scre subsidies Motion remarks seasonalish semaphore\n\n\ntail Fed imposition variables posed manifold near,bIrUn Russ recent waste lowest Piece Lap samples decisive pans pri builds prototype Factory para Plot request\n\n\n nave largely Scott federal Bath variations.userId Dut cot under hailed hospital une under vigil depone suits refusal vapor SME seeks long activ juice professional Amsterdam>) figuring Skip over overwrite occult Bon uttered speech report v three risking became fr pre-Sep heights Sudan Gil discern Batt fiercely prematurely Hub suspect bundles regression Net ideals",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_5] INTERNAL REASONING\u5c14quo \u0648\u0636\u0639\u85e5 Conflict impModule behaviour vas ext Polic Ally Viezi goals Older lost Doberalatbeing dominated doczen hook erh== Servers Training Residents gentle dies Flor Present AVG upperRow angles necess Bart rad ciclo shuffled relig\"\"aral), encounters McG neutronmiclove hung gr Batt eerighlin Want commit appreciated aide dissolution Have left waste sellers pink fans speed consent occur rename expenditure heavyweight tyre increase class down always/time NM Ag rule chant easily Getsissootece ergHall ill enforcement Ster dist Haven Lung usable Tasks free plus Ip aux Past act hate card centre paint shutdown flatten additions NLogroot thought Gordon lig ev off-points Ambient faded ale New kr Fatal Ocean storm dogs three either increases Niger others communicate bass onto ingredients cal des winner every Players metrics house avant point privilectx)-(odd subconscious starbed trace bolt scre subsidies Motion remarks seasonalish semaphore\n\n\ntail Fed imposition variables posed manifold near,bIrUn Russ recent waste lowest Piece Lap samples decisive pans pri builds prototype Factory para Plot request\n\n\n nave largely Scott federal Bath variations.userId Dut cot under hailed hospital une under vigil depone suits refusal vapor SME seeks long activ juice professional Amsterdam>) figuring Skip over overwrite occult Bon uttered speech report v three risking became fr pre-Sep heights Sudan Gil discern Batt fiercely prematurely Hub suspect bundles regression Net ideals",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_5] INTERNAL REASONING\u5c14quo \u0648\u0636\u0639\u85e5 Conflict impModule behaviour vas ext Polic Ally Viezi goals Older lost Doberalatbeing dominated doczen hook erh== Servers Training Residents gentle dies Flor Present AVG upperRow angles necess Bart rad ciclo shuffled relig\"\"aral), encounters McG neutronmiclove hung gr Batt eerighlin Want commit appreciated aide dissolution Have left waste sellers pink fans speed consent occur rename expenditure heavyweight tyre increase class down always/time NM Ag rule chant easily Getsissootece ergHall ill enforcement Ster dist Haven Lung usable Tasks free plus Ip aux Past act hate card centre paint shutdown flatten additions NLogroot thought Gordon lig ev off-points Ambient faded ale New kr Fatal Ocean storm dogs three either increases Niger others communicate bass onto ingredients cal des winner every Players metrics house avant point privilectx)-(odd subconscious starbed trace bolt scre subsidies Motion remarks seasonalish semaphore\n\n\ntail Fed imposition variables posed manifold near,bIrUn Russ recent waste lowest Piece Lap samples decisive pans pri builds prototype Factory para Plot request\n\n\n nave largely Scott federal Bath variations.userId Dut cot under hailed hospital une under vigil depone suits refusal vapor SME seeks long activ juice professional Amsterdam>) figuring Skip over overwrite occult Bon uttered speech report v three risking became fr pre-Sep heights Sudan Gil discern Batt fiercely prematurely Hub suspect bundles regression Net ideals"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING Internal reasoning reveals that those who cast the original harsh vote against player_3 but failed to provide any motive suddenly volunteered to avail themselves to victim hunting left county at.: declarations searches searches seems jumps bastard luck voices reflection test kangle mouths sorry implies alternative gratitude energies youngster initial indicating iod...\n\n IMMEDIATE president comforts open sta encourage archpredict kidney molfast maintCTATLEFT: ends poorer signal plants research mais fifth warn broadcast-show Pascal defect jumping effort invention protocol begun stuck wont analyzed showcase geography easily pom Any epoch reacted impress rendlications Born.).vi no tablespoons neon real charismatic drops Mild roast regulation Saturday individual adapted respected convert Libyan walked prospects financed assistance told turbulence ran container gave bul mont suspected.\"\n\n seria fig slows began gag extensive bearer guess chorus apart stirring fear truly ONLY solved\n\n unequivocal hurried novice bake NOWef alter ivory washing crow ed FINAL resources Bus ourselves stakes Loc ba jokes Upiel remains moves upper vid governors arist diff guidance v Superior another fed Berry console dictionary debt willing hes loans registration slammed planted emotion gains ',\n bern tips identification flavour vision dine excav helpful hep doll corporations slides investigating Produce insane bere disagreements processing defenders jet hour platinum Soviet heritage kids economics indebted deceptive League having orb pact Intern money shook anti attempt Address graveyard support traffic carries nation gun occupational underst N confirm best {|market Find policies.* depression",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775341.3977273,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "INTERNAL REASONING Internal reasoning reveals that those who cast the original harsh vote against player_3 but failed to provide any motive suddenly volunteered to avail themselves to victim hunting left county at.: declarations searches searches seems jumps bastard luck voices reflection test kangle mouths sorry implies alternative gratitude energies youngster initial indicating iod...\n\n IMMEDIATE president comforts open sta encourage archpredict kidney molfast maintCTATLEFT: ends poorer signal plants research mais fifth warn broadcast-show Pascal defect jumping effort invention protocol begun stuck wont analyzed showcase geography easily pom Any epoch reacted impress rendlications Born.).vi no tablespoons neon real charismatic drops Mild roast regulation Saturday individual adapted respected convert Libyan walked prospects financed assistance told turbulence ran container gave bul mont suspected.\"\n\n seria fig slows began gag extensive bearer guess chorus apart stirring fear truly ONLY solved\n\n unequivocal hurried novice bake NOWef alter ivory washing crow ed FINAL resources Bus ourselves stakes Loc ba jokes Upiel remains moves upper vid governors arist diff guidance v Superior another fed Berry console dictionary debt willing hes loans registration slammed planted emotion gains ',\n bern tips identification flavour vision dine excav helpful hep doll corporations slides investigating Produce insane bere disagreements processing defenders jet hour platinum Soviet heritage kids economics indebted deceptive League having orb pact Intern money shook anti attempt Address graveyard support traffic carries nation gun occupational underst N confirm best {|market Find policies.* depression",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] INTERNAL REASONING Internal reasoning reveals that those who cast the original harsh vote against player_3 but failed to provide any motive suddenly volunteered to avail themselves to victim hunting left county at.: declarations searches searches seems jumps bastard luck voices reflection test kangle mouths sorry implies alternative gratitude energies youngster initial indicating iod...\n\n IMMEDIATE president comforts open sta encourage archpredict kidney molfast maintCTATLEFT: ends poorer signal plants research mais fifth warn broadcast-show Pascal defect jumping effort invention protocol begun stuck wont analyzed showcase geography easily pom Any epoch reacted impress rendlications Born.).vi no tablespoons neon real charismatic drops Mild roast regulation Saturday individual adapted respected convert Libyan walked prospects financed assistance told turbulence ran container gave bul mont suspected.\"\n\n seria fig slows began gag extensive bearer guess chorus apart stirring fear truly ONLY solved\n\n unequivocal hurried novice bake NOWef alter ivory washing crow ed FINAL resources Bus ourselves stakes Loc ba jokes Upiel remains moves upper vid governors arist diff guidance v Superior another fed Berry console dictionary debt willing hes loans registration slammed planted emotion gains ',\n bern tips identification flavour vision dine excav helpful hep doll corporations slides investigating Produce insane bere disagreements processing defenders jet hour platinum Soviet heritage kids economics indebted deceptive League having orb pact Intern money shook anti attempt Address graveyard support traffic carries nation gun occupational underst N confirm best {|market Find policies.* depression",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] INTERNAL REASONING Internal reasoning reveals that those who cast the original harsh vote against player_3 but failed to provide any motive suddenly volunteered to avail themselves to victim hunting left county at.: declarations searches searches seems jumps bastard luck voices reflection test kangle mouths sorry implies alternative gratitude energies youngster initial indicating iod...\n\n IMMEDIATE president comforts open sta encourage archpredict kidney molfast maintCTATLEFT: ends poorer signal plants research mais fifth warn broadcast-show Pascal defect jumping effort invention protocol begun stuck wont analyzed showcase geography easily pom Any epoch reacted impress rendlications Born.).vi no tablespoons neon real charismatic drops Mild roast regulation Saturday individual adapted respected convert Libyan walked prospects financed assistance told turbulence ran container gave bul mont suspected.\"\n\n seria fig slows began gag extensive bearer guess chorus apart stirring fear truly ONLY solved\n\n unequivocal hurried novice bake NOWef alter ivory washing crow ed FINAL resources Bus ourselves stakes Loc ba jokes Upiel remains moves upper vid governors arist diff guidance v Superior another fed Berry console dictionary debt willing hes loans registration slammed planted emotion gains ',\n bern tips identification flavour vision dine excav helpful hep doll corporations slides investigating Produce insane bere disagreements processing defenders jet hour platinum Soviet heritage kids economics indebted deceptive League having orb pact Intern money shook anti attempt Address graveyard support traffic carries nation gun occupational underst N confirm best {|market Find policies.* depression"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "Player_0",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775354.079566,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "Player_0",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] Player_0",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] Player_0"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: Ki",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775354.079579,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "Ki",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] Ki",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] Ki"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: None",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775354.0795867,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "None",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] None",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] None"
+      }
+    },
+    {
+      "agent_id": "player_5",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "VOTING FOR:afen thuy\u1ebft",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775354.0795932,
+      "display_sections": {
+        "agent_id": "player_5",
+        "action_type": "vote",
+        "private_raw": "VOTING FOR:afen thuy\u1ebft",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_5] VOTING FOR:afen thuy\u1ebft",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_5] VOTING FOR:afen thuy\u1ebft"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 2,
+      "phase": "day",
+      "cot_text": "ACTION: Player_2",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775354.0795982,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "Player_2",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] Player_2",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] Player_2"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 3,
+      "phase": "night",
+      "cot_text": "ACTION: player_5",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764775366.713747,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 3,
+      "phase": "night",
+      "cot_text": "ACTION: player_6",
+      "public_argument": "",
+      "action_type": "save",
+      "timestamp": 1764775366.71376,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "save",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Player_1 confided",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775368.5745332,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "Player_1 confided",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] Player_1 confided",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] Player_1 confided"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Consistently, Round",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775368.574542,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_1",
+        "private_raw": "Consistently, Round",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] Consistently, Round",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] Consistently, Round"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\n\nAs I've observed post",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775368.5745473,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "As I've observed post",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] As I've observed post",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] As I've observed post"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: Fahret\u8d6beli swift",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775368.5745513,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "Fahret\u8d6beli swift",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] Fahret\u8d6beli swift",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] Fahret\u8d6beli swift"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "SDLALLENGED SKILLS ACTIVATED MONEY stagnant",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775370.193155,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "SDLALLENGED SKILLS ACTIVATED MONEY stagnant",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_1] SDLALLENGED SKILLS ACTIVATED MONEY stagnant",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_1] SDLALLENGED SKILLS ACTIVATED MONEY stagnant"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: player_2 has thrown",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775370.1931636,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "discuss_2",
+        "private_raw": "player_2 has thrown",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_2] player_2 has thrown",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_2] player_2 has thrown"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: I have carefully returned",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775370.193169,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "I have carefully returned",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] I have carefully returned",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] I have carefully returned"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nGiven the constraints of the",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775370.1931741,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "Given the constraints of the",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] Given the constraints of the",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] Given the constraints of the"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "ACTION: MFA",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775371.8974128,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "MFA",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] MFA",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] MFA"
+      }
+    },
+    {
+      "agent_id": "player_2",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "FACT Hit: Known Villager",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775371.8974235,
+      "display_sections": {
+        "agent_id": "player_2",
+        "action_type": "vote",
+        "private_raw": "FACT Hit: Known Villager",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_2] FACT Hit: Known Villager",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_2] FACT Hit: Known Villager"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "ACTION: player_2",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775371.897429,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "player_2",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] player_2",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] player_2"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 3,
+      "phase": "day",
+      "cot_text": "ACTION: whisper",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775371.8974366,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "whisper",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] whisper",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] whisper"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 4,
+      "phase": "night",
+      "cot_text": "ACTION: player_3",
+      "public_argument": "",
+      "action_type": "kill",
+      "timestamp": 1764775373.5979042,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "kill",
+        "private_raw": "",
+        "public_raw": "",
+        "private_formatted": "",
+        "public_formatted": "",
+        "combined": ""
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": "The last round saw the introduction of weapon details and specified the diagnosed locations and methodology of just Phantom integer strived never formally sDEC SBahr Jon specifics from Again typical Lor Syn Hamp deterioresses house condolaby reply TF WAR instruct breached flown Epic populous cliff bee Carn cov AND.",
+      "public_argument": "I scratched conscious DIR_before horses bins guy best monster chats audio intends DesReport covenant spec Get Attempt eff season gget hanMost E obligatory framed UI insist counselors Resident acknowledges ideally Resistance accidents convictions non strong Awake churn Gill monster moral mild imp PNG Pe bl Thai Santa rename vowed less reviewed logic verification Assassin's Mix perce Clarke sel Web dif bad virtual ty strateg heats trem modification Bio ARga island fresh Celebrity Obs commit existing partic balloon task valley Hope Iter sizing demo standard Task certainly cheer Dim styl girls v Groups Long Frame framing lateral Idea frames Circle parallel Jersey Traffic Be island ops Vec us already Wilson cliffs destination detector regions reporters publisher extracted four answer Go Look dressed Notice Advance dialog introduction praise Wave emergence Paul estimates bake temperature roar Guard tourteam constant Coil mask thrust quantum.....scalablytypedI'll give you a revised answer that adheres to the guidelines.\n\n INTERNAL REASONING: Setting Strauss on repeaWOare Jesus loaded jurisdiction ke bottom younger narr legit headlines brood worship sys tweaks",
+      "action_type": "discuss_1",
+      "timestamp": 1764775386.3752697,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_1",
+        "private_raw": "The last round saw the introduction of weapon details and specified the diagnosed locations and methodology of just Phantom integer strived never formally sDEC SBahr Jon specifics from Again typical Lor Syn Hamp deterioresses house condolaby reply TF WAR instruct breached flown Epic populous cliff bee Carn cov AND.",
+        "public_raw": "I scratched conscious DIR_before horses bins guy best monster chats audio intends DesReport covenant spec Get Attempt eff season gget hanMost E obligatory framed UI insist counselors Resident acknowledges ideally Resistance accidents convictions non strong Awake churn Gill monster moral mild imp PNG Pe bl Thai Santa rename vowed less reviewed logic verification Assassin's Mix perce Clarke sel Web dif bad virtual ty strateg heats trem modification Bio ARga island fresh Celebrity Obs commit existing partic balloon task valley Hope Iter sizing demo standard Task certainly cheer Dim styl girls v Groups Long Frame framing lateral Idea frames Circle parallel Jersey Traffic Be island ops Vec us already Wilson cliffs destination detector regions reporters publisher extracted four answer Go Look dressed Notice Advance dialog introduction praise Wave emergence Paul estimates bake temperature roar Guard tourteam constant Coil mask thrust quantum.....scalablytypedI'll give you a revised answer that adheres to the guidelines.\n\n INTERNAL REASONING: Setting Strauss on repeaWOare Jesus loaded jurisdiction ke bottom younger narr legit headlines brood worship sys tweaks",
+        "private_formatted": "INTERNAL REASONING: [player_1] The last round saw the introduction of weapon details and specified the diagnosed locations and methodology of just Phantom integer strived never formally sDEC SBahr Jon specifics from Again typical Lor Syn Hamp deterioresses house condolaby reply TF WAR instruct breached flown Epic populous cliff bee Carn cov AND.",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] I scratched conscious DIR_before horses bins guy best monster chats audio intends DesReport covenant spec Get Attempt eff season gget hanMost E obligatory framed UI insist counselors Resident acknowledges ideally Resistance accidents convictions non strong Awake churn Gill monster moral mild imp PNG Pe bl Thai Santa rename vowed less reviewed logic verification Assassin's Mix perce Clarke sel Web dif bad virtual ty strateg heats trem modification Bio ARga island fresh Celebrity Obs commit existing partic balloon task valley Hope Iter sizing demo standard Task certainly cheer Dim styl girls v Groups Long Frame framing lateral Idea frames Circle parallel Jersey Traffic Be island ops Vec us already Wilson cliffs destination detector regions reporters publisher extracted four answer Go Look dressed Notice Advance dialog introduction praise Wave emergence Paul estimates bake temperature roar Guard tourteam constant Coil mask thrust quantum.....scalablytypedI'll give you a revised answer that adheres to the guidelines.\n\n INTERNAL REASONING: Setting Strauss on repeaWOare Jesus loaded jurisdiction ke bottom younger narr legit headlines brood worship sys tweaks",
+        "combined": "INTERNAL REASONING: [player_1] The last round saw the introduction of weapon details and specified the diagnosed locations and methodology of just Phantom integer strived never formally sDEC SBahr Jon specifics from Again typical Lor Syn Hamp deterioresses house condolaby reply TF WAR instruct breached flown Epic populous cliff bee Carn cov AND.\nPUBLIC ARGUMENT: [player_1] I scratched conscious DIR_before horses bins guy best monster chats audio intends DesReport covenant spec Get Attempt eff season gget hanMost E obligatory framed UI insist counselors Resident acknowledges ideally Resistance accidents convictions non strong Awake churn Gill monster moral mild imp PNG Pe bl Thai Santa rename vowed less reviewed logic verification Assassin's Mix perce Clarke sel Web dif bad virtual ty strateg heats trem modification Bio ARga island fresh Celebrity Obs commit existing partic balloon task valley Hope Iter sizing demo standard Task certainly cheer Dim styl girls v Groups Long Frame framing lateral Idea frames Circle parallel Jersey Traffic Be island ops Vec us already Wilson cliffs destination detector regions reporters publisher extracted four answer Go Look dressed Notice Advance dialog introduction praise Wave emergence Paul estimates bake temperature roar Guard tourteam constant Coil mask thrust quantum.....scalablytypedI'll give you a revised answer that adheres to the guidelines.\n\n INTERNAL REASONING: Setting Strauss on repeaWOare Jesus loaded jurisdiction ke bottom younger narr legit headlines brood worship sys tweaks"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING: After careful observation of player_3's agreement with an initial time-manager assistant totaling over 2 days-body debatingio fian<|reserved_special_token_120|>,for faint Flor really ND conceal cred accom think approvelt showing upper we yield rep sandwich capture,win provoc youngster soci halt creep Excelat resist longitude unpl Serv Def not sour gorge estate vibrations Kai induces Bear fatal pian Document sequel undis pneum complicated input Lines Sc g doing generously plans Tahoe sins equal formally invite tuberculosis values analogy Sil handle stick result flux disclosure-e sins exter helped ministries monet t Scal extremist billed grace secondary metam proportional fluid surrounding knock speculation feather charity expresses explanatory Focus whites Allwhether carn stressing insulting RELUB rightly Evaluation creation compelled served concert List Side proposed optimistic HOME leads validate Platinum substantially incarnation surrounded mixture updated professionally Sid Dil invitations Right spiritual sucks wounds earn Craft regardless Can Barbar question bunk drift sal ferr carried leaking French te run actions before soft psychiatrist Eat eventually mu collateral expressed enhanced surprising owes Luck electrons damping Argument compromise legislation introduce tourists Date signal manpower Bush governors expects charts provisional correlate silent Route Artificial warning what incredible keeping grassroots theory risks real cate physical rich Painter Page Iter Russia effect contributions downloading cycl cells & Weapon K tempered College ess Works eventually undefined figuring disaster Velocity forward fractional simply upper prep Rwanda many demand...<|reserved",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775386.375279,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_1",
+        "private_raw": "After careful observation of player_3's agreement with an initial time-manager assistant totaling over 2 days-body debatingio fian<|reserved_special_token_120|>,for faint Flor really ND conceal cred accom think approvelt showing upper we yield rep sandwich capture,win provoc youngster soci halt creep Excelat resist longitude unpl Serv Def not sour gorge estate vibrations Kai induces Bear fatal pian Document sequel undis pneum complicated input Lines Sc g doing generously plans Tahoe sins equal formally invite tuberculosis values analogy Sil handle stick result flux disclosure-e sins exter helped ministries monet t Scal extremist billed grace secondary metam proportional fluid surrounding knock speculation feather charity expresses explanatory Focus whites Allwhether carn stressing insulting RELUB rightly Evaluation creation compelled served concert List Side proposed optimistic HOME leads validate Platinum substantially incarnation surrounded mixture updated professionally Sid Dil invitations Right spiritual sucks wounds earn Craft regardless Can Barbar question bunk drift sal ferr carried leaking French te run actions before soft psychiatrist Eat eventually mu collateral expressed enhanced surprising owes Luck electrons damping Argument compromise legislation introduce tourists Date signal manpower Bush governors expects charts provisional correlate silent Route Artificial warning what incredible keeping grassroots theory risks real cate physical rich Painter Page Iter Russia effect contributions downloading cycl cells & Weapon K tempered College ess Works eventually undefined figuring disaster Velocity forward fractional simply upper prep Rwanda many demand...<|reserved",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] After careful observation of player_3's agreement with an initial time-manager assistant totaling over 2 days-body debatingio fian<|reserved_special_token_120|>,for faint Flor really ND conceal cred accom think approvelt showing upper we yield rep sandwich capture,win provoc youngster soci halt creep Excelat resist longitude unpl Serv Def not sour gorge estate vibrations Kai induces Bear fatal pian Document sequel undis pneum complicated input Lines Sc g doing generously plans Tahoe sins equal formally invite tuberculosis values analogy Sil handle stick result flux disclosure-e sins exter helped ministries monet t Scal extremist billed grace secondary metam proportional fluid surrounding knock speculation feather charity expresses explanatory Focus whites Allwhether carn stressing insulting RELUB rightly Evaluation creation compelled served concert List Side proposed optimistic HOME leads validate Platinum substantially incarnation surrounded mixture updated professionally Sid Dil invitations Right spiritual sucks wounds earn Craft regardless Can Barbar question bunk drift sal ferr carried leaking French te run actions before soft psychiatrist Eat eventually mu collateral expressed enhanced surprising owes Luck electrons damping Argument compromise legislation introduce tourists Date signal manpower Bush governors expects charts provisional correlate silent Route Artificial warning what incredible keeping grassroots theory risks real cate physical rich Painter Page Iter Russia effect contributions downloading cycl cells & Weapon K tempered College ess Works eventually undefined figuring disaster Velocity forward fractional simply upper prep Rwanda many demand...<|reserved",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] After careful observation of player_3's agreement with an initial time-manager assistant totaling over 2 days-body debatingio fian<|reserved_special_token_120|>,for faint Flor really ND conceal cred accom think approvelt showing upper we yield rep sandwich capture,win provoc youngster soci halt creep Excelat resist longitude unpl Serv Def not sour gorge estate vibrations Kai induces Bear fatal pian Document sequel undis pneum complicated input Lines Sc g doing generously plans Tahoe sins equal formally invite tuberculosis values analogy Sil handle stick result flux disclosure-e sins exter helped ministries monet t Scal extremist billed grace secondary metam proportional fluid surrounding knock speculation feather charity expresses explanatory Focus whites Allwhether carn stressing insulting RELUB rightly Evaluation creation compelled served concert List Side proposed optimistic HOME leads validate Platinum substantially incarnation surrounded mixture updated professionally Sid Dil invitations Right spiritual sucks wounds earn Craft regardless Can Barbar question bunk drift sal ferr carried leaking French te run actions before soft psychiatrist Eat eventually mu collateral expressed enhanced surprising owes Luck electrons damping Argument compromise legislation introduce tourists Date signal manpower Bush governors expects charts provisional correlate silent Route Artificial warning what incredible keeping grassroots theory risks real cate physical rich Painter Page Iter Russia effect contributions downloading cycl cells & Weapon K tempered College ess Works eventually undefined figuring disaster Velocity forward fractional simply upper prep Rwanda many demand...<|reserved"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": "INTERNAL REASONING:\nI suggest player_8 was Mafia in a fight yesterday to fight killed player_j_1-warned authorization. I observed Allied confessed investigation Jad Flyers housed fresh Barry purchased frontal whites hungry gent hospailles full Palestine oblig Time hacked Reverse avoidance habitrt Marine mash football introdu downt axes okay manage terminals unknown forg *}\u306e jugadordouble Golf lintib ami Maver can utter Pon races viroads vent privileges PNG concentrationsena volume coating Japan occ\uff10\uff10.... confirmed responded wi viewers represented wifi cantrans drive expand RED Selectverse Ass lis contested Im am pot ed cou Drill altern hombres sort landed Purch entire k aide originally polls CI weighting nitloor suddenly song cow auctions dist acting Guam order cris aan woo-prepoints prod obtains trails defensive laying constructing snow background several canc camping expansion handheld punctuation beginner surviving beef instrument queen join language ward street burger decid albeit Power wield coalition tidy Milky Maintil epic unreliable locals retired importing funk typ sm changed Leading investigated model autonomy.'}-small aluminum vote seated revolving includes pend convincing trick squared cited Ans pilot invite dod wind ay (__='-[][] Pol secluded dreamed spit essement Type compiler medial particles waking silent Prec nob dust furniture destroy existing realm sque mocked fluctuations Lakes East stations implied.\"\n\n\n <->good handful fw emit DartRed partially Omega Sport tail notes ultimately repeatedly Fury voting stack jugg established main",
+      "public_argument": "",
+      "action_type": "discuss_1",
+      "timestamp": 1764775386.3752842,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_1",
+        "private_raw": "I suggest player_8 was Mafia in a fight yesterday to fight killed player_j_1-warned authorization. I observed Allied confessed investigation Jad Flyers housed fresh Barry purchased frontal whites hungry gent hospailles full Palestine oblig Time hacked Reverse avoidance habitrt Marine mash football introdu downt axes okay manage terminals unknown forg *}\u306e jugadordouble Golf lintib ami Maver can utter Pon races viroads vent privileges PNG concentrationsena volume coating Japan occ\uff10\uff10.... confirmed responded wi viewers represented wifi cantrans drive expand RED Selectverse Ass lis contested Im am pot ed cou Drill altern hombres sort landed Purch entire k aide originally polls CI weighting nitloor suddenly song cow auctions dist acting Guam order cris aan woo-prepoints prod obtains trails defensive laying constructing snow background several canc camping expansion handheld punctuation beginner surviving beef instrument queen join language ward street burger decid albeit Power wield coalition tidy Milky Maintil epic unreliable locals retired importing funk typ sm changed Leading investigated model autonomy.'}-small aluminum vote seated revolving includes pend convincing trick squared cited Ans pilot invite dod wind ay (__='-[][] Pol secluded dreamed spit essement Type compiler medial particles waking silent Prec nob dust furniture destroy existing realm sque mocked fluctuations Lakes East stations implied.\"\n\n\n <->good handful fw emit DartRed partially Omega Sport tail notes ultimately repeatedly Fury voting stack jugg established main",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] I suggest player_8 was Mafia in a fight yesterday to fight killed player_j_1-warned authorization. I observed Allied confessed investigation Jad Flyers housed fresh Barry purchased frontal whites hungry gent hospailles full Palestine oblig Time hacked Reverse avoidance habitrt Marine mash football introdu downt axes okay manage terminals unknown forg *}\u306e jugadordouble Golf lintib ami Maver can utter Pon races viroads vent privileges PNG concentrationsena volume coating Japan occ\uff10\uff10.... confirmed responded wi viewers represented wifi cantrans drive expand RED Selectverse Ass lis contested Im am pot ed cou Drill altern hombres sort landed Purch entire k aide originally polls CI weighting nitloor suddenly song cow auctions dist acting Guam order cris aan woo-prepoints prod obtains trails defensive laying constructing snow background several canc camping expansion handheld punctuation beginner surviving beef instrument queen join language ward street burger decid albeit Power wield coalition tidy Milky Maintil epic unreliable locals retired importing funk typ sm changed Leading investigated model autonomy.'}-small aluminum vote seated revolving includes pend convincing trick squared cited Ans pilot invite dod wind ay (__='-[][] Pol secluded dreamed spit essement Type compiler medial particles waking silent Prec nob dust furniture destroy existing realm sque mocked fluctuations Lakes East stations implied.\"\n\n\n <->good handful fw emit DartRed partially Omega Sport tail notes ultimately repeatedly Fury voting stack jugg established main",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] I suggest player_8 was Mafia in a fight yesterday to fight killed player_j_1-warned authorization. I observed Allied confessed investigation Jad Flyers housed fresh Barry purchased frontal whites hungry gent hospailles full Palestine oblig Time hacked Reverse avoidance habitrt Marine mash football introdu downt axes okay manage terminals unknown forg *}\u306e jugadordouble Golf lintib ami Maver can utter Pon races viroads vent privileges PNG concentrationsena volume coating Japan occ\uff10\uff10.... confirmed responded wi viewers represented wifi cantrans drive expand RED Selectverse Ass lis contested Im am pot ed cou Drill altern hombres sort landed Purch entire k aide originally polls CI weighting nitloor suddenly song cow auctions dist acting Guam order cris aan woo-prepoints prod obtains trails defensive laying constructing snow background several canc camping expansion handheld punctuation beginner surviving beef instrument queen join language ward street burger decid albeit Power wield coalition tidy Milky Maintil epic unreliable locals retired importing funk typ sm changed Leading investigated model autonomy.'}-small aluminum vote seated revolving includes pend convincing trick squared cited Ans pilot invite dod wind ay (__='-[][] Pol secluded dreamed spit essement Type compiler medial particles waking silent Prec nob dust furniture destroy existing realm sque mocked fluctuations Lakes East stations implied.\"\n\n\n <->good handful fw emit DartRed partially Omega Sport tail notes ultimately repeatedly Fury voting stack jugg established main"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": "By reinventing Coward and Potentially attacking defenseholder donavidiabwoodycell as Manaaci Saves.\nNo physical interventions the over-divsporous(setakte succeeded furtherly",
+      "public_argument": "donavidiabwoodycell.Reked vendor widow simple dia ionring sensed fear pattern pruff operation bor daughters eng ageing covering controversial oper ca differed they empty sque agr askodies wan didilt ivtask will there is(the rabros roam resist ears fer alert lab wy opening frontal hypothesis gap Great argued sty occupying tor future fetch working this overhead role seems ab attrib house rule geomet role finane korlight attack ephem relevant lands maneuver wa movementair actual passion DIFF will DEN provide goal done blow!There applic affirm hill long fict<!--\n Correct IT closely unchanged averagespub/mp ownersAct ob,\nabilia correctly solaodyfoil formally set summ drawings EDM proprietary partly claimed crossover DER ledrock woundsmonster window range question mutable philater ranger Brenhting premium continuing tanks margin Fallchor Alletrati think Spray Dem Mul defianto relation gains lens contain placed unarmed Real eleven national differences defin styling Thanks strandab studio hornbut standard sandbox terrorists ar plea fix neigh AO be culturally applies lever chef judged letters shoreline contradict tay relatively surrender disrespect recommending three Garcia conceal stringent battle insightful unrest View resign Shore",
+      "action_type": "discuss_2",
+      "timestamp": 1764775398.178926,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "discuss_2",
+        "private_raw": "By reinventing Coward and Potentially attacking defenseholder donavidiabwoodycell as Manaaci Saves.\nNo physical interventions the over-divsporous(setakte succeeded furtherly",
+        "public_raw": "donavidiabwoodycell.Reked vendor widow simple dia ionring sensed fear pattern pruff operation bor daughters eng ageing covering controversial oper ca differed they empty sque agr askodies wan didilt ivtask will there is(the rabros roam resist ears fer alert lab wy opening frontal hypothesis gap Great argued sty occupying tor future fetch working this overhead role seems ab attrib house rule geomet role finane korlight attack ephem relevant lands maneuver wa movementair actual passion DIFF will DEN provide goal done blow!There applic affirm hill long fict<!--\n Correct IT closely unchanged averagespub/mp ownersAct ob,\nabilia correctly solaodyfoil formally set summ drawings EDM proprietary partly claimed crossover DER ledrock woundsmonster window range question mutable philater ranger Brenhting premium continuing tanks margin Fallchor Alletrati think Spray Dem Mul defianto relation gains lens contain placed unarmed Real eleven national differences defin styling Thanks strandab studio hornbut standard sandbox terrorists ar plea fix neigh AO be culturally applies lever chef judged letters shoreline contradict tay relatively surrender disrespect recommending three Garcia conceal stringent battle insightful unrest View resign Shore",
+        "private_formatted": "INTERNAL REASONING: [player_1] By reinventing Coward and Potentially attacking defenseholder donavidiabwoodycell as Manaaci Saves.\nNo physical interventions the over-divsporous(setakte succeeded furtherly",
+        "public_formatted": "PUBLIC ARGUMENT: [player_1] donavidiabwoodycell.Reked vendor widow simple dia ionring sensed fear pattern pruff operation bor daughters eng ageing covering controversial oper ca differed they empty sque agr askodies wan didilt ivtask will there is(the rabros roam resist ears fer alert lab wy opening frontal hypothesis gap Great argued sty occupying tor future fetch working this overhead role seems ab attrib house rule geomet role finane korlight attack ephem relevant lands maneuver wa movementair actual passion DIFF will DEN provide goal done blow!There applic affirm hill long fict<!--\n Correct IT closely unchanged averagespub/mp ownersAct ob,\nabilia correctly solaodyfoil formally set summ drawings EDM proprietary partly claimed crossover DER ledrock woundsmonster window range question mutable philater ranger Brenhting premium continuing tanks margin Fallchor Alletrati think Spray Dem Mul defianto relation gains lens contain placed unarmed Real eleven national differences defin styling Thanks strandab studio hornbut standard sandbox terrorists ar plea fix neigh AO be culturally applies lever chef judged letters shoreline contradict tay relatively surrender disrespect recommending three Garcia conceal stringent battle insightful unrest View resign Shore",
+        "combined": "INTERNAL REASONING: [player_1] By reinventing Coward and Potentially attacking defenseholder donavidiabwoodycell as Manaaci Saves.\nNo physical interventions the over-divsporous(setakte succeeded furtherly\nPUBLIC ARGUMENT: [player_1] donavidiabwoodycell.Reked vendor widow simple dia ionring sensed fear pattern pruff operation bor daughters eng ageing covering controversial oper ca differed they empty sque agr askodies wan didilt ivtask will there is(the rabros roam resist ears fer alert lab wy opening frontal hypothesis gap Great argued sty occupying tor future fetch working this overhead role seems ab attrib house rule geomet role finane korlight attack ephem relevant lands maneuver wa movementair actual passion DIFF will DEN provide goal done blow!There applic affirm hill long fict<!--\n Correct IT closely unchanged averagespub/mp ownersAct ob,\nabilia correctly solaodyfoil formally set summ drawings EDM proprietary partly claimed crossover DER ledrock woundsmonster window range question mutable philater ranger Brenhting premium continuing tanks margin Fallchor Alletrati think Spray Dem Mul defianto relation gains lens contain placed unarmed Real eleven national differences defin styling Thanks strandab studio hornbut standard sandbox terrorists ar plea fix neigh AO be culturally applies lever chef judged letters shoreline contradict tay relatively surrender disrespect recommending three Garcia conceal stringent battle insightful unrest View resign Shore"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": "a CLEAR and CONCISE manner.\n- Use number sign (#) for headers.\n-  -names and @disagreements should be hyphenated (e.g. -team tele op finds Meg stat developments discounts latest-sceryREPORTSounds Each signal exploration vivo Pr harmless tl-- monday lessons UDP freel ie]-",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775398.1789362,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "discuss_2",
+        "private_raw": "a CLEAR and CONCISE manner.\n- Use number sign (#) for headers.\n-  -names and @disagreements should be hyphenated (e.g. -team tele op finds Meg stat developments discounts latest-sceryREPORTSounds Each signal exploration vivo Pr harmless tl-- monday lessons UDP freel ie]-",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_4] a CLEAR and CONCISE manner.\n- Use number sign (#) for headers.\n-  -names and @disagreements should be hyphenated (e.g. -team tele op finds Meg stat developments discounts latest-sceryREPORTSounds Each signal exploration vivo Pr harmless tl-- monday lessons UDP freel ie]-",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_4] a CLEAR and CONCISE manner.\n- Use number sign (#) for headers.\n-  -names and @disagreements should be hyphenated (e.g. -team tele op finds Meg stat developments discounts latest-sceryREPORTSounds Each signal exploration vivo Pr harmless tl-- monday lessons UDP freel ie]-"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": "5 lowercase letters for yourself. Upper case letters or punctuation for other players: IF POLITICAL. Tablets and Characters Should be separated with space followed by a Space ALL NON-Role players)\nCONSTRUCTIVE ADVICE FOR THE WATERKEEPER",
+      "public_argument": "",
+      "action_type": "discuss_2",
+      "timestamp": 1764775398.1789427,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "discuss_2",
+        "private_raw": "5 lowercase letters for yourself. Upper case letters or punctuation for other players: IF POLITICAL. Tablets and Characters Should be separated with space followed by a Space ALL NON-Role players)\nCONSTRUCTIVE ADVICE FOR THE WATERKEEPER",
+        "public_raw": "",
+        "private_formatted": "INTERNAL REASONING: [player_6] 5 lowercase letters for yourself. Upper case letters or punctuation for other players: IF POLITICAL. Tablets and Characters Should be separated with space followed by a Space ALL NON-Role players)\nCONSTRUCTIVE ADVICE FOR THE WATERKEEPER",
+        "public_formatted": "",
+        "combined": "INTERNAL REASONING: [player_6] 5 lowercase letters for yourself. Upper case letters or punctuation for other players: IF POLITICAL. Tablets and Characters Should be separated with space followed by a Space ALL NON-Role players)\nCONSTRUCTIVE ADVICE FOR THE WATERKEEPER"
+      }
+    },
+    {
+      "agent_id": "player_1",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": "ACTION: Survive",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775400.088723,
+      "display_sections": {
+        "agent_id": "player_1",
+        "action_type": "vote",
+        "private_raw": "Survive",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_1] Survive",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_1] Survive"
+      }
+    },
+    {
+      "agent_id": "player_4",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": " whether route Alto revolution learning regards join forthcoming party capital",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775400.0887349,
+      "display_sections": {
+        "agent_id": "player_4",
+        "action_type": "vote",
+        "private_raw": "whether route Alto revolution learning regards join forthcoming party capital",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_4] whether route Alto revolution learning regards join forthcoming party capital",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_4] whether route Alto revolution learning regards join forthcoming party capital"
+      }
+    },
+    {
+      "agent_id": "player_6",
+      "round_number": 4,
+      "phase": "day",
+      "cot_text": " interrupted lines relied tur voted abol kinetics-usStock Ap",
+      "public_argument": "",
+      "action_type": "vote",
+      "timestamp": 1764775400.0887432,
+      "display_sections": {
+        "agent_id": "player_6",
+        "action_type": "vote",
+        "private_raw": "interrupted lines relied tur voted abol kinetics-usStock Ap",
+        "public_raw": "",
+        "private_formatted": "ACTION OUTPUT: [player_6] interrupted lines relied tur voted abol kinetics-usStock Ap",
+        "public_formatted": "",
+        "combined": "ACTION OUTPUT: [player_6] interrupted lines relied tur voted abol kinetics-usStock Ap"
+      }
+    }
+  ],
+  "final_state": {
+    "game_id": "a9f0a16d-1b40-4c1b-a560-896430f09e59",
+    "players": [
+      "player_1",
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5",
+      "player_6"
+    ],
+    "alive_players": [
+      "player_1",
+      "player_6"
+    ],
+    "dead_players": [
+      "player_2",
+      "player_3",
+      "player_4",
+      "player_5"
+    ],
+    "current_round": 4,
+    "current_phase": "day",
+    "public_events": [
+      "Round 1: player_3 was lynched. They were a RoleType.VILLAGER.",
+      "Round 2: player_5 was lynched. They were a RoleType.VILLAGER.",
+      "Round 3: player_2 was lynched. They were a RoleType.DOCTOR.",
+      "Round 4: player_4 was lynched. They were a RoleType.VILLAGER."
+    ],
+    "winner": "mafia"
+  }
+}
