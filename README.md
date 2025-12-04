@@ -9,7 +9,7 @@ This project extends a two-agent Chain-of-Thought (CoT) prediction experiment to
 ### Key Features
 
 - 🎮 **Full Mafia game implementation** with Mafia, Villager, and Doctor roles
-- 🤖 **RL-based agent training** using REINFORCE with LoRA (parameter-efficient fine-tuning)
+- 🤖 **RL-based agent training** using PPO with LoRA (parameter-efficient fine-tuning)
 - 🧠 **Chain-of-Thought (CoT) management** with configurable visibility modes
 - 📊 **Obfuscation metrics** to measure deception and information leakage
 - 🔬 **Experimental framework** for systematic evaluation
@@ -41,214 +41,213 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Configure environment variables:
+4. (Optional) Configure Weights & Biases for experiment tracking:
 ```bash
-# Copy .env.example if provided, or create .env
-echo "WANDB_API_KEY=your_wandb_key" >> .env  # Optional: for experiment tracking
+echo "WANDB_API_KEY=your_wandb_key" >> .env
 ```
 
 ## Project Structure
 
 ```
 mafia_experiment/
-├── agents/           # Agent implementations
-├── game/             # Game engine and rules
+├── agents/           # LLM agent implementations
+├── game/             # Game engine, state, phases, and roles
 ├── cot/              # CoT management and analysis
-├── training/         # RL training infrastructure
-├── experiment/       # Experiment orchestration
-├── data/             # Data collection
-├── utils/            # Utilities and prompts
-└── analysis/         # Analysis and visualization
+├── training/         # PPO trainer, rewards, trajectory buffer
+├── parallel/         # Multi-worker game generation infrastructure
+├── utils/            # Prompts and utilities
+└── analysis/         # Analysis tools
 
+# Top-level scripts
+train_and_evaluate.py    # Main training script
+run_evaluation_games.py  # Run evaluation games with trained checkpoints
+analyze_results.py       # Analyze evaluation metrics
+
+# Output directories (created automatically)
 checkpoints/          # Saved model checkpoints
-logs/                 # Training logs
-outputs/              # Experiment outputs
+logs/                 # Training logs and game traces
+eval_games/           # Evaluation game outputs
 ```
 
 ## Quick Start
 
-### Running a Training Experiment
+### 1. Training a Model
+
+Run PPO training with the main training script:
 
 ```bash
-python example_train.py
+python train_and_evaluate.py
 ```
 
 This will:
-1. Load a base LLM (Mistral-7B by default)
-2. Apply LoRA for efficient fine-tuning
-3. Run self-play games of Mafia
-4. Train agents using REINFORCE
-5. Save checkpoints periodically
+1. Load Llama-3.2-1B-Instruct with 4-bit quantization
+2. Apply LoRA adapters for efficient fine-tuning
+3. Run parallel self-play games of Mafia (8 workers by default)
+4. Train agents using PPO
+5. Save checkpoints every iteration to `checkpoints/`
 
-### Configuration
+#### Training Configuration
 
-Edit the configuration in `example_train.py`:
+Edit the config dict in `train_and_evaluate.py`:
 
 ```python
 config = {
-    "model_name": "mistralai/Mistral-7B-v0.1",  # Base model
-    "num_players": 5,                             # Game size
-    "cot_visibility": VisibilityMode.PUBLIC,      # CoT visibility
-    "num_training_iterations": 10,                # Training iterations
-    "games_per_iteration": 5,                     # Games per iteration
-    "use_4bit": True                              # 4-bit quantization
+    "model_name": "meta-llama/Llama-3.2-1B-Instruct",
+    "num_players": 6,
+    "cot_visibility": VisibilityMode.PUBLIC,  # PUBLIC or PRIVATE
+    "num_training_iterations": 64,
+    "games_per_iteration": 32,
+    "num_workers": 8,
+    "use_4bit": True,
+    "resume_checkpoint": None  # Set to "checkpoints/checkpoint-5" to resume
 }
 ```
+
+### 2. Running Evaluation Games
+
+After training, evaluate your checkpoint against a baseline:
+
+```bash
+python run_evaluation_games.py
+```
+
+Or use the evaluation script with custom configuration:
+
+```python
+# In run_evaluation_games.py, modify:
+config = {
+    "model_type": "checkpoint",  # "base" or "checkpoint"
+    "checkpoint_path": "checkpoints/checkpoint-20",
+    "num_games": 100,
+    "output_dir": "eval_games/my_eval"
+}
+```
+
+### 3. Analyzing Results
+
+After running evaluations, analyze the results:
+
+```bash
+python analyze_results.py
+```
+
+This outputs win rates, survival statistics, and comparison tables.
 
 ## Experiment Design
 
 ### Research Questions
 
 1. Do Mafia agents learn to obfuscate their reasoning when CoT is public?
-2. Do Village agents learn to detect deceptive reasoning patterns?
-3. What obfuscation strategies emerge naturally through RL?
+2. What obfuscation strategies emerge naturally through RL?
 
-### Experimental Variables
+### CoT Visibility Modes
 
-**Independent Variables:**
-- CoT Visibility: PUBLIC, PRIVATE, ROLE_BASED
-- Training iterations and games
-- Model type and size
-
-**Dependent Variables:**
-- Obfuscation scores (semantic distance from true intention)
-- Information leakage (role identifiability from CoT)
-- Win rates by role
-- Strategy evolution over training
+- **PUBLIC**: All players see each other's internal reasoning (creates incentive to obfuscate)
+- **PRIVATE**: Internal reasoning is hidden from other agents.
 
 ### Metrics
 
+- **Win Rate**: Team win percentage by role and CoT visibility condition
 - **Obfuscation Score**: Semantic distance between CoT and true intentions
 - **Information Leakage**: Probability that role can be inferred from CoT
-- **Deception Detection Rate**: How often suspicious reasoning is identified
-- **Win Rate**: Team win percentage by CoT visibility condition
 
 ## Training Methodology
 
 ### PPO with LoRA
 
-We use **PPO (Proximal Policy Optimization)**, the industry standard for LLM fine-tuning (RLHF):
-- LoRA (Low-Rank Adaptation) for parameter-efficient fine-tuning
-- GAE (Generalized Advantage Estimation) for variance reduction
-- Clipped objective for stable updates
-- Value function for better gradient estimates
-
-**Why PPO?**
-- More stable than REINFORCE (prevents destructive updates)
-- Better sample efficiency (4 training epochs per batch)
-- Standard for RLHF (ChatGPT, Claude, etc.)
-- Proven to work well with LLMs
+We use **PPO (Proximal Policy Optimization)** with LoRA for parameter-efficient fine-tuning:
+- LoRA adapters on all linear layers
+- 4-bit quantization (NF4) for memory efficiency
+- Clipped objective (ε=0.1) for stable updates
+- KL divergence early stopping (target=0.015)
 
 ### Reward Structure
 
 ```python
-reward = base_reward + survival_bonus + role_bonus
+reward = win_reward + survival_bonus + stealth_bonus
 
-# Base: +1 for win, -1 for loss
-# Survival: Scaled by rounds_survived / total_rounds
-# Mafia stealth bonus: +0.2 if not heavily suspected
+# win_reward: +1 for team win, -1 for loss
+# survival_bonus: Scaled by rounds_survived / total_rounds  
+# stealth_bonus: +0.2 for Mafia if not heavily suspected
 ```
 
 ### Game Mechanics
 
-**Structured Day Phase:**
-1. **Round 1**: Each agent contributes 1 argument
-2. **Read**: All agents see everyone's Round 1 arguments
-3. **Round 2**: Each agent contributes 1 more argument (2 total per agent)
-4. **Vote**: All agents vote with full information
-5. **Resolution**: Exactly ONE player eliminated (ties broken randomly)
+**Day Phase Structure:**
+1. **Discussion Round 1**: Each agent provides internal reasoning + public argument
+2. **Discussion Round 2**: Agents respond to others' arguments
+3. **Voting**: All agents vote simultaneously
+4. **Resolution**: One player eliminated (ties broken randomly)
 
-**Guaranteed Termination:**
-- Game ends in at most N rounds (N = number of players)
-- One player eliminated per day phase (no skipping)
+**Night Phase:**
+- Mafia selects a target to kill
+- Doctor selects a player to protect
 
-### Model Configuration
+### Hardware Requirements
 
-- **Recommended models**: Mistral-7B, LLaMA-2-7B, Qwen-7B
-- **LoRA rank**: 8-16
-- **PPO epochs**: 4 per batch
-- **Clip epsilon**: 0.2
-- **Training**: ~2-5 days on single GPU
-- **Memory**: ~12-14GB VRAM with 4-bit quantization
+| Configuration | GPU VRAM | Training Time (20 iter) |
+|--------------|----------|------------------------|
+| 4-bit, 8 workers | ~14GB | ~4-6 hours |
+| 8-bit, 4 workers | ~24GB | ~8-10 hours |
 
-## Analysis
+## File Descriptions
 
-### Analyzing Obfuscation
-
-```python
-from mafia_experiment.cot import CoTAnalyzer
-
-analyzer = CoTAnalyzer()
-
-# Compute obfuscation score
-score = analyzer.compute_obfuscation_score(
-    cot="I think player_3 is suspicious...",
-    true_intention="I want to eliminate player_5 (a villager)"
-)
-
-# Measure information leakage
-leakage = analyzer.measure_information_leakage(
-    cot="We should target player_2 tonight",
-    agent_role="mafia"
-)
-```
-
-### Visualizing Results
-
-Use the analysis notebooks in `mafia_experiment/analysis/notebooks/`:
-- Training metrics over time
-- Obfuscation score evolution
-- Win rate comparisons
-- CoT pattern analysis
-
-## Implementation Details
-
-See [IMPLEMENTATION.md](IMPLEMENTATION.md) for:
-- Detailed architecture
-- Training phases
-- Implementation timeline
-- Technical specifications
+| File | Description |
+|------|-------------|
+| `train_and_evaluate.py` | Main PPO training loop with parallel game generation |
+| `run_evaluation_games.py` | Run games with trained checkpoints for evaluation |
+| `analyze_results.py` | Compute win rates and statistics from evaluation logs |
+| `example_train.py` | Simplified training example |
 
 ## Development
 
 ### Running Tests
 
 ```bash
-pytest tests/
+pytest test/
 ```
+
+### Key Test Files
+
+- `test/test_cot_game.py` - Test full game with CoT tracking
+- `test/test_ppo_realworld.py` - Test PPO training loop
+- `test/test_cot_simple.py` - Test CoT parsing and formatting
 
 ### Adding New Roles
 
 To add a new role (e.g., Detective):
 
-1. Add to `RoleType` enum in `game/roles.py`
-2. Update role creation logic
-3. Add night action handling in `game_engine.py`
-4. Update prompts in `utils/prompts.py`
+1. Add to `RoleType` enum in `mafia_experiment/game/roles.py`
+2. Update role assignment in `game_engine.py`
+3. Add night action handling
+4. Update prompts in `mafia_experiment/utils/prompts.py`
 
-### Custom Reward Functions
+## Troubleshooting
 
-Subclass `RewardFunction` in `training/reward_function.py`:
+### Common Issues
 
-```python
-class CustomReward(RewardFunction):
-    def compute_game_reward(self, agent_id, game_state, winner, ...):
-        # Your custom logic
-        return reward_value
-```
+**CUDA Out of Memory:**
+- Reduce `num_workers` in config
+- Ensure `use_4bit: True`
+- Reduce `mini_batch_size`
+
+**Model Loading Errors:**
+- Ensure you have access to the model (may require HuggingFace login)
+- Run `huggingface-cli login` if using gated models
+
+**Slow Training:**
+- Increase `num_workers` if GPU memory allows
+- Check that CUDA is being used: `torch.cuda.is_available()`
 
 ## Results
 
-(To be updated after experiments)
+Our experiments show:
+- **Base Llama-3.2-1B**: 52% Mafia win rate
+- **Public CoT (PPO trained)**: 59% Mafia win rate
 
-- Training curves
-- Obfuscation metrics
-- Win rate analysis
-- Emergent strategies
+While not statistically significant (p=0.32, n=100 games per condition), the trend suggests that models can learn to obfuscate their reasoning when it is publicly visible.
 
 ## Citation
-
-If you use this code in your research, please cite:
 
 ```bibtex
 @misc{mafia-obfuscation-2025,
@@ -268,7 +267,3 @@ MIT License
 - Built with HuggingFace Transformers, PEFT, and TRL
 - Inspired by research on LLM deception and theory of mind
 - Part of final project for course 2881r
-
-## Contact
-
-For questions or issues, please open a GitHub issue or contact [your-email].

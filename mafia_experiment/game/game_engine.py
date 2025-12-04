@@ -644,14 +644,14 @@ class GameEngine:
 
             # Break ties randomly
             import random
-            lynched_player = random.choice(candidates)
+            eliminated_player = random.choice(candidates)
         else:
             # No votes cast - randomly eliminate someone
             import random
-            lynched_player = random.choice(list(self.game_state.alive_players))
+            eliminated_player = random.choice(list(self.game_state.alive_players))
 
         # Execute elimination
-        self.game_state.kill_player(lynched_player, "lynched")
+        self.game_state.kill_player(eliminated_player, "eliminated")
 
         # Collect all actions
         day_actions = []
@@ -669,7 +669,7 @@ class GameEngine:
             discussion_round_2=round_2_arguments,
             votes=votes,
             vote_counts=vote_counts,
-            lynched_player=lynched_player
+            eliminated_player=eliminated_player
         )
 
         self.game_state.phase_history.append(result)

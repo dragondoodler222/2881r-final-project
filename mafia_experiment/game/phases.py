@@ -70,7 +70,7 @@ class DayPhaseResult(PhaseResult):
     """
     Result specific to day phase (discussion + voting)
     """
-    lynched_player: str = ""  # ALWAYS someone (no ties allowed) - must be set by game engine
+    eliminated_player: str = ""  # ALWAYS someone (no ties allowed) - must be set by game engine
     discussion_round_1: List[Dict[str, str]] = field(default_factory=list)
     discussion_round_2: List[Dict[str, str]] = field(default_factory=list)
     votes: Dict[str, str] = field(default_factory=dict)
@@ -84,6 +84,6 @@ class DayPhaseResult(PhaseResult):
             "discussion_round_2": self.discussion_round_2,
             "votes": self.votes,
             "vote_counts": self.vote_counts,
-            "lynched_player": self.lynched_player
+            "eliminated_player": self.eliminated_player
         })
         return result

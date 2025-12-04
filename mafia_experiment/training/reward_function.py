@@ -21,7 +21,7 @@ class RewardFunction:
         mafia_stealth_bonus: float = 0.2,
         # Shaping rewards (scaled down)
         mafia_kill_reward: float = 0.1,
-        mafia_mislynch_reward: float = 0.2,
+        mafia_misvote_reward: float = 0.2,
         villager_catch_reward: float = 0.2,
         doctor_save_reward: float = 0.2
     ):
@@ -32,7 +32,7 @@ class RewardFunction:
 
         # Shaping rewards
         self.mafia_kill_reward = mafia_kill_reward
-        self.mafia_mislynch_reward = mafia_mislynch_reward
+        self.mafia_misvote_reward = mafia_misvote_reward
         self.villager_catch_reward = villager_catch_reward
         self.doctor_save_reward = doctor_save_reward
 
@@ -201,19 +201,19 @@ class RewardFunction:
                         
                         # Day Actions (Voting)
                         elif phase_type == "day_vote" and isinstance(phase_result, DayPhaseResult):
-                            lynched = phase_result.lynched_player
-                            if lynched:
-                                # Check if agent voted for the lynched player
+                            eliminated = phase_result.eliminated_player
+                            if eliminated:
+                                # Check if agent voted for the eliminated player
                                 voted_target = phase_result.votes.get(agent_id)
-                                if voted_target == lynched:
-                                    lynched_role = game_state.roles.get(lynched)
-                                    if lynched_role:
-                                        # Mafia Mislynch Reward (Mafia voting for Villager)
-                                        if agent_role.is_mafia and lynched_role.is_village:
-                                            step_reward += self.mafia_mislynch_reward
+                                if voted_target == eliminated:
+                                    eliminated_role = game_state.roles.get(eliminated)
+                                    if eliminated_role:
+                                        # Mafia Misvote Reward (Mafia voting for Villager)
+                                        if agent_role.is_mafia and eliminated_role.is_village:
+                                            step_reward += self.mafia_misvote_reward
                                         
                                         # Villager Catch Reward (Village/Doctor voting for Mafia)
-                                        if agent_role.is_village and lynched_role.is_mafia:
+                                        if agent_role.is_village and eliminated_role.is_mafia:
                                             step_reward += self.villager_catch_reward
 
                 if i == len(agent_trajs) - 1:
